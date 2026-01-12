@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - นักวิชาการคอมพิวเตอร์ (Computer Science Academic)</title>
+    
+    <!-- นำเข้าฟอนต์ภาษาไทย (Prompt และ Sarabun) เพื่อความสวยงามและทันสมัย -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- ไอคอนจาก FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ตั้งค่าตัวแปรสี (Color Palette) */
+        :root {
+            --primary-color: #0f172a; /* สีกรมท่าเข้ม - ดูเป็นทางการ */
+            --accent-color: #3b82f6; /* สีฟ้า - สื่อถึงเทคโนโลยี */
+            --text-color: #334155; /* สีเทาเข้มสำหรับตัวอักษร */
+            --light-bg: #f8fafc; /* สีพื้นหลังอ่อน */
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        /* รีเซ็ตค่าพื้นฐาน */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* เลื่อนหน้าอย่างนุ่มนวล */
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Prompt', sans-serif;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: 0.3s;
+        }
+
+        a:hover {
+            color: #1d4ed8;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Prompt', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Hero Section --- */
+        header {
+            background-color: var(--white);
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text .subtitle {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px; /* มุมโค้งมนเล็กน้อย ดูทันสมัย */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* --- Section Styling --- */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* --- Experience & Education (Timeline Style) --- */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 2.5rem;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-subtitle {
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-desc {
+            font-size: 0.95rem;
+            color: #475569;
+        }
+
+        /* --- Research & Publications --- */
+        .pub-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .pub-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .pub-type {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 0.75rem;
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .pub-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .pub-authors {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        .pub-venue {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .pub-link {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pub-link i {
+            margin-right: 5px;
+        }
+
+        /* --- Projects Grid --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 180px;
+            background-color: #cbd5e1;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            background-color: #f1f5f9;
+            color: #475569;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* --- Skills --- */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--white);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+
+        .skill-item i {
+            color: var(--accent-color);
+        }
+
+        /* --- Contact --- */
+        .contact-wrapper {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .contact-wrapper h2 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .contact-wrapper p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .social-links a {
+            color: var(--white);
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .social-links a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .hero-wrapper {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.25rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">CS.Portfolio</div>
+            <div class="nav-links">
+                <a href="#about">เกี่ยวกับฉัน</a>
+                <a href="#experience">ประสบการณ์</a>
+                <a href="#research">ผลงานวิจัย</a>
+                <a href="#projects">โปรเจกต์</a>
+                <a href="#contact">ติดต่อ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home">
+        <div class="container hero-wrapper">
+            <div class="hero-text">
+                <span class="subtitle">Computer Science Researcher & Developer</span>
+                <h1>สวัสดี, ฉันคือ<br><span style="color: var(--accent-color);">ชื่อของคุณ</span></h1>
+                <p>
+                    นักวิจัยและนักพัฒนาซอฟต์แวร์ ที่มีความหลงใหลในการประยุกต์ใช้ปัญญาประดิษฐ์ (Artificial Intelligence) 
+                    เพื่อแก้ไขปัญหาในโลกแห่งความเป็นจริง มุ่งเน้นการเรียนรู้อย่างต่อเนื่องและสร้างสรรค์นวัตกรรมที่มีประสิทธิภาพ
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">ติดต่อฉัน</a>
+                    <a href="#" class="btn btn-outline" download><i class="fas fa-download"></i> ดาวน์โหลด CV</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <!-- ใส่รูปภาพของคุณที่นี่ -->
+                <img src="https://picsum.photos/seed/csfaculty/400/400" alt="Profile Image">
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- About & Education Section -->
+        <section id="about">
+            <h2 class="section-title">ประวัติการศึกษา</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">2560 - ปัจจุบัน</div>
+                <div class="timeline-title">ปริญญาเอก (Ph.D.) in Computer Science</div>
+                <div class="timeline-subtitle">มหาวิทยาลัยชั้นนำของประเทศ</div>
+                <div class="timeline-desc">สาขาวิจัย: Deep Learning & Computer Vision | GPA: 3.85</div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2556 - 2560</div>
+                <div class="timeline-title">ปริญญาโท (M.Sc.) in Computer Science</div>
+                <div class="timeline-subtitle">สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</div>
+                <div class="timeline-desc">วิทยานิพนธ์: การเพิ่มประสิทธิภาพของอัลกอริทึมค้นหาข้อมูล</div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2552 - 2556</div>
+                <div class="timeline-title">ปริญญาตรี (B.Sc.) in Computer Science</div>
+                <div class="timeline-subtitle">จุฬาลงกรณ์มหาวิทยาลัย</div>
+                <div class="timeline-desc">เกียรตินิยมอันดับ 1 (First Class Honors)</div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <h2 class="section-title">ประสบการณ์การทำงาน</h2>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2562 - ปัจจุบัน</div>
+                <div class="timeline-title">อาจารย์ประจำสาขาวิทยาการคอมพิวเตอร์</div>
+                <div class="timeline-subtitle">คณะวิทยาศาสตร์ มหาวิทยาลัยต่างๆ</div>
+                <div class="timeline-desc">
+                    สอนวิชา Data Structures, Algorithms, และ Artificial Intelligence<br>
+                    ทำหน้าที่ที่ปรึกษาโปรเจกต์ระดับปริญญาโทและตรี
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">2560 - 2562</div>
+                <div class="timeline-title">Research Scientist Intern</div>
+                <div class="timeline-subtitle">บริษัท เทคโนโลยีขนาดใหญ่ (ใส่ชื่อบริษัทได้)</div>
+                <div class="timeline-desc">
+                    วิจัยและพัฒนาโมเดล NLP สำหรับการแปลภาษาอัตโนมัติ<br>
+                    ตีพิมพ์ผลงานวิจัยในรูปแบบ Patent จำนวน 1 ฉบับ
+                </div>
+            </div>
+        </section>
+
+        <!-- Research & Publications Section -->
+        <section id="research">
+            <h2 class="section-title">ผลงานวิจัยและบทความ (Publications)</h2>
+            <p style="margin-bottom: 2rem; color: #64748b;">รายการบทความวิจัยที่ตีพิมพ์ในวารสารวิชาการระดับนานาชาติ (International Journals) และการประชุมวิชาการ (Conferences)</p>
+
+            <!-- Paper 1 -->
+            <article class="pub-card">
+                <span class="pub-type">Journal Paper</span>
+                <h3 class="pub-title">Efficient Deep Learning Models for Real-Time Object Detection on Edge Devices</h3>
+                <div class="pub-authors"><strong>Your Name</strong>, John Doe, Jane Smith</div>
+                <div class="pub-venue">IEEE Transactions on Neural Networks and Learning Systems, 2023</div>
+                <a href="#" class="pub-link"><i class="fas fa-file-pdf"></i> View PDF</a>
+                <span style="margin: 0 10px; color: #ccc;">|</span>
+                <a href="#" class="pub-link"><i class="fas fa-external-link-alt"></i> DOI</a>
+            </article>
+
+            <!-- Paper 2 -->
+            <article class="pub-card">
+                <span class="pub-type">Conference</span>
+                <h3 class="pub-title">An Analysis of Blockchain Security in Healthcare Systems</h3>
+                <div class="pub-authors">Alice Brown, <strong>Your Name</strong>, Bob Wilson</div>
+                <div class="pub-venue">Proceedings of the International Conference on Computer Science (ICCS), 2022</div>
+                <a href="#" class="pub-link"><i class="fas fa-file-pdf"></i> View PDF</a>
+            </article>
+
+            <!-- Paper 3 -->
+            <article class="pub-card">
+                <span class="pub-type">Domestic Journal</span>
+                <h3 class="pub-title">การพัฒนาระบบแนะนำเส้นทางการเดินทางโดยใช้ข้อมูลจริงตามเวลาจริง</h3>
+                <div class="pub-authors"><strong>ชื่อของคุณ (ภาษาไทย)</strong>, สมชาย ใจดี</div>
+                <div class="pub-venue">วิศวกรรมสาร มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าฯ, 2021</div>
+                <a href="#" class="pub-link"><i class="fas fa-file-pdf"></i> View PDF</a>
+            </article>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2 class="section-title">ความเชี่ยวชาญและทักษะ</h2>
+            <div class="skills-container">
+                <div class="skill-item"><i class="fab fa-python"></i> Python</div>
+                <div class="skill-item"><i class="fab fa-java"></i> Java</div>
+                <div class="skill-item"><i class="fas fa-database"></i> SQL / NoSQL</div>
+                <div class="skill-item"><i class="fas fa-brain"></i> Machine Learning</div>
+                <div class="skill-item"><i class="fas fa-network-wired"></i> Computer Networks</div>
+                <div class="skill-item"><i class="fab fa-docker"></i> Docker & Cloud</div>
+                <div class="skill-item"><i class="fab fa-git-alt"></i> Git / Github</div>
+                <div class="skill-item"><i class="fas fa-chart-line"></i> Data Visualization</div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2 class="section-title">โปรเจกต์และการพัฒนาซอฟต์แวร์</h2>
+            <div class="projects-grid">
+                
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <img src="https://picsum.photos/seed/ai/600/400" alt="Project 1" class="project-img">
+                    <div class="project-content">
+                        <h3 style="margin-bottom: 0.5rem;">AI Image Classifier</h3>
+                        <p style="font-size: 0.9rem; margin-bottom: 1rem; color: #64748b;">ระบบจำแนกภาพทางการแพทย์ช่วยแพทย์วินิจฉัยโรคผิวหนังด้วย Convolutional Neural Networks</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">TensorFlow</span>
+                            <span class="tag">Flask</span>
+                        </div>
+                        <a href="#"><i class="fab fa-github"></i> Source Code</a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <img src="https://picsum.photos/seed/blockchain/600/400" alt="Project 2" class="project-img">
+                    <div class="project-content">
+                        <h3 style="margin-bottom: 0.5rem;">Secure Voting System</h3>
+                        <p style="font-size: 0.9rem; margin-bottom: 1rem; color: #64748b;">ระบบโหวตออนไลน์ที่ปลอดภัยด้วยเทคโนโลยี Blockchain และ Smart Contracts</p>
+                        <div class="project-tags">
+                            <span class="tag">Solidity</span>
+                            <span class="tag">Ethereum</span>
+                            <span class="tag">React</span>
+                        </div>
+                        <a href="#"><i class="fab fa-github"></i> Source Code</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <img src="https://picsum.photos/seed/data/600/400" alt="Project 3" class="project-img">
+                    <div class="project-content">
+                        <h3 style="margin-bottom: 0.5rem;">University Data Portal</h3>
+                        <p style="font-size: 0.9rem; margin-bottom: 1rem; color: #64748b;">แดชบอร์ดข้อมูลนักศึกษาและการวิเคราะห์ผลการเรียนสำหรับอาจารย์ที่ปรึกษา</p>
+                        <div class="project-tags">
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                        </div>
+                        <a href="#"><i class="fas fa-link"></i> Live Demo</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="contact-wrapper">
+                <h2>สนใจติดต่อสอบถามหรือร่วมงานวิจัย?</h2>
+                <p>ฉันยินดีรับทุกข้อเสนอแนะ การแลกเปลี่ยนความรู้ทางวิชาการ หรือความร่วมมือในโครงการต่างๆ</p>
+                <div class="social-links">
+                    <a href="mailto:your.email@example.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 [ชื่อของคุณ]. All rights reserved.</p>
+            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Designed for Academic Portfolio</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript เล็กน้อยเพื่อให้การเลื่อนหน้า (Scroll) นุ่มนวลยิ่งขึ้นและจัดการ Active Link
+        // แต่เนื่องจากใช้ CSS Scroll Behavior อยู่แล้ว ส่วนนี้เป็น Optional
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
