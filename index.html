@@ -3,488 +3,689 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - พิสิษฐ์ หุนตระนี | Computer Science Teacher</title>
+    <title>ระบบจัดการและเผยแพร่เอกสาร (Document Hub)</title>
+    <!-- นำเข้าฟอนต์ภาษาไทย -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* --- Configuration --- */
+        /* --- CSS Styles --- */
         :root {
-            --primary: #0f172a; /* สีเข้มสำหรับหัวข้อ */
-            --accent: #f97316;  /* สีส้มสำหรับปุ่ม/เน้น */
-            --light-bg: #f8fafc;
-            --white: #ffffff;
-            --text-main: #334155;
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --background: #f1f5f9;
+            --surface: #ffffff;
+            --text-main: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
-        /* --- Reset & Base --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif;
         }
 
         body {
-            font-family: 'Sarabun', sans-serif;
-            background-color: var(--light-bg);
+            background-color: var(--background);
             color: var(--text-main);
-            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Prompt', sans-serif;
+        /* Sidebar */
+        aside {
+            width: 260px;
+            background-color: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 600;
             color: var(--primary);
-            line-height: 1.3;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
         }
 
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
+        nav ul { list-style: none; }
+        nav li { margin-bottom: 0.5rem; }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
+        nav button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: all 0.2s;
+            text-align: left;
         }
 
-        /* --- Navigation --- */
-        nav {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            padding: 1rem 0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        nav button:hover { background-color: #f8fafc; color: var(--primary); }
+        nav button.active { background-color: #eff6ff; color: var(--primary); font-weight: 500; }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem;
+            max-width: 1600px;
         }
 
-        .nav-content {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .nav-logo {
-            font-family: 'Prompt', sans-serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--primary);
-        }
-
-        .nav-links { display: flex; gap: 1.5rem; }
-        
-        .nav-links a {
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--text-main);
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--accent);
-            background: #fff7ed;
-        }
-
-        /* --- Buttons --- */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-family: 'Prompt', sans-serif;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
-        }
-
-        .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-        .btn-primary { background-color: var(--accent); color: var(--white); }
-        .btn-primary:hover { background-color: #ea580c; }
-        .btn-outline { border: 2px solid var(--primary); color: var(--primary); background: transparent; }
-        .btn-outline:hover { background-color: var(--primary); color: var(--white); }
-
-        /* --- Hero Section --- */
-        .hero {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            padding: 4rem 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 240px; 
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .hero-content h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        .hero-content h2 { font-size: 1.25rem; color: var(--text-muted); font-weight: 400; margin-bottom: 1.5rem; }
-        
-        .profile-img {
-            width: 220px; 
-            height: 220px;
-            object-fit: cover;
-            border-radius: 16px; 
-            box-shadow: var(--shadow);
-            border: 3px solid var(--white);
-            background-color: #e2e8f0;
-        }
-
-        /* --- Section Styling --- */
-        section { padding: 4rem 0; }
-        
-        .section-header {
-            margin-bottom: 2.5rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .section-icon {
-            font-size: 1.5rem;
-            color: var(--accent);
-            background: #fff7ed;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-        }
-
-        .section-title { font-size: 1.75rem; }
-
-        /* --- Cards --- */
-        .card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
             margin-bottom: 2rem;
         }
 
-        .info-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-        .info-item { display: flex; align-items: flex-start; gap: 1rem; }
-        .info-icon { color: var(--accent); margin-top: 4px; }
-        .info-label { font-size: 0.85rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem; }
-        .info-value { font-weight: 600; color: var(--primary); }
+        h1 { font-size: 1.8rem; font-weight: 600; }
 
-        /* --- Timeline --- */
-        .timeline { position: relative; padding-left: 2rem; border-left: 2px solid var(--border); }
-        .timeline-item { position: relative; margin-bottom: 2.5rem; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -2.5rem; top: 0; width: 12px; height: 12px;
-            background: var(--accent); border-radius: 50%; border: 3px solid var(--white);
-        }
-        .role-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem; }
-        .role-place { color: var(--accent); font-weight: 500; margin-bottom: 0.75rem; }
-        .role-list { margin-top: 1rem; margin-left: 1rem; }
-        .role-list li { position: relative; margin-bottom: 0.5rem; padding-left: 1.5rem; color: var(--text-main); }
-        .role-list li::before { content: "•"; color: var(--accent); font-weight: bold; position: absolute; left: 0; }
+        /* Views */
+        .view-section { display: none; animation: fadeIn 0.4s ease; }
+        .view-section.active { display: block; }
 
-        /* --- Project Box --- */
-        .project-box {
-            background: var(--white); border-radius: 16px; overflow: hidden;
-            border: 1px solid var(--border); box-shadow: var(--shadow);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .project-header { background: var(--primary); color: var(--white); padding: 2rem; }
-        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2rem; }
-        .project-col h4 { font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
-
-        /* --- Project Gallery --- */
-        .project-gallery {
+        /* Stats Cards */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .stat-value { font-size: 2.5rem; font-weight: 600; color: var(--text-main); margin: 0.5rem 0; }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Upload Area */
+        .upload-container {
+            background: var(--surface);
+            border-radius: var(--radius);
             padding: 2rem;
-            background: #f8fafc;
-            border-top: 1px solid var(--border);
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            background: var(--white);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.3s;
-        }
-
-        .gallery-item:hover img { transform: scale(1.05); }
-
-        .gallery-caption {
-            padding: 0.75rem;
+            box-shadow: var(--shadow);
             text-align: center;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-main);
-            border-top: 1px solid #eee;
+            border: 2px dashed var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-bottom: 2rem;
         }
 
-        /* --- Tags --- */
-        .tag-container { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .tag { background: #fff; border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.95rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; transition: 0.3s; }
-        .tag:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
-        .tag i { color: var(--accent); }
+        .upload-container:hover, .upload-container.dragover {
+            border-color: var(--primary);
+            background-color: #eff6ff;
+        }
 
-        /* --- Footer --- */
-        footer { background: var(--primary); color: var(--white); text-align: center; padding: 3rem 0; margin-top: 4rem; }
-        .contact-footer { font-size: 1.5rem; margin-top: 1rem; }
-        .contact-footer a { margin: 0 1rem; color: rgba(255,255,255,0.8); }
-        .contact-footer a:hover { color: var(--accent); }
+        .upload-icon {
+            width: 64px;
+            height: 64px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
 
-        /* --- Responsive --- */
+        .form-group { margin-bottom: 1rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: var(--primary-dark); }
+        .btn-danger { background-color: var(--danger); color: white; }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+
+        /* Repository Grid */
+        .toolbar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .search-bar { flex: 1; min-width: 200px; }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .file-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .file-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .file-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .file-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .tag { display: inline-block; padding: 0.25rem 0.5rem; background-color: #e2e8f0; border-radius: 4px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+        .file-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 0.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .toast {
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideIn 0.3s ease;
+            min-width: 300px;
+        }
+
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            margin-top: 1rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero-grid { grid-template-columns: 1fr; text-align: center; }
-            .profile-img { width: 180px; height: 180px; margin: 0 auto; border-radius: 50%; } 
-            .nav-content { flex-direction: column; gap: 1rem; }
-            .nav-links { gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
-            .project-grid { grid-template-columns: 1fr; }
+            aside { transform: translateX(-100%); position: fixed; }
+            aside.open { transform: translateX(0); }
+            main { margin-left: 0; }
+            .mobile-menu-btn { display: block; }
+        }
+        @media (min-width: 769px) {
+            .mobile-menu-btn { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="container nav-content">
-            <div class="nav-logo">Pisit.H</div>
-            <div class="nav-links">
-                <a href="#profile">ข้อมูลส่วนตัว</a>
-                <a href="#education">วุฒิการศึกษา</a>
-                <a href="#experience">ประสบการณ์</a>
-                <a href="#project">ผลงานโครงการ</a>
-                <a href="#competencies">ความสามารถ</a>
-            </div>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+        <div class="brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            DocHub
         </div>
-    </nav>
+        <nav>
+            <ul>
+                <li><button class="nav-btn active" onclick="switchView('dashboard')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    ภาพรวมระบบ
+                </button></li>
+                <li><button class="nav-btn" onclick="switchView('repository')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    คลังเอกสาร
+                </button></li>
+                <li><button class="nav-btn" onclick="switchView('upload')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    อัปโหลดเอกสาร
+                </button></li>
+            </ul>
+        </nav>
+    </aside>
 
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="container hero-grid">
-            <div class="hero-content">
-                <h2>ครูอัตราจ้าง สายคอมพิวเตอร์ | วิทยาลัยเทคนิคนางรอง</h2>
-                <h1>นายพิสิษฐ์ หุนตระนี</h1>
-                <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px;">
-                    ผู้เชี่ยวชาญด้านวิทยาการคอมพิวเตอร์และเทคโนโลยีสารสนเทศ 
-                    มุ่งเน้นการพัฒนาระบบเพื่อสถานศึกษา และการประยุกต์ใช้เทคโนโลยีดิจิทัลเพื่อเพิ่มประสิทธิภาพการทำงาน
-                </p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; md:justify-content: start;">
-                    <a href="#contact" class="btn btn-primary"><i class="fas fa-phone"></i> ติดต่อฉัน</a>
-                    <a href="#project" class="btn btn-outline"><i class="fas fa-folder-open"></i> ดูผลงาน</a>
+    <!-- Main Content Area -->
+    <main>
+        <header>
+            <button class="mobile-menu-btn" style="background:none; border:none; font-size:1.5rem; cursor:pointer; margin-right:10px;" onclick="toggleSidebar()">☰</button>
+            <h1 id="page-title">ภาพรวมระบบ</h1>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:0.9rem; color:var(--text-muted);">ผู้ใช้งาน: Admin</span>
+                <div style="width:36px; height:36px; background:var(--primary); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center;">A</div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboard" class="view-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">เอกสารทั้งหมด</div>
+                    <div class="stat-value" id="total-docs">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">พื้นที่ใช้งาน (จำลอง)</div>
+                    <div class="stat-value"><span id="storage-used">0</span> MB</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">ดาวน์โหลดทั้งหมด</div>
+                    <div class="stat-value" id="total-downloads">0</div>
                 </div>
             </div>
-            <!-- Profile Image (Updated to Formal Suit) -->
-            <img src="https://z-cdn-media.chatglm.cn/files/ecbf5efd-2a93-48fa-976f-1e88b73945fb.jpg?auth_key=1868269897-6cd06ad9d44841d199e0c67e21d36bd6-0-e0654f224c06ba58b443730c99a86e52" alt="พิสิษฐ์ หุนตระนี" class="profile-img">
-        </div>
-    </header>
 
-    <div class="container">
-
-        <!-- 1. Personal Info -->
-        <section id="profile">
-            <div class="section-header">
-                <div class="section-icon"><i class="fas fa-user-circle"></i></div>
-                <h2 class="section-title">ข้อมูลส่วนบุคคล</h2>
-            </div>
-            <div class="card">
-                <div class="info-list">
-                    <div class="info-item">
-                        <i class="fas fa-id-card info-icon"></i>
-                        <div><span class="info-label">ชื่อ - สกุล</span><div class="info-value">นายพิสิษฐ์ หุนตระนี</div></div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-birthday-cake info-icon"></i>
-                        <div><span class="info-label">วันเดือนปีเกิด</span><div class="info-value">6 มกราคม พ.ศ. 2543</div></div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-flag info-icon"></i>
-                        <div><span class="info-label">สัญชาติ / เชื้อชาติ</span><div class="info-value">ไทย / ไทย</div></div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-om info-icon"></i>
-                        <div><span class="info-label">ศาสนา</span><div class="info-value">พุทธ</div></div>
-                    </div>
-                    <div class="info-item" style="grid-column: 1 / -1;">
-                        <i class="fas fa-map-marker-alt info-icon"></i>
-                        <div><span class="info-label">ที่อยู่</span><div class="info-value">9/2 ถนนศรีภูเจริญ ตำบลนางรอง อำเภอนางรอง จังหวัดบุรีรัมย์ 31100</div></div>
-                    </div>
-                </div>
+            <h2 style="margin-bottom:1rem;">เอกสารล่าสุด</h2>
+            <div id="recent-files-list" class="file-grid">
+                <!-- Javascript will render recent files here -->
             </div>
         </section>
 
-        <!-- 2. Education -->
-        <section id="education">
-            <div class="section-header">
-                <div class="section-icon"><i class="fas fa-graduation-cap"></i></div>
-                <h2 class="section-title">วุฒิการศึกษา</h2>
-            </div>
-            <div class="card timeline">
-                <div class="timeline-item">
-                    <div class="role-title">ปริญญาตรี วิทยาศาสตรบัณฑิต (วท.บ.)</div>
-                    <div class="role-place">สาขาวิทยาการคอมพิวเตอร์ (Computer Science) | คณะวิทยาศาสตร์</div>
-                    <div class="role-desc" style="background: #f1f5f9; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid var(--accent);">
-                        <strong>ความสามารถพื้นฐาน:</strong><br>มีพื้นฐานความรู้ด้านการเขียนโปรแกรม การพัฒนาระบบสารสนเทศ การวิเคราะห์และออกแบบระบบ รวมถึงการประยุกต์ใช้เทคโนโลยีดิจิทัลเพื่อองค์กรและสถานศึกษา
-                    </div>
+        <!-- REPOSITORY SECTION -->
+        <section id="repository" class="view-section">
+            <div class="toolbar">
+                <div class="form-group search-bar">
+                    <input type="text" id="search-input" placeholder="ค้นหาชื่อเอกสาร..." onkeyup="filterFiles()">
                 </div>
+                <div class="form-group" style="width: 200px;">
+                    <select id="category-filter" onchange="filterFiles()">
+                        <option value="all">ทุกหมวดหมู่</option>
+                        <option value="ทั่วไป">ทั่วไป</option>
+                        <option value="รายงาน">รายงาน</option>
+                        <option value="บัญชี">บัญชี</option>
+                        <option value="การตลาด">การตลาด</option>
+                        <option value="กฎหมาย/ข้อบังคับ">กฎหมาย/ข้อบังคับ</option>
+                    </select>
+                </div>
+            </div>
+            <div id="repo-grid" class="file-grid">
+                <!-- Javascript will render repository here -->
+            </div>
+            <div id="empty-msg" class="empty-state" style="display:none;">
+                <p>ไม่พบเอกสารที่ค้นหา</p>
             </div>
         </section>
 
-        <!-- 3. Experience -->
-        <section id="experience">
-            <div class="section-header">
-                <div class="section-icon"><i class="fas fa-briefcase"></i></div>
-                <h2 class="section-title">ประสบการณ์ทำงาน</h2>
-            </div>
-            <div class="card timeline">
-                <div class="timeline-item">
-                    <div class="role-title">ครูพิเศษสอน สาขาคอมพิวเตอร์ (ครูอัตราจ้าง)</div>
-                    <div class="role-place">แผนกวิชาคอมพิวเตอร์ | วิทยาลัยเทคนิคนางรอง</div>
-                    <ul class="role-list">
-                        <li>ถ่ายทอดความรู้ด้านคอมพิวเตอร์และเทคโนโลยีสารสนเทศให้แก่นักเรียนระดับอาชีวศึกษา</li>
-                        <li>สอนพื้นฐานการใช้งานคอมพิวเตอร์ ระบบสารสนเทศ และการเขียนโปรแกรม</li>
-                        <li>สนับสนุนการจัดการเรียนการสอนด้านดิจิทัลและเทคโนโลยี</li>
-                    </ul>
-                </div>
-                <div class="timeline-item">
-                    <div class="role-title">ฝึกประสบการณ์วิชาชีพด้านเทคโนโลยีสารสนเทศ</div>
-                    <div class="role-place">ตำแหน่ง IT Support | โรงพยาบาลนางรอง</div>
-                    <ul class="role-list">
-                        <li>ดูแล บำรุงรักษา และแก้ไขปัญหาระบบคอมพิวเตอร์ภายในองค์กร</li>
-                        <li>สนับสนุนการใช้งานระบบสารสนเทศแก่บุคลากรทางการแพทย์และเจ้าหน้าที่</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. Project Section -->
-        <section id="project">
-            <div class="section-header">
-                <div class="section-icon"><i class="fas fa-laptop-code"></i></div>
-                <h2 class="section-title">ผลงานโครงการ: Information Kiosk & Appointment System</h2>
-            </div>
-            
-            <div class="project-box">
-                <div class="project-header">
-                    <h3 style="font-size: 1.75rem; margin-bottom: 0.5rem;">ตู้ประชาสัมพันธ์อัจฉริยะ (Smart PR Kiosk)</h3>
-                    <p style="opacity: 0.9;">โครงการพัฒนาตู้ประชาสัมพันธ์อัจฉริยะ | วิทยาลัยเทคนิคนางรอง</p>
-                </div>
+        <!-- UPLOAD SECTION -->
+        <section id="upload" class="view-section">
+            <div class="upload-container" id="drop-zone">
+                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <h3>ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือกไฟล์</h3>
+                <p style="color:var(--text-muted); margin-top:0.5rem;">รองรับไฟล์ PDF, DOCX, JPG (สำหรับ Demo จำกัดขนาด < 500KB)</p>
+                <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect(this)">
                 
-                <div class="project-grid">
-                    <div class="project-col">
-                        <h4><i class="fas fa-clipboard-list"></i> รายละเอียดโครงการ</h4>
-                        <p style="margin-bottom: 1rem; color: var(--text-muted);">พัฒนาระบบตู้ประชาสัมพันธ์อิเล็กทรอนิกส์ (Kiosk) เพื่อเป็นศูนย์กลางการให้ข้อมูลและบริการนัดหมาย</p>
-                        <ul class="role-list">
-                            <li><strong>วิเคราะห์:</strong> วิเคราะห์ปัญหาและความต้องการของหน่วยงาน</li>
-                            <li><strong>ออกแบบ:</strong> ออกแบบโครงสร้างระบบตู้ Kiosk ให้เหมาะสมกับบริบท</li>
-                            <li><strong>พัฒนา:</strong> ข่าวสาร, ข้อมูลแผนกวิชา, ระบบนัดหมาย</li>
-                            <li><strong>จัดการข้อมูล:</strong> ปรับปรุงระบบให้สามารถใช้งานได้จริง</li>
-                        </ul>
-                    </div>
-                    <div class="project-col">
-                        <h4><i class="fas fa-chart-line"></i> ผลลัพธ์</h4>
-                        <ul class="role-list">
-                            <li>เพิ่มประสิทธิภาพการประชาสัมพันธ์ข้อมูล</li>
-                            <li>ลดภาระงานด้านการให้ข้อมูลของเจ้าหน้าที่</li>
-                            <li>ลดความแออัดในการติดต่อราชการ</li>
-                            <li>ส่งเสริมภาพลักษณ์ด้านเทคโนโลยีของวิทยาลัย</li>
-                            <li>ประยุกต์ใช้ความรู้ด้าน CS ในงานจริง</li>
-                        </ul>
-                    </div>
+                <div id="upload-progress" class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
                 </div>
+                <p id="file-name-display" style="margin-top:1rem; font-weight:500; color:var(--primary);"></p>
+            </div>
 
-                <!-- Project Gallery -->
-                <div class="project-gallery">
-                    <!-- Image 1 -->
-                    <div class="gallery-item">
-                        <img src="https://z-cdn-media.chatglm.cn/files/24a6a2a3-8f0f-4ddf-8e5b-0decf897bee5.jpg?auth_key=1868208901-7140ff0b65c44e75b3899a4ae632f4af-0-d74dc30ab6e8857e28d7587b56a1041d" alt="การพัฒนาโปรเจกต์">
-                        <div class="gallery-caption">กระบวนการพัฒนาระบบ</div>
-                    </div>
-                    
-                    <!-- Image 2 -->
-                    <div class="gallery-item">
-                        <img src="https://z-cdn-media.chatglm.cn/files/4cc22817-6d38-4011-bd08-0984ef7f9791.jpg?auth_key=1868208901-def0015793ab48649b738b82e086c5a6-0-0ef8f83671b42df7cb1708ca4fa902b6" alt="ตู้ประชาสัมพันธ์">
-                        <div class="gallery-caption">ระบบตู้ประชาสัมพันธ์จริง</div>
-                    </div>
-                    
-                    <!-- Image 3 -->
-                    <div class="gallery-item">
-                        <img src="https://z-cdn-media.chatglm.cn/files/549d1664-a464-4c0e-9419-284cf752f59d.jpg?auth_key=1868208901-6919a5acf1314059a90216f4335e8c84-0-e9c5bd4f251e348688e27cb9dcde1988" alt="งานนิทรรศการ">
-                        <div class="gallery-caption">การนำเสนอในงานเทคโนโลยี</div>
-                    </div>
+            <div class="stat-card" style="max-width: 600px; margin: 0 auto;">
+                <div class="form-group">
+                    <label>ชื่อเอกสาร *</label>
+                    <input type="text" id="doc-title" placeholder="ระบุชื่อเอกสารที่ต้องการแสดง">
+                </div>
+                <div class="form-group">
+                    <label>หมวดหมู่ *</label>
+                    <select id="doc-category">
+                        <option value="ทั่วไป">ทั่วไป</option>
+                        <option value="รายงาน">รายงาน</option>
+                        <option value="บัญชี">บัญชี</option>
+                        <option value="การตลาด">การตลาด</option>
+                        <option value="กฎหมาย/ข้อบังคับ">กฎหมาย/ข้อบังคับ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>รายละเอียดเพิ่มเติม</label>
+                    <textarea id="doc-desc" rows="3" placeholder="รายละเอียดเกี่ยวกับเอกสาร..."></textarea>
+                </div>
+                <div style="text-align: right;">
+                    <button class="btn btn-primary" onclick="submitDocument()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        บันทึกเอกสาร
+                    </button>
                 </div>
             </div>
         </section>
+    </main>
 
-        <!-- 5 & 6. Competencies -->
-        <section id="competencies">
-            <div class="section-header">
-                <div class="section-icon"><i class="fas fa-tools"></i></div>
-                <h2 class="section-title">ความรู้ความสามารถ & แนวทางความสนใจ</h2>
-            </div>
-            <div class="card">
-                <h3 style="margin-bottom: 1.5rem; font-size: 1.25rem;">Academic & Technical Competencies</h3>
-                <div class="tag-container">
-                    <div class="tag"><i class="fas fa-code"></i> วิทยาการคอมพิวเตอร์</div>
-                    <div class="tag"><i class="fas fa-project-diagram"></i> การวิเคราะห์และออกแบบระบบ</div>
-                    <div class="tag"><i class="fas fa-laptop-code"></i> การเขียนโปรแกรม</div>
-                    <div class="tag"><i class="fas fa-database"></i> การพัฒนาระบบสารสนเทศ</div>
-                    <div class="tag"><i class="fas fa-school"></i> ระบบสำหรับการศึกษา</div>
-                    <div class="tag"><i class="fas fa-cogs"></i> IT Support</div>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+
+        // 1. State & Data Initialization
+        let documents = JSON.parse(localStorage.getItem('docHub_files')) || [];
+        let totalDownloads = parseInt(localStorage.getItem('docHub_downloads')) || 0;
+        let currentFileBase64 = null;
+        let currentFileName = "";
+        let currentFileType = "";
+
+        // 2. Seed Data (If empty)
+        if (documents.length === 0) {
+            documents = [
+                { id: 1, title: "คู่มือพนักงานใหม่ 2024", category: "ทั่วไป", size: "2.4", date: "2023-10-25", downloads: 12 },
+                { id: 2, title: "รายงานประจำเดือนตุลาคม", category: "รายงาน", size: "1.1", date: "2023-10-28", downloads: 5 },
+                { id: 3, title: "บัญชีรายจ่าย Q3", category: "บัญชี", size: "0.8", date: "2023-11-01", downloads: 8 }
+            ];
+            saveData();
+        }
+
+        // 3. Core Functions
+        function saveData() {
+            localStorage.setItem('docHub_files', JSON.stringify(documents));
+            localStorage.setItem('docHub_downloads', totalDownloads);
+            updateStats();
+        }
+
+        function updateStats() {
+            // Calculate total storage
+            const storage = documents.reduce((acc, doc) => acc + parseFloat(doc.size || 0), 0);
+            
+            document.getElementById('total-docs').innerText = documents.length;
+            document.getElementById('storage-used').innerText = storage.toFixed(1);
+            document.getElementById('total-downloads').innerText = totalDownloads;
+
+            renderRecent();
+            renderRepo();
+        }
+
+        function switchView(viewId) {
+            // Update Navigation UI
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(viewId));
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // Update View Section
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+
+            // Update Header Title
+            const titles = {
+                'dashboard': 'ภาพรวมระบบ',
+                'repository': 'คลังเอกสาร',
+                'upload': 'อัปโหลดเอกสาร'
+            };
+            document.getElementById('page-title').innerText = titles[viewId];
+            
+            // Close sidebar on mobile
+            if(window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        }
+
+        // 4. Rendering Functions
+        function getFileColor(category) {
+            const colors = {
+                'ทั่วไป': '#64748b', 'รายงาน': '#2563eb', 'บัญชี': '#10b981',
+                'การตลาด': '#f59e0b', 'กฎหมาย/ข้อบังคับ': '#ef4444'
+            };
+            return colors[category] || '#64748b';
+        }
+
+        function createFileCard(doc, isDashboard = false) {
+            const color = getFileColor(doc.category);
+            const div = document.createElement('div');
+            div.className = 'file-card';
+            div.innerHTML = `
+                <div class="file-icon" style="color: ${color}; background-color: ${color}20;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                 </div>
-
-                <h3 style="margin: 2rem 0 1.5rem 0; font-size: 1.25rem;">แนวทางความสนใจทางวิชาการ</h3>
-                <div class="tag-container">
-                    <div class="tag"><i class="fas fa-bullseye"></i> ระบบสารสนเทศเพื่อสถานศึกษา</div>
-                    <div class="tag"><i class="fas fa-robot"></i> Smart Service / Kiosk System</div>
-                    <div class="tag"><i class="fas fa-university"></i> IT เพื่อการศึกษา</div>
-                    <div class="tag"><i class="fas fa-university"></i> IT เพื่อภาครัฐ</div>
+                <div class="file-info">
+                    <h3 title="${doc.title}">${doc.title}</h3>
+                    <div class="file-meta">${doc.category} • ${doc.size} MB • ${doc.date}</div>
+                    ${!isDashboard ? `<span class="tag">ดาวน์โหลด ${doc.downloads || 0} ครั้ง</span>` : ''}
                 </div>
-            </div>
-        </section>
+                <div class="file-actions">
+                    <button class="btn btn-sm btn-primary" style="flex:1;" onclick="downloadFile(${doc.id})">
+                        ดาวน์โหลด
+                    </button>
+                    ${!isDashboard ? `<button class="btn btn-sm btn-danger" onclick="deleteFile(${doc.id})">
+                        ลบ
+                    </button>` : ''}
+                </div>
+            `;
+            return div;
+        }
 
-    </div>
+        function renderRecent() {
+            const container = document.getElementById('recent-files-list');
+            container.innerHTML = '';
+            const recent = [...documents].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
+            recent.forEach(doc => container.appendChild(createFileCard(doc, true)));
+        }
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <h3 style="margin-bottom: 1rem;">สนใจติดต่อสอบถามหรือร่วมงาน?</h3>
-            <p style="opacity: 0.8;">ยินดีรับทุกคำแนะนำและความร่วมมือทางวิชาการ</p>
-            <div class="contact-footer">
-                <a href="tel:0930738643" title="โทร"><i class="fas fa-phone"></i></a>
-                <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
-                <a href="#" title="Line"><i class="fab fa-line"></i></a>
-            </div>
-            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.6;">
-                &copy; 2023 พิสิษฐ์ หุนตระนี (Pisit Huntranee) | วิทยาลัยเทคนิคนางรอง
-            </p>
-        </div>
-    </footer>
+        function renderRepo() {
+            const container = document.getElementById('repo-grid');
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('category-filter').value;
+            
+            container.innerHTML = '';
+            const filtered = documents.filter(doc => {
+                const matchesSearch = doc.title.toLowerCase().includes(search);
+                const matchesCat = category === 'all' || doc.category === category;
+                return matchesSearch && matchesCat;
+            });
 
+            if (filtered.length === 0) {
+                document.getElementById('empty-msg').style.display = 'block';
+            } else {
+                document.getElementById('empty-msg').style.display = 'none';
+                filtered.forEach(doc => container.appendChild(createFileCard(doc)));
+            }
+        }
+
+        function filterFiles() {
+            renderRepo();
+        }
+
+        // 5. File Upload Logic
+        const dropZone = document.getElementById('drop-zone');
+        dropZone.addEventListener('click', () => document.getElementById('file-input').click());
+
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+        });
+
+        function handleFileSelect(input) {
+            if (input.files.length) processFile(input.files[0]);
+        }
+
+        function processFile(file) {
+            // Size Limit for LocalStorage Demo
+            if (file.size > 500000) { 
+                showToast('ไฟล์มีขนาดใหญ่เกินไป (จำกัด 500KB สำหรับ Demo)', 'error');
+                return;
+            }
+            
+            currentFileName = file.name;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentFileBase64 = e.target.result;
+                document.getElementById('file-name-display').innerText = `ไฟล์ที่เลือก: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function submitDocument() {
+            const title = document.getElementById('doc-title').value;
+            const category = document.getElementById('doc-category').value;
+            
+            if (!title) { showToast('กรุณาระบุชื่อเอกสาร', 'error'); return; }
+            if (!currentFileBase64 && !currentFileName) { showToast('กรุณาเลือกไฟล์ก่อน', 'error'); return; }
+
+            // Simulate Progress
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('upload-progress');
+            progressContainer.style.display = 'block';
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    finalizeUpload(title, category);
+                } else {
+                    width += 10;
+                    progressBar.style.width = width + '%';
+                }
+            }, 200);
+        }
+
+        function finalizeUpload(title, category) {
+            const newDoc = {
+                id: Date.now(),
+                title: title,
+                category: category,
+                size: (Math.random() * 5 + 0.5).toFixed(1), // Simulated Size
+                date: new Date().toISOString().split('T')[0],
+                downloads: 0
+            };
+
+            documents.unshift(newDoc);
+            saveData();
+            
+            // Reset Form
+            document.getElementById('doc-title').value = '';
+            document.getElementById('doc-desc').value = '';
+            document.getElementById('file-name-display').innerText = '';
+            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('upload-progress').style.display = 'none';
+            currentFileBase64 = null;
+
+            showToast('อัปโหลดเอกสารสำเร็จ!', 'success');
+            switchView('repository');
+        }
+
+        // 6. User Actions
+        function downloadFile(id) {
+            const doc = documents.find(d => d.id === id);
+            if (doc) {
+                doc.downloads = (doc.downloads || 0) + 1;
+                totalDownloads++;
+                saveData();
+                showToast(`เริ่มการดาวน์โหลด: ${doc.title}`, 'success');
+            }
+        }
+
+        function deleteFile(id) {
+            if(confirm('ยืนยันการลบเอกสาร?')) {
+                documents = documents.filter(d => d.id !== id);
+                saveData();
+                showToast('ลบเอกสารเรียบร้อยแล้ว', 'success');
+            }
+        }
+
+        // 7. UI Utilities
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            let icon = type === 'success' 
+                ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+                : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Initialize App
+        updateStats();
+
+    </script>
 </body>
 </html>
