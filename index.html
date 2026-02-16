@@ -3,34 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบจัดการและเผยแพร่เอกสาร (Document Hub)</title>
+    <title>ระบบเอกสารแผนกจิตเวช (Psychiatry Hub)</title>
     <!-- นำเข้าฟอนต์ภาษาไทย -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS Styles --- */
+        /* --- CSS Styles (Psychiatry Theme) --- */
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --secondary: #64748b;
+            /* โทนสีเขียวมินต์สบายตาและฟ้าอ่อน เหมาะกับจิตเวช */
+            --primary: #0d9488;       /* Teal-600 */
+            --primary-dark: #0f766e;  /* Teal-700 */
+            --secondary: #94a3b8;
             --success: #10b981;
             --danger: #ef4444;
-            --warning: #f59e0b;
-            --background: #f1f5f9;
+            --background: #f0fdfa;    /* Teal-50 */
             --surface: #ffffff;
-            --text-main: #1e293b;
+            --text-main: #111827;
             --text-muted: #64748b;
-            --border: #e2e8f0;
+            --border: #ccfbf1;        /* Teal-100 */
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Prompt', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; }
 
         body {
             background-color: var(--background);
@@ -38,6 +33,40 @@
             display: flex;
             min-height: 100vh;
             overflow-x: hidden;
+        }
+
+        /* Login Modal */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .login-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid var(--border);
+        }
+
+        .login-icon {
+            width: 60px; height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
         }
 
         /* Sidebar */
@@ -55,13 +84,13 @@
         }
 
         .brand {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--primary);
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         nav ul { list-style: none; }
@@ -83,8 +112,8 @@
             text-align: left;
         }
 
-        nav button:hover { background-color: #f8fafc; color: var(--primary); }
-        nav button.active { background-color: #eff6ff; color: var(--primary); font-weight: 500; }
+        nav button:hover { background-color: #f0fdfa; color: var(--primary); }
+        nav button.active { background-color: var(--primary); color: white; }
 
         /* Main Content */
         main {
@@ -101,34 +130,25 @@
             margin-bottom: 2rem;
         }
 
-        h1 { font-size: 1.8rem; font-weight: 600; }
+        .logout-btn {
+            background: white;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
 
         /* Views */
         .view-section { display: none; animation: fadeIn 0.4s ease; }
         .view-section.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .stat-value { font-size: 2.5rem; font-weight: 600; color: var(--text-main); margin: 0.5rem 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--surface); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .stat-value { font-size: 2.5rem; font-weight: 600; color: var(--primary); margin: 0.5rem 0; }
         .stat-label { color: var(--text-muted); font-size: 0.9rem; }
 
         /* Upload Area */
@@ -143,151 +163,55 @@
             cursor: pointer;
             margin-bottom: 2rem;
         }
-
-        .upload-container:hover, .upload-container.dragover {
-            border-color: var(--primary);
-            background-color: #eff6ff;
-        }
-
-        .upload-icon {
-            width: 64px;
-            height: 64px;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
+        .upload-container:hover { border-color: var(--primary); background-color: #f0fdfa; }
         .form-group { margin-bottom: 1rem; text-align: left; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted); }
-
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
+        input[type="text"], input[type="password"], select, textarea {
+            width: 100%; padding: 0.75rem; border: 1px solid var(--border);
+            border-radius: var(--radius); font-size: 1rem; outline: none; transition: border-color 0.2s;
         }
-
         input:focus, select:focus, textarea:focus { border-color: var(--primary); }
-
+        
         .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: var(--radius);
-            font-size: 1rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            padding: 0.75rem 1.5rem; border: none; border-radius: var(--radius); font-size: 1rem;
+            cursor: pointer; font-weight: 500; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
         }
-
         .btn-primary { background-color: var(--primary); color: white; }
         .btn-primary:hover { background-color: var(--primary-dark); }
         .btn-danger { background-color: var(--danger); color: white; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
         .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
 
         /* Repository Grid */
         .toolbar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
         .search-bar { flex: 1; min-width: 200px; }
-
-        .file-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
+        .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+        
         .file-card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            padding: 1.5rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border);
+            padding: 1.5rem; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;
         }
-
         .file-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-
+        
         .file-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            background-color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
+            width: 48px; height: 48px; border-radius: 10px; background-color: #f0fdfa;
+            display: flex; align-items: center; justify-content: center; color: var(--primary); margin-bottom: 1rem;
         }
-
         .file-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .file-meta { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
-        .tag { display: inline-block; padding: 0.25rem 0.5rem; background-color: #e2e8f0; border-radius: 4px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; }
-
-        .file-actions {
-            margin-top: auto;
-            display: flex;
-            gap: 0.5rem;
-            border-top: 1px solid var(--border);
-            padding-top: 1rem;
-        }
+        .tag { display: inline-block; padding: 0.25rem 0.5rem; background-color: #e6fffa; border-radius: 4px; font-size: 0.75rem; color: var(--primary-dark); margin-bottom: 1rem; }
+        
+        .file-actions { margin-top: auto; display: flex; gap: 0.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
 
         /* Toast */
-        .toast-container {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 100;
-        }
-
-        .toast {
-            background: var(--surface);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border-left: 4px solid var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            animation: slideIn 0.3s ease;
-            min-width: 300px;
-        }
-
+        .toast-container { position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 1rem; z-index: 100; }
+        .toast { background: var(--surface); padding: 1rem 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 1rem; animation: slideIn 0.3s ease; min-width: 300px; }
         .toast.success { border-left-color: var(--success); }
         .toast.error { border-left-color: var(--danger); }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background-color: #e2e8f0;
-            border-radius: 10px;
-            margin-top: 1rem;
-            overflow: hidden;
-            display: none;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .progress-container { width: 100%; height: 6px; background-color: #e2e8f0; border-radius: 10px; margin-top: 1rem; overflow: hidden; display: none; }
+        .progress-bar { height: 100%; background-color: var(--primary); width: 0%; transition: width 0.3s ease; }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -296,18 +220,43 @@
             main { margin-left: 0; }
             .mobile-menu-btn { display: block; }
         }
-        @media (min-width: 769px) {
-            .mobile-menu-btn { display: none; }
-        }
+        @media (min-width: 769px) { .mobile-menu-btn { display: none; } }
+        
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar Navigation -->
+    <!-- LOGIN MODAL -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <div class="login-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h2 style="margin-bottom: 0.5rem; color: var(--primary);">ระบบเอกสารแผนกจิตเวช</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Psychiatry Department Documentation</p>
+            
+            <div class="form-group">
+                <input type="password" id="admin-password" placeholder="รหัสผ่านแอดมิน (หรือเว้นว่างเพื่อเข้าชมทั่วไป)">
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="attemptLogin()">
+                    เข้าสู่ระบบ
+                </button>
+                <button class="btn btn-outline" style="width: 100%; justify-content: center;" onclick="guestLogin()">
+                    เข้าชมแบบบุคคลทั่วไป
+                </button>
+            </div>
+            <p id="login-error" style="color: var(--danger); font-size: 0.9rem; margin-top: 1rem; display: none;">รหัสผ่านไม่ถูกต้อง</p>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
     <aside id="sidebar">
         <div class="brand">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-            DocHub
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Psychiatry Hub
         </div>
         <nav>
             <ul>
@@ -316,38 +265,32 @@
                     ภาพรวมระบบ
                 </button></li>
                 <li><button class="nav-btn" onclick="switchView('repository')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    คลังเอกสาร
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    คลังเอกสาร (Database)
                 </button></li>
-                <li><button class="nav-btn" onclick="switchView('upload')">
+                <!-- Upload Tab จะแสดงเฉพาะ Admin -->
+                <li id="nav-upload" class="hidden"><button class="nav-btn" onclick="switchView('upload')">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                    อัปโหลดเอกสาร
+                    เผยแพร่/อัปโหลด (Publish)
                 </button></li>
             </ul>
         </nav>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <main>
         <header>
             <button class="mobile-menu-btn" style="background:none; border:none; font-size:1.5rem; cursor:pointer; margin-right:10px;" onclick="toggleSidebar()">☰</button>
             <h1 id="page-title">ภาพรวมระบบ</h1>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span style="font-size:0.9rem; color:var(--text-muted);">ผู้ใช้งาน: Admin</span>
-                <div style="width:36px; height:36px; background:var(--primary); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center;">A</div>
-            </div>
+            <button class="logout-btn" onclick="logout()">ออกจากระบบ</button>
         </header>
 
         <!-- DASHBOARD SECTION -->
         <section id="dashboard" class="view-section active">
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-label">เอกสารทั้งหมด</div>
+                    <div class="stat-label">เอกสารทั้งหมดในฐานข้อมูล</div>
                     <div class="stat-value" id="total-docs">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">พื้นที่ใช้งาน (จำลอง)</div>
-                    <div class="stat-value"><span id="storage-used">0</span> MB</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">ดาวน์โหลดทั้งหมด</div>
@@ -355,7 +298,7 @@
                 </div>
             </div>
 
-            <h2 style="margin-bottom:1rem;">เอกสารล่าสุด</h2>
+            <h2 style="margin-bottom:1rem;">เอกสารที่อัปเดตล่าสุด</h2>
             <div id="recent-files-list" class="file-grid">
                 <!-- Javascript will render recent files here -->
             </div>
@@ -370,30 +313,31 @@
                 <div class="form-group" style="width: 200px;">
                     <select id="category-filter" onchange="filterFiles()">
                         <option value="all">ทุกหมวดหมู่</option>
-                        <option value="ทั่วไป">ทั่วไป</option>
-                        <option value="รายงาน">รายงาน</option>
-                        <option value="บัญชี">บัญชี</option>
-                        <option value="การตลาด">การตลาด</option>
-                        <option value="กฎหมาย/ข้อบังคับ">กฎหมาย/ข้อบังคับ</option>
+                        <option value="แนวปฏิบัติทางการแพทย์">แนวปฏิบัติทางการแพทย์</option>
+                        <option value="เอกสารผู้ป่วย">เอกสารผู้ป่วย</option>
+                        <option value="เภสัชกรรม">เภสัชกรรม</option>
+                        <option value="ระเบียบภายใน">ระเบียบภายใน</option>
                     </select>
                 </div>
             </div>
             <div id="repo-grid" class="file-grid">
                 <!-- Javascript will render repository here -->
             </div>
-            <div id="empty-msg" class="empty-state" style="display:none;">
-                <p>ไม่พบเอกสารที่ค้นหา</p>
-            </div>
         </section>
 
-        <!-- UPLOAD SECTION -->
+        <!-- UPLOAD SECTION (Admin Only) -->
         <section id="upload" class="view-section">
+            <div style="background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.9rem;">
+                <strong>หมายเหตุเกี่ยวกับฐานข้อมูล GitHub:</strong> 
+                ระบบนี้จำลองการอัปโหลดผ่าน LocalStorage เพื่อทดสอบฟังก์ชัน 
+                ในการใช้งานจริง คุณสามารถแก้ไขโค้ดในส่วน <code>submitDocument()</code> 
+                เพื่อเชื่อมต่อกับ GitHub API และ JSON Database ได้
+            </div>
+
             <div class="upload-container" id="drop-zone">
                 <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                 <h3>ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือกไฟล์</h3>
-                <p style="color:var(--text-muted); margin-top:0.5rem;">รองรับไฟล์ PDF, DOCX, JPG (สำหรับ Demo จำกัดขนาด < 500KB)</p>
                 <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect(this)">
-                
                 <div id="upload-progress" class="progress-container">
                     <div class="progress-bar" id="progress-bar"></div>
                 </div>
@@ -403,68 +347,131 @@
             <div class="stat-card" style="max-width: 600px; margin: 0 auto;">
                 <div class="form-group">
                     <label>ชื่อเอกสาร *</label>
-                    <input type="text" id="doc-title" placeholder="ระบุชื่อเอกสารที่ต้องการแสดง">
+                    <input type="text" id="doc-title" placeholder="เช่น แนวทางการรักษาโรคซึมเศร้า 2567">
                 </div>
                 <div class="form-group">
                     <label>หมวดหมู่ *</label>
                     <select id="doc-category">
-                        <option value="ทั่วไป">ทั่วไป</option>
-                        <option value="รายงาน">รายงาน</option>
-                        <option value="บัญชี">บัญชี</option>
-                        <option value="การตลาด">การตลาด</option>
-                        <option value="กฎหมาย/ข้อบังคับ">กฎหมาย/ข้อบังคับ</option>
+                        <option value="แนวปฏิบัติทางการแพทย์">แนวปฏิบัติทางการแพทย์</option>
+                        <option value="เอกสารผู้ป่วย">เอกสารผู้ป่วย</option>
+                        <option value="เภสัชกรรม">เภสัชกรรม</option>
+                        <option value="ระเบียบภายใน">ระเบียบภายใน</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label>รายละเอียดเพิ่มเติม</label>
-                    <textarea id="doc-desc" rows="3" placeholder="รายละเอียดเกี่ยวกับเอกสาร..."></textarea>
                 </div>
                 <div style="text-align: right;">
                     <button class="btn btn-primary" onclick="submitDocument()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                        บันทึกเอกสาร
+                        เผยแพร่เอกสาร (Publish)
                     </button>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Toast Notification Container -->
     <div class="toast-container" id="toast-container"></div>
 
     <script>
-        // --- JAVASCRIPT LOGIC ---
-
-        // 1. State & Data Initialization
-        let documents = JSON.parse(localStorage.getItem('docHub_files')) || [];
-        let totalDownloads = parseInt(localStorage.getItem('docHub_downloads')) || 0;
+        // --- CONFIGURATION ---
+        const ADMIN_PASSWORD = "admin"; // รหัสผ่านสำหรับแอดมิน
+        
+        // --- STATE ---
+        let userRole = 'guest'; // 'admin' or 'guest'
+        let documents = [];
+        let totalDownloads = 0;
         let currentFileBase64 = null;
         let currentFileName = "";
-        let currentFileType = "";
 
-        // 2. Seed Data (If empty)
-        if (documents.length === 0) {
-            documents = [
-                { id: 1, title: "คู่มือพนักงานใหม่ 2024", category: "ทั่วไป", size: "2.4", date: "2023-10-25", downloads: 12 },
-                { id: 2, title: "รายงานประจำเดือนตุลาคม", category: "รายงาน", size: "1.1", date: "2023-10-28", downloads: 5 },
-                { id: 3, title: "บัญชีรายจ่าย Q3", category: "บัญชี", size: "0.8", date: "2023-11-01", downloads: 8 }
-            ];
-            saveData();
+        // --- MOCK GITHUB DATABASE DATA ---
+        // ในการใช้งานจริงคุณจะสร้างไฟล์ .json บน GitHub Repository และดึงข้อมูลผ่าน URL
+        // เช่น: https://raw.githubusercontent.com/username/repo/main/database.json
+        const MOCK_GITHUB_DATA = [
+            { id: 1, title: "ข้อแนะนำการใช้ยาต้านซึมเศร้า", category: "เภสัชกรรม", size: "1.2", date: "2023-11-01", downloads: 45 },
+            { id: 2, title: "แบบประเมินโรคซึมเศร้า PHQ-9", category: "แนวปฏิบัติทางการแพทย์", size: "0.5", date: "2023-11-05", downloads: 120 },
+            { id: 3, title: "สรุปประชุมแผนกจิตเวชประจำเดือน", category: "ระเบียบภายใน", size: "2.8", date: "2023-11-10", downloads: 15 },
+            { id: 4, title: "สิทธิผู้ป่วยจิตเวช พ.ร.บ.", category: "เอกสารผู้ป่วย", size: "1.0", date: "2023-11-12", downloads: 60 }
+        ];
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            loadFromDatabase();
+        };
+
+        async function loadFromDatabase() {
+            // จำลองการดึงข้อมูลจาก GitHub (จริงๆ จะใช้ fetch)
+            // เพื่อ Demo ผมจะใช้ข้อมูลในตัวแปร MOCK_GITHUB_DATA ผสมกับ LocalStorage
+            const localData = localStorage.getItem('psych_docs');
+            if (localData) {
+                documents = JSON.parse(localData);
+            } else {
+                documents = [...MOCK_GITHUB_DATA];
+            }
+            
+            totalDownloads = parseInt(localStorage.getItem('psych_downloads')) || 0;
+            
+            // ถ้ามีการรีเฟรชหน้าจอแต่ยังไม่ได้ออกจากระบบ (ใช้ SessionStorage)
+            const savedRole = sessionStorage.getItem('userRole');
+            if(savedRole) {
+                userRole = savedRole;
+                document.getElementById('login-overlay').classList.add('hidden');
+                setupUIByRole();
+                updateStats();
+            }
         }
 
-        // 3. Core Functions
+        // --- AUTHENTICATION ---
+        function attemptLogin() {
+            const pass = document.getElementById('admin-password').value;
+            if (pass === ADMIN_PASSWORD) {
+                loginSuccess('admin');
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+
+        function guestLogin() {
+            loginSuccess('guest');
+        }
+
+        function loginSuccess(role) {
+            userRole = role;
+            sessionStorage.setItem('userRole', role); // เก็บสถานะการล็อกอินไว้ชั่วคราว
+            
+            document.getElementById('login-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('login-overlay').classList.add('hidden');
+            }, 300);
+            
+            setupUIByRole();
+            updateStats();
+        }
+
+        function logout() {
+            sessionStorage.removeItem('userRole');
+            location.reload();
+        }
+
+        function setupUIByRole() {
+            const uploadNav = document.getElementById('nav-upload');
+            if (userRole === 'admin') {
+                uploadNav.classList.remove('hidden');
+                showToast('ยินดีต้อนรับ แอดมิน', 'success');
+            } else {
+                uploadNav.classList.add('hidden');
+                showToast('เข้าชมในฐานะบุคคลทั่วไป', 'success');
+            }
+        }
+
+        // --- CORE FUNCTIONS ---
         function saveData() {
-            localStorage.setItem('docHub_files', JSON.stringify(documents));
-            localStorage.setItem('docHub_downloads', totalDownloads);
+            // บันทึกลง LocalStorage (จำลอง GitHub API)
+            localStorage.setItem('psych_docs', JSON.stringify(documents));
+            localStorage.setItem('psych_downloads', totalDownloads);
             updateStats();
         }
 
         function updateStats() {
-            // Calculate total storage
             const storage = documents.reduce((acc, doc) => acc + parseFloat(doc.size || 0), 0);
-            
             document.getElementById('total-docs').innerText = documents.length;
-            document.getElementById('storage-used').innerText = storage.toFixed(1);
+            document.getElementById('storage-used') ? document.getElementById('storage-used').innerText = storage.toFixed(1) : null; // ถ้ามี element
             document.getElementById('total-downloads').innerText = totalDownloads;
 
             renderRecent();
@@ -472,58 +479,53 @@
         }
 
         function switchView(viewId) {
-            // Update Navigation UI
+            // Check permissions
+            if (viewId === 'upload' && userRole !== 'admin') {
+                showToast('เฉพาะแอดมินเท่านั้นที่เข้าถึงได้', 'error');
+                return;
+            }
+
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(viewId));
             if(activeBtn) activeBtn.classList.add('active');
 
-            // Update View Section
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
 
-            // Update Header Title
             const titles = {
                 'dashboard': 'ภาพรวมระบบ',
-                'repository': 'คลังเอกสาร',
-                'upload': 'อัปโหลดเอกสาร'
+                'repository': 'คลังเอกสาร (Database)',
+                'upload': 'เผยแพร่/อัปโหลด (Publish)'
             };
             document.getElementById('page-title').innerText = titles[viewId];
             
-            // Close sidebar on mobile
-            if(window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
+            if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
         }
 
-        // 4. Rendering Functions
-        function getFileColor(category) {
-            const colors = {
-                'ทั่วไป': '#64748b', 'รายงาน': '#2563eb', 'บัญชี': '#10b981',
-                'การตลาด': '#f59e0b', 'กฎหมาย/ข้อบังคับ': '#ef4444'
-            };
-            return colors[category] || '#64748b';
-        }
-
+        // --- RENDERING ---
         function createFileCard(doc, isDashboard = false) {
-            const color = getFileColor(doc.category);
             const div = document.createElement('div');
             div.className = 'file-card';
+            
+            // ปุ่มลบจะแสดงเฉพาะ Admin
+            const deleteButton = (userRole === 'admin' && !isDashboard) 
+                ? `<button class="btn btn-sm btn-danger" onclick="deleteFile(${doc.id})">ลบ</button>` 
+                : '';
+
             div.innerHTML = `
-                <div class="file-icon" style="color: ${color}; background-color: ${color}20;">
+                <div class="file-icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                 </div>
                 <div class="file-info">
                     <h3 title="${doc.title}">${doc.title}</h3>
-                    <div class="file-meta">${doc.category} • ${doc.size} MB • ${doc.date}</div>
+                    <div class="file-meta">${doc.category} • ${doc.size} MB</div>
                     ${!isDashboard ? `<span class="tag">ดาวน์โหลด ${doc.downloads || 0} ครั้ง</span>` : ''}
                 </div>
                 <div class="file-actions">
                     <button class="btn btn-sm btn-primary" style="flex:1;" onclick="downloadFile(${doc.id})">
                         ดาวน์โหลด
                     </button>
-                    ${!isDashboard ? `<button class="btn btn-sm btn-danger" onclick="deleteFile(${doc.id})">
-                        ลบ
-                    </button>` : ''}
+                    ${deleteButton}
                 </div>
             `;
             return div;
@@ -548,22 +550,14 @@
                 return matchesSearch && matchesCat;
             });
 
-            if (filtered.length === 0) {
-                document.getElementById('empty-msg').style.display = 'block';
-            } else {
-                document.getElementById('empty-msg').style.display = 'none';
-                filtered.forEach(doc => container.appendChild(createFileCard(doc)));
-            }
+            filtered.forEach(doc => container.appendChild(createFileCard(doc)));
         }
 
-        function filterFiles() {
-            renderRepo();
-        }
+        function filterFiles() { renderRepo(); }
 
-        // 5. File Upload Logic
+        // --- UPLOAD LOGIC (ADMIN ONLY) ---
         const dropZone = document.getElementById('drop-zone');
         dropZone.addEventListener('click', () => document.getElementById('file-input').click());
-
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
         dropZone.addEventListener('drop', (e) => {
@@ -577,17 +571,15 @@
         }
 
         function processFile(file) {
-            // Size Limit for LocalStorage Demo
             if (file.size > 500000) { 
-                showToast('ไฟล์มีขนาดใหญ่เกินไป (จำกัด 500KB สำหรับ Demo)', 'error');
+                showToast('ไฟล์ใหญ่เกินไป (จำกัด 500KB สำหรับ Demo)', 'error');
                 return;
             }
-            
             currentFileName = file.name;
             const reader = new FileReader();
             reader.onload = function(e) {
                 currentFileBase64 = e.target.result;
-                document.getElementById('file-name-display').innerText = `ไฟล์ที่เลือก: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+                document.getElementById('file-name-display').innerText = `ไฟล์ที่เลือก: ${file.name}`;
             };
             reader.readAsDataURL(file);
         }
@@ -597,7 +589,6 @@
             const category = document.getElementById('doc-category').value;
             
             if (!title) { showToast('กรุณาระบุชื่อเอกสาร', 'error'); return; }
-            if (!currentFileBase64 && !currentFileName) { showToast('กรุณาเลือกไฟล์ก่อน', 'error'); return; }
 
             // Simulate Progress
             const progressBar = document.getElementById('progress-bar');
@@ -620,72 +611,59 @@
                 id: Date.now(),
                 title: title,
                 category: category,
-                size: (Math.random() * 5 + 0.5).toFixed(1), // Simulated Size
+                size: (Math.random() * 3 + 0.5).toFixed(1),
                 date: new Date().toISOString().split('T')[0],
                 downloads: 0
             };
 
             documents.unshift(newDoc);
-            saveData();
+            saveData(); // This saves to LocalStorage
             
             // Reset Form
             document.getElementById('doc-title').value = '';
-            document.getElementById('doc-desc').value = '';
             document.getElementById('file-name-display').innerText = '';
             document.getElementById('progress-bar').style.width = '0%';
             document.getElementById('upload-progress').style.display = 'none';
             currentFileBase64 = null;
 
-            showToast('อัปโหลดเอกสารสำเร็จ!', 'success');
+            showToast('เผยแพร่เอกสารสำเร็จ!', 'success');
             switchView('repository');
         }
 
-        // 6. User Actions
+        // --- ACTIONS ---
         function downloadFile(id) {
             const doc = documents.find(d => d.id === id);
             if (doc) {
                 doc.downloads = (doc.downloads || 0) + 1;
                 totalDownloads++;
                 saveData();
-                showToast(`เริ่มการดาวน์โหลด: ${doc.title}`, 'success');
+                showToast(`กำลังดาวน์โหลด: ${doc.title}`, 'success');
+                // Logic: window.location.href = doc.github_download_url;
             }
         }
 
         function deleteFile(id) {
-            if(confirm('ยืนยันการลบเอกสาร?')) {
+            if(confirm('ยืนยันการลบเอกสารนี้จากระบบ?')) {
                 documents = documents.filter(d => d.id !== id);
                 saveData();
                 showToast('ลบเอกสารเรียบร้อยแล้ว', 'success');
             }
         }
 
-        // 7. UI Utilities
+        // --- UI UTILS ---
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            
-            let icon = type === 'success' 
+            const icon = type === 'success' 
                 ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>'
                 : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
-
             toast.innerHTML = `${icon} <span>${message}</span>`;
             container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(100%)'; setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
-        // Initialize App
-        updateStats();
-
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
     </script>
 </body>
 </html>
