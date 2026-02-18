@@ -1,1078 +1,587 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psychiatry DocHub - Pro Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Dashboard</title>
+  <style>
+    /* CSS Variables & Reset */
+    :root {
+      --primary-color: #2563eb; /* Modern Blue */
+      --primary-hover: #1d4ed8;
+      --danger-color: #dc2626;
+      --success-color: #16a34a;
+      --bg-color: #f3f4f6;
+      --surface-color: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     
-    <style>
-        /* --- CORE VARIABLES --- */
-        :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --primary-light: #ccfbf1;
-            --bg-light: #f1f5f9;
-            --surface: #ffffff;
-            --text: #334155;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --radius: 10px;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --transition: all 0.2s ease-in-out;
-        }
+    body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; }
+    /* Header */
+    header {
+      background-color: var(--surface-color);
+      padding: 1rem 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem; }
+    .admin-badge { 
+      display: none; 
+      background: #dbeafe; 
+      color: #1e40af; 
+      padding: 0.25rem 0.75rem; 
+      border-radius: 9999px; 
+      font-size: 0.875rem; 
+      font-weight: 600;
+      margin-right: 1rem;
+    }
 
-        body {
-            background-color: var(--bg-light);
-            color: var(--text);
-            display: flex;
-            min-height: 100vh;
-            font-size: 14px;
-            overflow-x: hidden;
-        }
+    /* Main Layout */
+    main { flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 2rem; }
 
-        /* --- SIDEBAR --- */
-        aside {
-            width: 240px;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            display: flex; flex-direction: column;
-            position: fixed; height: 100vh; z-index: 20;
-            transition: var(--transition);
-        }
+    /* Controls Section (Search & Upload) */
+    .controls-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 768px) { .controls-section { grid-template-columns: 1fr; } }
 
-        .brand {
-            padding: 1.5rem 1.25rem;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--primary);
-            display: flex; align-items: center; gap: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .brand svg { width: 24px; height: 24px; }
+    /* Search Box */
+    .search-box { position: relative; }
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+    .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 20px; height: 20px; }
 
-        nav ul { list-style: none; padding: 1rem; flex: 1; }
-        nav li { margin-bottom: 4px; }
+    /* Upload Area */
+    .upload-area {
+      border: 2px dashed var(--border-color);
+      background-color: var(--surface-color);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+    }
+    .upload-area:hover, .upload-area.dragover { border-color: var(--primary-color); background-color: #eff6ff; color: var(--primary-color); }
+    .upload-icon { width: 32px; height: 32px; margin-bottom: 0.5rem; }
+    #fileInput { display: none; }
 
-        nav button {
-            width: 100%;
-            text-align: left;
-            padding: 0.75rem 1rem;
-            border: none;
-            background: none;
-            color: var(--text-light);
-            cursor: pointer;
-            border-radius: var(--radius);
-            font-size: 0.95rem;
-            display: flex; align-items: center; gap: 12px;
-            transition: var(--transition);
-            font-weight: 500;
-        }
+    /* Table Section */
+    .card { background: var(--surface-color); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .table-container { overflow-x: auto; width: 100%; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { background-color: #f9fafb; padding: 1rem; font-weight: 600; color: var(--text-muted); font-size: 0.875rem; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+    td { padding: 1rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; font-size: 0.95rem; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background-color: #f9fafb; }
 
-        nav button:hover { background-color: var(--bg-light); color: var(--primary); transform: translateX(2px); }
-        nav button.active { background-color: var(--primary); color: white; box-shadow: var(--shadow); }
-        nav button svg { width: 18px; height: 18px; }
+    /* Buttons & Actions */
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    .btn-primary { background-color: var(--primary-color); color: white; }
+    .btn-primary:hover { background-color: var(--primary-hover); }
+    .btn-danger { background-color: var(--danger-color); color: white; }
+    .btn-danger:hover { background-color: #b91c1c; }
+    .btn-icon { padding: 0.4rem; border-radius: 4px; }
+    
+    .action-link { color: var(--primary-color); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+    .action-link:hover { text-decoration: underline; }
 
-        /* Storage Meter in Sidebar */
-        .storage-status {
-            padding: 1rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.75rem;
-            color: var(--text-light);
-        }
-        .progress-bg {
-            height: 6px; background: var(--bg-light); border-radius: 3px; overflow: hidden; margin-top: 6px;
-        }
-        .progress-fill {
-            height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease;
-        }
+    /* Modal */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;
+      z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal { background: white; padding: 1.5rem; border-radius: var(--radius); width: 100%; max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); transform: scale(0.95); transition: transform 0.2s; }
+    .modal-overlay.active .modal { transform: scale(1); }
+    .modal h3 { margin-bottom: 1rem; color: var(--text-main); }
+    .modal input { width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
 
-        /* --- MAIN CONTENT --- */
-        main { margin-left: 240px; flex: 1; padding: 2rem; max-width: 100%; }
+    /* Toast Notification */
+    .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 200; display: flex; flex-direction: column; gap: 10px; }
+    .toast {
+      background: white; padding: 1rem 1.5rem; border-radius: var(--radius); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--primary-color); display: flex; align-items: center; gap: 10px;
+      animation: slideIn 0.3s ease-out forwards; min-width: 300px;
+    }
+    .toast.success { border-left-color: var(--success-color); }
+    .toast.error { border-left-color: var(--danger-color); }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Header */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        h1 { font-size: 1.5rem; color: var(--text); font-weight: 600; }
-        
-        .user-menu { display: flex; align-items: center; gap: 12px; }
-        
-        .badge {
-            font-size: 0.75rem; font-weight: 600;
-            padding: 4px 10px; border-radius: 20px; display: none; align-items: center; gap: 4px;
-        }
-        .badge.admin { background: #fee2e2; color: #991b1b; display: inline-flex; }
-        
-        /* Buttons */
-        .btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: var(--radius);
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: inline-flex; align-items: center; gap: 8px;
-            transition: var(--transition);
-            font-weight: 500;
-            text-decoration: none;
-        }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
-        .btn-outline { background: white; border: 1px solid var(--border); color: var(--text); }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
-        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-        .btn-danger { background: #fee2e2; color: #dc2626; }
-        .btn-danger:hover { background: #fecaca; }
-
-        /* --- DASHBOARD --- */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-        .stat-label { font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem; }
-        .stat-value { font-size: 2rem; font-weight: 600; color: var(--primary); }
-        
-        /* Simple Bar Chart (CSS Only) */
-        .chart-container {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            margin-bottom: 2rem;
-        }
-        .chart-bars {
-            display: flex; align-items: flex-end; gap: 1rem; height: 150px; padding-top: 1rem;
-        }
-        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .bar {
-            width: 100%; max-width: 40px; background: var(--primary-light);
-            border-radius: 4px 4px 0 0; transition: height 0.5s ease;
-            position: relative;
-        }
-        .bar:hover { background: var(--primary); }
-        .bar-label { font-size: 0.75rem; color: var(--text-light); text-align: center; }
-
-        /* --- REPOSITORY & GRID --- */
-        .view-section { display: none; animation: fadeIn 0.3s ease-out; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .toolbar {
-            display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
-            background: var(--surface); padding: 1rem; border-radius: var(--radius);
-            border: 1px solid var(--border); align-items: center;
-        }
-
-        .search-box { flex: 1; position: relative; min-width: 200px; }
-        .search-box input {
-            width: 100%; padding: 0.6rem 1rem 0.6rem 2.2rem;
-            border: 1px solid var(--border); border-radius: var(--radius);
-            outline: none; transition: var(--transition);
-        }
-        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
-        .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-light); width: 14px; }
-
-        .file-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.25rem;
-        }
-
-        .file-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem;
-            transition: var(--transition);
-            position: relative;
-            display: flex; flex-direction: column;
-        }
-        .file-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--primary); }
-
-        .file-icon {
-            width: 48px; height: 48px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 1rem;
-            font-weight: bold; font-size: 0.8rem;
-            color: white;
-        }
-        .file-icon.pdf { background: #ef4444; }
-        .file-icon.doc, .file-icon.docx { background: #3b82f6; }
-        .file-icon.txt { background: #64748b; }
-        .file-icon.default { background: var(--primary); }
-
-        .file-info h3 {
-            font-size: 0.95rem;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            margin-bottom: 0.25rem; line-height: 1.4;
-        }
-        .file-meta { font-size: 0.75rem; color: var(--text-light); display: flex; justify-content: space-between; margin-bottom: 1rem; }
-
-        .file-actions {
-            margin-top: auto;
-            display: flex; gap: 0.5rem;
-            border-top: 1px solid var(--bg-light);
-            padding-top: 0.75rem;
-        }
-        .file-actions button { flex: 1; justify-content: center; }
-
-        /* Empty State */
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-light);
-        }
-        .empty-state svg { width: 64px; height: 64px; margin-bottom: 1rem; stroke: #cbd5e1; }
-
-        /* Pagination */
-        .pagination {
-            display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem;
-        }
-        .page-btn {
-            width: 32px; height: 32px;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid var(--border); border-radius: 6px;
-            background: white; cursor: pointer; transition: var(--transition);
-        }
-        .page-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
-        .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        /* --- UPLOAD FORM --- */
-        .upload-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 2rem;
-        }
-
-        .upload-drop-area {
-            border: 2px dashed var(--border);
-            border-radius: var(--radius);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 300px;
-            cursor: pointer;
-            background: var(--surface);
-            transition: var(--transition);
-            position: relative;
-        }
-        .upload-drop-area:hover, .upload-drop-area.dragover { border-color: var(--primary); background: #f0fdfa; }
-        
-        .upload-preview {
-            margin-top: 1rem; text-align: center; font-size: 0.9rem;
-        }
-
-        .form-group { margin-bottom: 1.25rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
-        .form-control {
-            width: 100%; padding: 0.75rem;
-            border: 1px solid var(--border); border-radius: var(--radius);
-            font-size: 0.9rem; outline: none; transition: var(--transition);
-        }
-        .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
-
-        /* --- MODALS --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(2px);
-            display: none;
-            justify-content: center; align-items: center; z-index: 1000;
-            opacity: 0; transition: opacity 0.3s;
-        }
-        .modal-overlay.open { display: flex; opacity: 1; }
-
-        .modal-box {
-            background: white; padding: 2rem; border-radius: var(--radius);
-            width: 100%; max-width: 400px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            transform: scale(0.95); transition: transform 0.3s;
-        }
-        .modal-overlay.open .modal-box { transform: scale(1); }
-
-        /* --- TOAST NOTIFICATIONS --- */
-        #toast-container {
-            position: fixed; bottom: 20px; right: 20px; z-index: 2000;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .toast {
-            background: white; padding: 12px 20px;
-            border-radius: 8px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            display: flex; align-items: center; gap: 12px;
-            min-width: 250px; border-left: 4px solid var(--primary);
-            animation: slideIn 0.3s ease-out;
-        }
-        .toast.error { border-left-color: var(--danger); }
-        .toast.success { border-left-color: var(--success); }
-        
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        /* --- UTILS & RESPONSIVE --- */
-        .hidden { display: none !important; }
-        
-        @media (max-width: 900px) {
-            .upload-wrapper { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 768px) {
-            aside { transform: translateX(-100%); }
-            aside.mobile-open { transform: translateX(0); }
-            main { margin-left: 0; }
-            .mobile-toggle { display: block !important; }
-        }
-        .mobile-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; margin-right: 1rem; }
-
-    </style>
+    /* Utilities */
+    .hidden { display: none !important; }
+    .text-sm { font-size: 0.8rem; color: var(--text-muted); }
+    .loading { display: inline-block; width: 1rem; height: 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+    .loading-dark { border-color: var(--border-color); border-top-color: var(--primary-color); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
 
-    <!-- Toast Container -->
-    <div id="toast-container"></div>
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+      DocDashboard
+    </div>
+    <div style="display:flex; align-items:center;">
+      <span id="adminBadge" class="admin-badge">Admin Mode</span>
+      <button id="authBtn" class="btn btn-primary" onclick="toggleAuth()">
+        เข้าสู่ระบบแอดมิน
+      </button>
+    </div>
+  </header>
 
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal-overlay">
-        <div class="modal-box">
-            <h3 style="margin-bottom:0.5rem; color:var(--primary);">Admin Login</h3>
-            <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:1.5rem;">กรุณากรอกรหัสผ่านเพื่อจัดการระบบ</p>
-            <input type="password" id="admin-pass-input" class="form-control" placeholder="Password (admin)" style="margin-bottom:1.5rem;">
-            <div style="display:flex; gap:0.75rem;">
-                <button class="btn btn-primary" style="flex:1; justify-content:center;" onclick="checkAdmin()">เข้าสู่ระบบ</button>
-                <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="closeModal('login-modal')">ยกเลิก</button>
-            </div>
-        </div>
+  <!-- Main Content -->
+  <main>
+    <!-- Controls -->
+    <div class="controls-section">
+      <!-- Search -->
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" placeholder="ค้นหาชื่อเอกสาร..." onkeyup="handleSearch()">
+      </div>
+
+      <!-- Upload -->
+      <div class="upload-area" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <div id="uploadText">ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือก</div>
+        <div class="text-sm">รองรับไฟล์ PDF, DOCX, JPG (สูงสุด 10MB)</div>
+        <input type="file" id="fileInput" onchange="handleFileSelect(event)">
+      </div>
     </div>
 
-    <!-- Edit Document Modal -->
-    <div id="edit-modal" class="modal-overlay">
-        <div class="modal-box">
-            <h3 style="margin-bottom:1rem;">แก้ไขข้อมูลเอกสาร</h3>
-            <input type="hidden" id="edit-id">
-            <div class="form-group">
-                <label>ชื่อเอกสาร</label>
-                <input type="text" id="edit-title" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>หมวดหมู่</label>
-                <select id="edit-cat" class="form-control">
-                    <option value="แนวปฏิบัติ">แนวปฏิบัติ</option>
-                    <option value="เอกสารผู้ป่วย">เอกสารผู้ป่วย</option>
-                    <option value="เภสัชกรรม">เภสัชกรรม</option>
-                    <option value="ระเบียบ">ระเบียบ</option>
-                    <option value="อื่นๆ">อื่นๆ</option>
-                </select>
-            </div>
-            <div style="display:flex; gap:0.75rem; margin-top:2rem;">
-                <button class="btn btn-primary" style="flex:1; justify-content:center;" onclick="saveEdit()">บันทึกการแก้ไข</button>
-                <button class="btn btn-outline" style="flex:1; justify-content:center;" onclick="closeModal('edit-modal')">ปิด</button>
-            </div>
-        </div>
+    <!-- Table -->
+    <div class="card">
+      <div class="table-container">
+        <table id="docTable">
+          <thead>
+            <tr>
+              <th>ชื่อเอกสาร</th>
+              <th>วันที่อัปโหลด</th>
+              <th>ขนาด</th>
+              <th style="text-align: right;">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Rows will be injected by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="hidden" style="padding: 3rem; text-align: center; color: var(--text-muted);">
+        ไม่พบเอกสารในระบบ
+      </div>
     </div>
+  </main>
 
-    <!-- Sidebar -->
-    <aside id="sidebar">
-        <div class="brand">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-            PsyDocs Pro
-        </div>
-        <nav>
-            <ul>
-                <li><button class="nav-btn active" onclick="switchView('dashboard')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    ภาพรวม
-                </button></li>
-                <li><button class="nav-btn" onclick="switchView('repository')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    คลังเอกสาร
-                </button></li>
-                <li id="nav-upload" class="hidden"><button class="nav-btn" onclick="switchView('upload')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                    อัปโหลด
-                </button></li>
-                <li id="nav-settings" class="hidden"><button class="nav-btn" onclick="clearAllData()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    ล้างข้อมูลทั้งหมด
-                </button></li>
-            </ul>
-        </nav>
-        
-        <div class="storage-status">
-            <div style="display:flex; justify-content:space-between;">
-                <span>พื้นที่ใช้งาน</span>
-                <span id="storage-text">0%</span>
-            </div>
-            <div class="progress-bg">
-                <div id="storage-bar" class="progress-fill"></div>
-            </div>
-            <div style="margin-top:4px; font-size:0.7rem; color:var(--danger); display:none;" id="storage-warning">
-                ⚠️ เต็มแล้ว โปรดลบไฟล์เก่า
-            </div>
-        </div>
-    </aside>
+  <!-- Modals -->
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal">
+      <h3>เข้าสู่ระบบผู้ดูแลระบบ</h3>
+      <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #666;">กรุณาใส่รหัสผ่านเพื่อเปิดสิทธิ์การลบไฟล์</p>
+      <input type="password" id="adminPassword" placeholder="รหัสผ่าน">
+      <div class="modal-actions">
+        <button class="btn" style="background: #e5e7eb;" onclick="closeModal('loginModal')">ยกเลิก</button>
+        <button class="btn btn-primary" onclick="submitLogin()">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
 
-    <!-- Main Content -->
-    <main>
-        <header>
-            <div style="display:flex; align-items:center;">
-                <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
-                <h1 id="page-title">ภาพรวมระบบ</h1>
-            </div>
-            
-            <div class="user-menu">
-                <span id="user-badge" class="badge admin">ADMIN</span>
-                <button id="auth-btn" class="btn btn-outline btn-sm" onclick="openModal('login-modal')">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    Admin
-                </button>
-            </div>
-        </header>
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal-overlay">
+    <div class="modal">
+      <h3 style="color: var(--danger-color);">ยืนยันการลบไฟล์?</h3>
+      <p style="margin-bottom: 1rem; color: var(--text-muted);">คุณต้องการลบไฟล์ "<span id="deleteFileName" style="font-weight: bold;"></span>" ใช่หรือไม่</p>
+      <input type="password" id="deletePassword" placeholder="ยืนยันรหัสผ่านอีกครั้ง">
+      <div class="modal-actions">
+        <button class="btn" style="background: #e5e7eb;" onclick="closeModal('deleteModal')">ยกเลิก</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn" onclick="confirmDelete()">ลบไฟล์</button>
+      </div>
+    </div>
+  </div>
 
-        <!-- DASHBOARD VIEW -->
-        <section id="dashboard" class="view-section active">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">เอกสารทั้งหมด</div>
-                    <div class="stat-value" id="stat-total">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">ดาวน์โหลดสะสม</div>
-                    <div class="stat-value" style="color:var(--text);" id="stat-dl">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">ขนาดรวม</div>
-                    <div class="stat-value" style="font-size:1.5rem;" id="stat-size">0 MB</div>
-                </div>
-            </div>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
 
-            <div class="chart-container">
-                <h3 style="font-size:1rem; margin-bottom:1rem;">สัดส่วนเอกสารแยกตามหมวดหมู่</h3>
-                <div class="chart-bars" id="category-chart">
-                    <!-- Bars will be injected here via JS -->
-                    <div style="width:100%; text-align:center; color:var(--text-light);">ยังไม่มีข้อมูล</div>
-                </div>
-            </div>
-            
-            <h3 style="font-size:1.1rem; margin-bottom:1rem;">เอกสารล่าสุด</h3>
-            <div id="recent-grid" class="file-grid"></div>
-        </section>
+  <script>
+    // ==========================================
+    // CONFIGURATION
+    // ==========================================
+    // หากวางโค้ดนี้ใน Google Apps Script ให้เปลี่ยนเป็น false
+    // หากเปิดไฟล์นี้ในเบราว์เซอร์ธรรมดา (ทดสอบ UI) ให้เป็น true
+    const IS_DEMO_MODE = true; 
 
-        <!-- REPOSITORY VIEW -->
-        <section id="repository" class="view-section">
-            <div class="toolbar">
-                <div class="search-box">
-                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" id="search-input" placeholder="ค้นหาชื่อเอกสาร..." onkeyup="handleSearch()">
-                </div>
-                
-                <select id="filter-cat" class="form-control" style="width:140px;" onchange="handleSearch()">
-                    <option value="all">ทุกหมวดหมู่</option>
-                    <option value="แนวปฏิบัติ">แนวปฏิบัติ</option>
-                    <option value="เอกสารผู้ป่วย">เอกสารผู้ป่วย</option>
-                    <option value="เภสัชกรรม">เภสัชกรรม</option>
-                    <option value="ระเบียบ">ระเบียบ</option>
-                </select>
+    // State
+    let files = [];
+    let isAdmin = false;
+    let fileToDeleteId = null;
 
-                <select id="sort-by" class="form-control" style="width:130px;" onchange="handleSearch()">
-                    <option value="newest">ใหม่ล่าสุด</option>
-                    <option value="oldest">เก่าที่สุด</option>
-                    <option value="name">ชื่อ A-Z</option>
-                </select>
-            </div>
-            
-            <div id="repo-grid" class="file-grid"></div>
-            <div id="pagination" class="pagination"></div>
-        </section>
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchFiles();
+      setupDragAndDrop();
+    });
 
-        <!-- UPLOAD VIEW -->
-        <section id="upload" class="view-section">
-            <div class="upload-wrapper">
-                <!-- Drop Zone -->
-                <div class="upload-drop-area" id="drop-zone" 
-                     ondragover="event.preventDefault(); this.classList.add('dragover')" 
-                     ondragleave="this.classList.remove('dragover')" 
-                     ondrop="event.preventDefault(); this.classList.remove('dragover'); handleDrop(event)">
-                    
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" style="margin-bottom:1rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                    <div style="font-weight:600; font-size:1.1rem;">ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือก</div>
-                    <div style="font-size:0.85rem; color:var(--text-light); margin-top:0.5rem;">PDF, DOCX, TXT (Max 500KB/file)</div>
-                    
-                    <input type="file" id="file-input" style="display:none;" onchange="handleFileSelect(this)">
-                    
-                    <div id="preview-area" class="upload-preview hidden">
-                        <div style="font-weight:bold; color:var(--primary);" id="preview-name">filename.pdf</div>
-                        <div style="font-size:0.8rem; color:var(--text-light);" id="preview-size">0 KB</div>
-                    </div>
-                </div>
+    // ==========================================
+    // DATA HANDLING (MOCK vs REAL)
+    // ==========================================
+    function fetchFiles() {
+      if (IS_DEMO_MODE) {
+        // Mock Data
+        setTimeout(() => {
+          files = [
+            { id: '1', name: 'Project_Proposal.pdf', date: '2023-10-25T08:30:00.000Z', size: 2500000, url: '#', downloadUrl: '#' },
+            { id: '2', name: 'Meeting_Notes.docx', date: '2023-10-24T14:15:00.000Z', size: 45000, url: '#', downloadUrl: '#' },
+            { id: '3', name: 'Design_Assets.zip', date: '2023-10-23T09:00:00.000Z', size: 15000000, url: '#', downloadUrl: '#' }
+          ];
+          renderTable(files);
+        }, 500);
+      } else {
+        // Real GAS Call
+        google.script.run
+          .withSuccessHandler(renderTable)
+          .withFailureHandler(showError)
+          .getFiles();
+      }
+    }
 
-                <!-- Form -->
-                <div style="background:var(--surface); padding:1.5rem; border-radius:var(--radius); border:1px solid var(--border); height:fit-content;">
-                    <h3 style="margin-bottom:1.5rem;">รายละเอียดเอกสาร</h3>
-                    
-                    <div class="form-group">
-                        <label>ชื่อเอกสาร *</label>
-                        <input type="text" id="up-title" class="form-control" placeholder="ระบุชื่อที่ต้องการแสดง">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>หมวดหมู่ *</label>
-                        <select id="up-cat" class="form-control">
-                            <option value="แนวปฏิบัติ">แนวปฏิบัติ</option>
-                            <option value="เอกสารผู้ป่วย">เอกสารผู้ป่วย</option>
-                            <option value="เภสัชกรรม">เภสัชกรรม</option>
-                            <option value="ระเบียบ">ระเบียบ</option>
-                            <option value="อื่นๆ">อื่นๆ</option>
-                        </select>
-                    </div>
-
-                    <div style="background:#f0fdfa; padding:0.75rem; border-radius:6px; font-size:0.8rem; color:var(--primary-dark); margin-bottom:1.5rem; line-height:1.4;">
-                        ℹ️ ไฟล์จะถูกบีบอัดและจัดเก็บในเบราว์เซอร์ของคุณ ข้อมูลจะไม่หายแม้ปิดหน้าเว็บ (จนกว่าจะล้าง Cache)
-                    </div>
-
-                    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="submitUpload()">อัปโหลดเอกสาร</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        // --- CONFIGURATION ---
-        const CONFIG = {
-            adminPass: "admin",
-            itemsPerPage: 8,
-            maxFileSize: 500 * 1024, // 500KB
-            storageKey: 'psy_docs_v2'
-        };
-
-        // --- STATE MANAGEMENT ---
-        let state = {
-            user: 'guest', // guest | admin
-            docs: [],
-            totalDownloads: 0,
-            currentPage: 1,
-            filter: {
-                search: '',
-                category: 'all',
-                sort: 'newest'
-            }
-        };
-
-        // --- INITIALIZATION ---
-        window.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            updateStorageMeter();
-            renderAll();
+    function uploadFileToServer(base64, name, mime) {
+      if (IS_DEMO_MODE) {
+        // Mock Upload
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const newFile = {
+              id: Date.now().toString(),
+              name: name,
+              date: new Date().toISOString(),
+              size: Math.floor(Math.random() * 1000000),
+              url: '#',
+              downloadUrl: '#'
+            };
+            files.unshift(newFile); // Add to top
+            renderTable(files);
+            showToast('อัปโหลดเรียบร้อยแล้ว', 'success');
+            resolve();
+          }, 1500);
         });
+      } else {
+        // Real Upload
+        return new Promise((resolve, reject) => {
+          google.script.run
+            .withSuccessHandler((res) => {
+              if(res.success) {
+                files.unshift(res.fileData);
+                renderTable(files);
+                showToast(res.message, 'success');
+                resolve();
+              } else {
+                showToast(res.message, 'error');
+                reject();
+              }
+            })
+            .withFailureHandler((err) => {
+              showToast('เกิดข้อผิดพลาด: ' + err.message, 'error');
+              reject();
+            })
+            .uploadFile(base64, name, mime);
+        });
+      }
+    }
 
-        // --- DATA HANDLING ---
-        function loadData() {
-            try {
-                const raw = localStorage.getItem(CONFIG.storageKey);
-                if (raw) {
-                    const data = JSON.parse(raw);
-                    state.docs = data.docs || [];
-                    state.totalDownloads = data.totalDownloads || 0;
-                }
-            } catch (e) {
-                showToast('ข้อมูลเสียหาย กรุณาล้างข้อมูล', 'error');
-                console.error(e);
-            }
-            
-            // Seed data if empty
-            if (state.docs.length === 0) {
-                state.docs = [
-                    {id: 1, title: "คู่มือการใช้ยาจิตเวชฉบับย่อ", cat: "เภสัชกรรม", size: "120", date: new Date().toISOString(), dl: 0, content: null},
-                    {id: 2, title: "แบบประเมินโรคซึมเศร้า (PHQ-9)", cat: "แนวปฏิบัติ", size: "45", date: new Date().toISOString(), dl: 0, content: null}
-                ];
-                saveData();
-            }
-        }
-
-        function saveData() {
-            try {
-                const dataToSave = {
-                    docs: state.docs,
-                    totalDownloads: state.totalDownloads
-                };
-                localStorage.setItem(CONFIG.storageKey, JSON.stringify(dataToSave));
-                updateStorageMeter();
-                renderAll();
-            } catch (e) {
-                if (e.name === 'QuotaExceededError') {
-                    showToast('หน่วยความจำเต็ม! ไม่สามารถบันทึกได้', 'error');
-                } else {
-                    showToast('เกิดข้อผิดพลาดในการบันทึก', 'error');
-                }
-            }
-        }
-
-        function clearAllData() {
-            if(confirm("คำเตือน: การกระทำนี้จะลบเอกสารทั้งหมด ยืนยันหรือไม่?")) {
-                localStorage.removeItem(CONFIG.storageKey);
-                location.reload();
-            }
-        }
-
-        // --- UI RENDERING ---
-        function renderAll() {
-            renderStats();
-            renderChart();
-            renderRecent();
-            renderRepository();
-            updateAuthUI();
-        }
-
-        function renderStats() {
-            document.getElementById('stat-total').innerText = state.docs.length;
-            document.getElementById('stat-dl').innerText = state.totalDownloads;
-            
-            // Calc total size
-            const totalSize = state.docs.reduce((acc, doc) => acc + parseFloat(doc.size || 0), 0);
-            document.getElementById('stat-size').innerText = totalSize.toFixed(1) + " KB";
-        }
-
-        function renderChart() {
-            const categories = {};
-            state.docs.forEach(d => {
-                categories[d.cat] = (categories[d.cat] || 0) + 1;
-            });
-
-            const container = document.getElementById('category-chart');
-            container.innerHTML = '';
-            
-            const keys = Object.keys(categories);
-            if (keys.length === 0) {
-                container.innerHTML = '<div style="width:100%; text-align:center; color:var(--text-light);">ยังไม่มีข้อมูล</div>';
-                return;
-            }
-
-            const maxVal = Math.max(...Object.values(categories));
-            
-            keys.forEach(cat => {
-                const count = categories[cat];
-                const height = (count / maxVal) * 100;
-                
-                const group = document.createElement('div');
-                group.className = 'bar-group';
-                group.innerHTML = `
-                    <div class="bar" style="height:${height}%" title="${count} เอกสาร">
-                        <span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.7rem; color:var(--text);">${count}</span>
-                    </div>
-                    <div class="bar-label">${cat.substring(0,4)}..</div>
-                `;
-                container.appendChild(group);
-            });
-        }
-
-        function renderRecent() {
-            const recent = [...state.docs]
-                .sort((a,b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 4);
-            
-            const container = document.getElementById('recent-grid');
-            container.innerHTML = '';
-            recent.forEach(doc => container.appendChild(createFileCard(doc)));
-        }
-
-        function renderRepository() {
-            // Filter
-            let filtered = state.docs.filter(doc => {
-                const matchSearch = doc.title.toLowerCase().includes(state.filter.search.toLowerCase());
-                const matchCat = state.filter.category === 'all' || doc.cat === state.filter.category;
-                return matchSearch && matchCat;
-            });
-
-            // Sort
-            filtered.sort((a, b) => {
-                if (state.filter.sort === 'newest') return new Date(b.date) - new Date(a.date);
-                if (state.filter.sort === 'oldest') return new Date(a.date) - new Date(b.date);
-                if (state.filter.sort === 'name') return a.title.localeCompare(b.title, 'th');
-                return 0;
-            });
-
-            // Pagination
-            const totalPages = Math.ceil(filtered.length / CONFIG.itemsPerPage) || 1;
-            if (state.currentPage > totalPages) state.currentPage = totalPages;
-            
-            const start = (state.currentPage - 1) * CONFIG.itemsPerPage;
-            const pagedData = filtered.slice(start, start + CONFIG.itemsPerPage);
-
-            const container = document.getElementById('repo-grid');
-            container.innerHTML = '';
-
-            if (pagedData.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                        <p>ไม่พบเอกสารที่ค้นหา</p>
-                    </div>
-                `;
+    function deleteFileFromServer(id, password) {
+      if (IS_DEMO_MODE) {
+        // Mock Delete
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (password === 'admin123') {
+              files = files.filter(f => f.id !== id);
+              renderTable(files);
+              showToast('ลบไฟล์เรียบร้อยแล้ว', 'success');
+              resolve();
             } else {
-                pagedData.forEach(doc => container.appendChild(createFileCard(doc)));
+              showToast('รหัสผ่านไม่ถูกต้อง', 'error');
+              reject();
             }
+          }, 800);
+        });
+      } else {
+        // Real Delete
+        return new Promise((resolve, reject) => {
+          google.script.run
+            .withSuccessHandler((res) => {
+              if(res.success) {
+                files = files.filter(f => f.id !== id);
+                renderTable(files);
+                showToast(res.message, 'success');
+                resolve();
+              } else {
+                showToast(res.message, 'error');
+                reject();
+              }
+            })
+            .withFailureHandler((err) => {
+              showToast('เกิดข้อผิดพลาด', 'error');
+              reject();
+            })
+            .deleteFile(id, password);
+        });
+      }
+    }
 
-            renderPagination(totalPages);
-        }
+    // ==========================================
+    // UI RENDERING
+    // ==========================================
+    function renderTable(data) {
+      const tbody = document.getElementById('tableBody');
+      const emptyState = document.getElementById('emptyState');
+      tbody.innerHTML = '';
 
-        function renderPagination(totalPages) {
-            const container = document.getElementById('pagination');
-            container.innerHTML = '';
-            
-            if (totalPages <= 1) return;
+      if (data.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
 
-            // Prev
-            const prevBtn = document.createElement('button');
-            prevBtn.className = 'page-btn';
-            prevBtn.innerHTML = '&lt;';
-            prevBtn.disabled = state.currentPage === 1;
-            prevBtn.onclick = () => { state.currentPage--; renderRepository(); };
-            container.appendChild(prevBtn);
+      data.forEach(file => {
+        const tr = document.createElement('tr');
+        const dateStr = new Date(file.date).toLocaleDateString('th-TH', {
+          year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        const sizeStr = formatBytes(file.size);
 
-            // Numbers
-            for (let i = 1; i <= totalPages; i++) {
-                const btn = document.createElement('button');
-                btn.className = `page-btn ${i === state.currentPage ? 'active' : ''}`;
-                btn.innerText = i;
-                btn.onclick = () => { state.currentPage = i; renderRepository(); };
-                container.appendChild(btn);
-            }
+        // Delete Button (Only for Admin)
+        const deleteBtnHtml = isAdmin 
+          ? `<button class="btn btn-danger btn-icon" onclick="promptDelete('${file.id}', '${file.name}')" title="ลบไฟล์">
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+             </button>`
+          : '';
 
-            // Next
-            const nextBtn = document.createElement('button');
-            nextBtn.className = 'page-btn';
-            nextBtn.innerHTML = '&gt;';
-            nextBtn.disabled = state.currentPage === totalPages;
-            nextBtn.onclick = () => { state.currentPage++; renderRepository(); };
-            container.appendChild(nextBtn);
-        }
+        tr.innerHTML = `
+          <td>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              <div>
+                <div style="font-weight:500;">${file.name}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="text-sm">${dateStr}</span></td>
+          <td><span class="text-sm">${sizeStr}</span></td>
+          <td style="text-align: right;">
+            <a href="${file.downloadUrl}" target="_blank" class="action-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              ดาวน์โหลด
+            </a>
+            ${deleteBtnHtml}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
 
-        function createFileCard(doc) {
-            const div = document.createElement('div');
-            div.className = 'file-card';
-            
-            // Determine icon type
-            let ext = 'default';
-            if(doc.title) {
-                if(doc.title.endsWith('.pdf')) ext = 'pdf';
-                else if(doc.title.match(/\.docx?$/)) ext = 'doc';
-                else if(doc.title.endsWith('.txt')) ext = 'txt';
-            }
+    // ==========================================
+    // INTERACTION LOGIC
+    // ==========================================
+    function handleSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = files.filter(f => f.name.toLowerCase().includes(query));
+      renderTable(filtered);
+    }
 
-            // Admin actions
-            let actionBtns = '';
-            if (state.user === 'admin') {
-                actionBtns = `
-                    <button class="btn btn-outline btn-sm" title="แก้ไข" onclick="openEdit(${doc.id})">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    </button>
-                    <button class="btn btn-danger btn-sm" title="ลบ" onclick="deleteDoc(${doc.id})">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    </button>
-                `;
-            }
+    // File Upload
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) processFile(file);
+    }
 
-            div.innerHTML = `
-                <div class="file-icon ${ext}">${ext.toUpperCase()}</div>
-                <div class="file-info">
-                    <h3 title="${doc.title}">${doc.title}</h3>
-                    <div class="file-meta">
-                        <span>${doc.cat}</span>
-                        <span>${doc.size} KB</span>
-                    </div>
-                </div>
-                <div class="file-actions">
-                    <button class="btn btn-primary btn-sm" onclick="downloadDoc(${doc.id})">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Download
-                    </button>
-                    ${actionBtns}
-                </div>
-            `;
-            return div;
-        }
+    function setupDragAndDrop() {
+      const zone = document.getElementById('dropZone');
+      
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        zone.addEventListener(eventName, preventDefaults, false);
+      });
 
-        // --- INTERACTION LOGIC ---
-        function switchView(viewId) {
-            if (viewId === 'upload' && state.user !== 'admin') {
-                showToast('กรุณาเข้าสู่ระบบ Admin ก่อน', 'error');
-                openModal('login-modal');
-                return;
-            }
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
 
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.querySelector(`.nav-btn[onclick="switchView('${viewId}')"]`);
-            if (activeBtn) activeBtn.classList.add('active');
+      ['dragenter', 'dragover'].forEach(eventName => {
+        zone.addEventListener(eventName, () => zone.classList.add('dragover'), false);
+      });
 
-            // Set Title
-            const titles = {
-                'dashboard': 'ภาพรวมระบบ',
-                'repository': 'คลังเอกสาร',
-                'upload': 'อัปโหลดเอกสาร'
-            };
-            document.getElementById('page-title').innerText = titles[viewId];
+      ['dragleave', 'drop'].forEach(eventName => {
+        zone.addEventListener(eventName, () => zone.classList.remove('dragover'), false);
+      });
 
-            // Mobile sidebar auto close
-            if (window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('mobile-open');
-            }
-        }
+      zone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const file = dt.files[0];
+        processFile(file);
+      }, false);
+    }
 
-        function handleSearch() {
-            state.filter.search = document.getElementById('search-input').value;
-            state.filter.category = document.getElementById('filter-cat').value;
-            state.filter.sort = document.getElementById('sort-by').value;
-            state.currentPage = 1; // Reset to first page
-            renderRepository();
-        }
+    function processFile(file) {
+      // Simple validation
+      if (file.size > 10 * 1024 * 1024) { // 10MB limit
+        showToast('ขนาดไฟล์ใหญ่เกินไป (จำกัด 10MB)', 'error');
+        return;
+      }
 
-        // --- UPLOAD LOGIC ---
-        const dropZone = document.getElementById('drop-zone');
-        dropZone.onclick = (e) => {
-            if(e.target === dropZone || e.target.tagName === 'DIV' || e.target.tagName === 'SVG') {
-                document.getElementById('file-input').click();
-            }
-        };
+      const reader = new FileReader();
+      const uploadText = document.getElementById('uploadText');
+      
+      uploadText.innerHTML = '<div class="loading loading-dark"></div> กำลังอัปโหลด...';
+      
+      reader.onload = function(e) {
+        const base64Data = e.target.result.split(',')[1]; // Remove Data URI prefix
+        uploadFileToServer(base64Data, file.name, file.type)
+          .finally(() => {
+            uploadText.innerText = 'ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือก';
+            document.getElementById('fileInput').value = ''; // Reset input
+          });
+      };
+      
+      reader.readAsDataURL(file);
+    }
 
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if(files.length) processFile(files[0]);
-        }
+    // Auth Logic
+    function toggleAuth() {
+      if (isAdmin) {
+        // Logout
+        isAdmin = false;
+        document.getElementById('authBtn').innerText = 'เข้าสู่ระบบแอดมิน';
+        document.getElementById('adminBadge').style.display = 'none';
+        renderTable(files); // Re-render to hide delete buttons
+        showToast('ออกจากระบบแอดมินแล้ว', 'success');
+      } else {
+        // Show Login Modal
+        document.getElementById('loginModal').classList.add('active');
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+      }
+    }
 
-        function handleFileSelect(input) {
-            if(input.files && input.files[0]) processFile(input.files[0]);
-        }
+    function submitLogin() {
+      const pass = document.getElementById('adminPassword').value;
+      // Note: In real app, verification happens on server side. 
+      // Here we check locally for immediate UI feedback, or re-fetch from server if preferred.
+      // For this hybrid model, we'll just check a string.
+      if (pass === 'admin123') { // Hardcoded for demo, matches GS
+        isAdmin = true;
+        document.getElementById('authBtn').innerText = 'ออกจากระบบ';
+        document.getElementById('adminBadge').style.display = 'inline-block';
+        renderTable(files);
+        closeModal('loginModal');
+        showToast('เข้าสู่ระบบแอดมินสำเร็จ', 'success');
+      } else {
+        showToast('รหัสผ่านไม่ถูกต้อง', 'error');
+      }
+    }
 
-        function processFile(file) {
-            if (file.size > CONFIG.maxFileSize) {
-                showToast(`ไฟล์ใหญ่เกิน 500KB (ของคุณ ${(file.size/1024).toFixed(0)}KB)`, 'error');
-                return;
-            }
+    // Delete Logic
+    function promptDelete(id, name) {
+      fileToDeleteId = id;
+      document.getElementById('deleteFileName').innerText = name;
+      document.getElementById('deletePassword').value = '';
+      document.getElementById('deleteModal').classList.add('active');
+    }
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                state.pendingFile = {
-                    name: file.name,
-                    size: (file.size / 1024).toFixed(1),
-                    content: e.target.result
-                };
-                
-                // Update UI
-                document.getElementById('preview-name').innerText = file.name;
-                document.getElementById('preview-size').innerText = state.pendingFile.size + " KB";
-                document.getElementById('preview-area').classList.remove('hidden');
-                
-                // Auto fill title if empty
-                if(!document.getElementById('up-title').value) {
-                    document.getElementById('up-title').value = file.name.replace(/\.[^/.]+$/, ""); // remove extension
-                }
-            };
-            reader.readAsDataURL(file);
-        }
+    function confirmDelete() {
+      const pass = document.getElementById('deletePassword').value;
+      const btn = document.getElementById('confirmDeleteBtn');
+      
+      btn.innerHTML = '<div class="loading"></div> กำลังลบ...';
+      
+      deleteFileFromServer(fileToDeleteId, pass)
+        .then(() => closeModal('deleteModal'))
+        .finally(() => {
+          btn.innerText = 'ลบไฟล์';
+        });
+    }
 
-        function submitUpload() {
-            const title = document.getElementById('up-title').value.trim();
-            const cat = document.getElementById('up-cat').value;
+    // Utilities
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
 
-            if (!state.pendingFile) return showToast('กรุณาเลือกไฟล์ก่อน', 'error');
-            if (!title) return showToast('กรุณาระบุชื่อเอกสาร', 'error');
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      // Icon
+      let icon = '';
+      if (type === 'success') icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      else icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
 
-            const newDoc = {
-                id: Date.now(),
-                title: title,
-                cat: cat,
-                size: state.pendingFile.size,
-                date: new Date().toISOString(),
-                dl: 0,
-                content: state.pendingFile.content
-            };
+      toast.innerHTML = `${icon} <span>${message}</span>`;
+      container.appendChild(toast);
 
-            state.docs.unshift(newDoc); // Add to top
-            saveData();
-            
-            // Reset Form
-            document.getElementById('up-title').value = '';
-            document.getElementById('preview-area').classList.add('hidden');
-            document.getElementById('file-input').value = '';
-            state.pendingFile = null;
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
 
-            showToast('อัปโหลดเอกสารสำเร็จ!', 'success');
-            switchView('repository');
-        }
+    function showError(error) {
+      showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
+    }
 
-        // --- DOWNLOAD & DELETE ---
-        function downloadDoc(id) {
-            const doc = state.docs.find(d => d.id === id);
-            if (!doc) return;
-
-            if (!doc.content) {
-                showToast('ไฟล์นี้เป็นเพียงข้อมูลตัวอย่าง (ไม่มีไฟล์จริง)', 'error');
-                return;
-            }
-
-            // Create fake link
-            const link = document.createElement('a');
-            link.href = doc.content;
-            link.download = doc.title; // Browser will try to save as this name
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            // Update stats
-            doc.dl++;
-            state.totalDownloads++;
-            saveData();
-            showToast('เริ่มการดาวน์โหลด...', 'success');
-        }
-
-        function deleteDoc(id) {
-            if(!confirm('ต้องการลบเอกสารนี้ใช่หรือไม่?')) return;
-            
-            state.docs = state.docs.filter(d => d.id !== id);
-            saveData();
-            showToast('ลบเอกสารแล้ว', 'success');
-        }
-
-        // --- EDIT MODAL ---
-        function openEdit(id) {
-            const doc = state.docs.find(d => d.id === id);
-            if(!doc) return;
-
-            document.getElementById('edit-id').value = doc.id;
-            document.getElementById('edit-title').value = doc.title;
-            document.getElementById('edit-cat').value = doc.cat;
-            
-            openModal('edit-modal');
-        }
-
-        function saveEdit() {
-            const id = parseInt(document.getElementById('edit-id').value);
-            const title = document.getElementById('edit-title').value.trim();
-            const cat = document.getElementById('edit-cat').value;
-
-            if(!title) return showToast('ชื่อเอกสารห้ามว่าง', 'error');
-
-            const doc = state.docs.find(d => d.id === id);
-            if(doc) {
-                doc.title = title;
-                doc.cat = cat;
-                saveData();
-                closeModal('edit-modal');
-                showToast('แก้ไขข้อมูลสำเร็จ', 'success');
-            }
-        }
-
-        // --- AUTH SYSTEM ---
-        function checkAdmin() {
-            const pass = document.getElementById('admin-pass-input').value;
-            if(pass === CONFIG.adminPass) {
-                state.user = 'admin';
-                updateAuthUI();
-                closeModal('login-modal');
-                showToast('ยินดีต้อนรับ Admin', 'success');
-            } else {
-                showToast('รหัสผ่านไม่ถูกต้อง', 'error');
-                document.getElementById('admin-pass-input').value = '';
-            }
-        }
-
-        function updateAuthUI() {
-            if (state.user === 'admin') {
-                document.getElementById('user-badge').style.display = 'flex';
-                document.getElementById('auth-btn').style.display = 'none';
-                document.getElementById('nav-upload').classList.remove('hidden');
-                document.getElementById('nav-settings').classList.remove('hidden');
-            } else {
-                document.getElementById('user-badge').style.display = 'none';
-                document.getElementById('auth-btn').style.display = 'inline-flex';
-                document.getElementById('nav-upload').classList.add('hidden');
-                document.getElementById('nav-settings').classList.add('hidden');
-            }
-        }
-
-        // --- UTILS ---
-        function updateStorageMeter() {
-            let total = 0;
-            for (let x in localStorage) {
-                if (localStorage.hasOwnProperty(x)) {
-                    total += (localStorage[x].length + x.length) * 2;
-                }
-            }
-            // Assuming 5MB limit (common for LocalStorage)
-            const maxBytes = 5 * 1024 * 1024; 
-            const percentage = Math.min(100, Math.round((total / maxBytes) * 100));
-            
-            document.getElementById('storage-text').innerText = percentage + '%';
-            document.getElementById('storage-bar').style.width = percentage + '%';
-            
-            const warn = document.getElementById('storage-warning');
-            if (percentage > 80) {
-                document.getElementById('storage-bar').style.background = 'var(--danger)';
-                warn.style.display = 'block';
-            } else {
-                document.getElementById('storage-bar').style.background = 'var(--primary)';
-                warn.style.display = 'none';
-            }
-        }
-
-        function openModal(id) {
-            const m = document.getElementById(id);
-            m.classList.add('open');
-            if(id === 'login-modal') setTimeout(() => document.getElementById('admin-pass-input').focus(), 100);
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('open');
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            
-            let icon = '';
-            if(type === 'success') icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-            else if(type === 'error') icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
-            
-            toast.innerHTML = `${icon}<span>${message}</span>`;
-            
-            container.appendChild(toast);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
-                toast.style.transition = 'all 0.3s ease-in';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-    </script>
+    function formatBytes(bytes, decimals = 2) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+  </script>
 </body>
 </html>
