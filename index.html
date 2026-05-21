@@ -3,68 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบจัดการคะแนนแยกห้องและอนุมัติออนไลน์</title>
+    <title>ระบบบริหารจัดการและบันทึกคะแนนนักศึกษาออนไลน์</title>
     <style>
         :root { --primary: #2c3e50; --secondary: #34495e; --success: #27ae60; --danger: #e74c3c; --warning: #f39c12; --info: #3498db; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: #f4f7f6; padding: 20px; }
         .container { max-width: 1200px; margin: auto; }
         
-        /* Header & Navigation */
         header { background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 10px; }
         .bg-pending { background: var(--warning); color: white; }
         .bg-approved { background: var(--success); color: white; }
 
-        /* Card Styles */
         .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
         .tab-btn { padding: 10px 20px; cursor: pointer; border: none; background: none; font-weight: bold; color: #7f8c8d; }
         .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
 
-        /* Form Elements */
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
         input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 5px; }
         label { font-size: 13px; font-weight: bold; color: #555; }
-        .btn { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; }
         .btn-main { background: var(--primary); color: white; }
         .btn-success { background: var(--success); color: white; }
         .btn-danger { background: var(--danger); color: white; }
 
-        /* Table */
         .table-res { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
         th, td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; }
         th { background: #f8f9fa; }
-        .room-tag { background: #eee; padding: 2px 6px; border-radius: 3px; font-size: 11px; }
+        .room-tag { background: #eee; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; }
 
-        /* Auth Screen */
         .auth-box { max-width: 450px; margin: 80px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .hidden { display: none; }
+        .loading { text-align: center; padding: 20px; font-weight: bold; color: var(--info); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- AUTH SCREEN -->
     <div id="authPanel" class="auth-box">
-        <h2 style="text-align: center; margin-bottom: 20px;">🎓 ระบบบันทึกคะแนน</h2>
+        <h2 style="text-align: center; margin-bottom: 20px;">🎓 ระบบบันทึกคะแนนออนไลน์</h2>
         <div class="tabs">
             <button class="tab-btn active" onclick="setAuthMode('login')">เข้าสู่ระบบ</button>
             <button class="tab-btn" onclick="setAuthMode('reg')">ลงทะเบียนนศ.</button>
         </div>
 
         <div id="loginForm">
-            <label>รหัสนักศึกษา </label>
+            <label>รหัสนักศึกษา (หรือพิมพ์ 'admin' สำหรับครู)</label>
             <input type="text" id="loginId" placeholder="เลขทะเบียนนักศึกษา">
-            <button class="btn btn-main" style="width: 100%; margin-top: 20px;" onclick="handleLogin()">ยืนยัน</button>
+            <button class="btn btn-main" style="width: 100%; margin-top: 20px;" onclick="handleLogin()">เข้าสู่ระบบ</button>
         </div>
 
         <div id="regForm" class="hidden">
             <label>รหัสนักศึกษา</label>
             <input type="text" id="regId" placeholder="เช่น 66xxxxx">
             <label>ชื่อ-นามสกุล</label>
-            <input type="text" id="regName">
+            <input type="text" id="regName" placeholder="นาย/นางสาว...">
             <label>เลือกห้องเรียน</label>
             <select id="regRoom">
                 <option value="1">ห้องเรียน 1</option>
@@ -73,32 +68,32 @@
                 <option value="4">ห้องเรียน 4</option>
                 <option value="5">ห้องเรียน 5</option>
             </select>
-            <button class="btn btn-success" style="width: 100%; margin-top: 20px;" onclick="handleRegister()">ลงทะเบียนขอเข้าใช้งาน</button>
+            <button class="btn btn-success" style="width: 100%; margin-top: 20px;" onclick="handleRegister()">ส่งคำขอลงทะเบียน</button>
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <div id="mainPanel" class="hidden">
         <header>
             <div id="userInfo"></div>
             <button class="btn btn-danger" onclick="location.reload()">ออกจากระบบ</button>
         </header>
 
-        <!-- TEACHER AREA -->
+        <div id="loadingStatus" class="loading hidden">🔄 กำลังรับส่งข้อมูลกับฐานข้อมูลออนไลน์...</div>
+
         <div id="teacherArea" class="hidden">
             <div class="tabs">
-                <button class="tab-btn active" onclick="showTeacherTab('score')">📊 จัดการคะแนน</button>
-                <button class="tab-btn" onclick="showTeacherTab('approve')">🔔 อนุมัตินักศึกษา <span id="pendingCount" class="badge bg-pending">0</span></button>
+                <button class="tab-btn active" onclick="showTeacherTab('score')">📊 จัดการคะแนนแยกห้อง</button>
+                <button class="tab-btn" onclick="showTeacherTab('approve')">🔔 อนุมัตินักศึกษาออนไลน์ <span id="pendingCount" class="badge bg-pending">0</span></button>
             </div>
 
             <div id="scoreTab">
                 <div class="card">
-                    <h3>กรองข้อมูล / ส่งออก</h3>
+                    <h3>ตัวกรองห้องเรียน</h3>
                     <div class="form-grid" style="margin-top:10px;">
                         <div>
-                            <label>เลือกห้อง</label>
+                            <label>เลือกแสดงห้อง</label>
                             <select id="filterRoom" onchange="renderTeacherTable()">
-                                <option value="all">ทุกห้องเรียน</option>
+                                <option value="all">ทุกห้องเรียน (1-5)</option>
                                 <option value="1">ห้อง 1</option>
                                 <option value="2">ห้อง 2</option>
                                 <option value="3">ห้อง 3</option>
@@ -107,25 +102,27 @@
                             </select>
                         </div>
                         <div style="display:flex; align-items:flex-end;">
-                            <button class="btn btn-main" onclick="exportExcel()">📥 Download Excel (CSV)</button>
+                            <button class="btn btn-main" onclick="exportExcel()">📥 Export เป็นไฟล์ Excel (CSV)</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
+                    <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 10px;">💡 เกร็ด: เมื่อแก้ไขตัวเลขคะแนนในตาราง ระบบจะคำนวณเกรดและบันทึกออนไลน์ส่งตรงไปที่ Google Sheets ทันทีอัตโนมัติ</p>
                     <div class="table-res">
-                        <table id="mainTable">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>ห้อง</th>
-                                    <th>รหัส</th>
-                                    <th>ชื่อ</th>
-                                    <th>งาน(40)</th>
-                                    <th>กลาง(20)</th>
-                                    <th>ปลาย(20)</th>
-                                    <th>จิต(10)</th>
+                                    <th>รหัสนักศึกษา</th>
+                                    <th>ชื่อ-นามสกุล</th>
+                                    <th>งาน (40)</th>
+                                    <th>กลางภาค (20)</th>
+                                    <th>ปลายภาค (20)</th>
+                                    <th>จิตพิสัย (10)</th>
+                                    <th>รวม (100)</th>
                                     <th>เกรด</th>
-                                    <th>จัดการ</th>
+                                    <th>การจัดการ</th>
                                 </tr>
                             </thead>
                             <tbody id="teacherTableBody"></tbody>
@@ -136,7 +133,7 @@
 
             <div id="approveTab" class="hidden">
                 <div class="card">
-                    <h3>รายการรออนุมัติเข้าเรียน</h3>
+                    <h3>📥 รายการนักศึกษาที่ขอลงทะเบียนออนไลน์เข้ามาใหม่</h3>
                     <div class="table-res">
                         <table>
                             <thead>
@@ -144,7 +141,7 @@
                                     <th>ห้อง</th>
                                     <th>รหัสนักศึกษา</th>
                                     <th>ชื่อ-นามสกุล</th>
-                                    <th>การจัดการ</th>
+                                    <th>การจัดการคำร้อง</th>
                                 </tr>
                             </thead>
                             <tbody id="pendingTableBody"></tbody>
@@ -154,32 +151,39 @@
             </div>
         </div>
 
-        <!-- STUDENT AREA -->
         <div id="studentArea" class="hidden">
             <div id="approvedContent" class="hidden">
-                <div class="card" style="text-align: center;">
+                <div class="card" style="text-align: center; max-width: 600px; margin: auto;">
                     <h2 id="stName"></h2>
-                    <p id="stId"></p>
-                    <div style="font-size: 50px; margin: 20px 0; font-weight: bold;" id="stGrade">-</div>
+                    <p id="stId" style="color: #7f8c8d; margin-top: 5px;"></p>
+                    <div style="font-size: 60px; margin: 20px 0; font-weight: bold; color: var(--primary);" id="stGrade">-</div>
+                    <h3 style="margin-bottom: 15px;">รายละเอียดคะแนนดิบ</h3>
                     <div class="form-grid">
-                        <div class="card">งาน: <span id="s1"></span></div>
-                        <div class="card">กลาง: <span id="s2"></span></div>
-                        <div class="card">ปลาย: <span id="s3"></span></div>
-                        <div class="card">จิต: <span id="s4"></span></div>
+                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>คะแนนงาน</b><br><span id="s1" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 40</div>
+                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>กลางภาค</b><br><span id="s2" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 20</div>
+                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>ปลายภาค</b><br><span id="s3" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 20</div>
+                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>จิตพิสัย</b><br><span id="s4" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 10</div>
                     </div>
                 </div>
             </div>
-            <div id="pendingContent" class="card" style="text-align: center; padding: 50px;">
-                <h2 style="color: var(--warning);">⏳ อยู่ระหว่างรอคุณครูอนุมัติ</h2>
-                <p>ข้อมูลของคุณจะปรากฏที่นี่หลังจากได้รับการอนุมัติเข้าห้องเรียนแล้ว</p>
+            <div id="pendingContent" class="card" style="text-align: center; padding: 50px; max-width: 600px; margin: auto;">
+                <h2 style="color: var(--warning);">⏳ อยู่ระหว่างรอคุณครูตรวจสอบและอนุมัติ</h2>
+                <p style="margin-top: 10px; color: #555;">บัญชีของคุณส่งคำร้องสำเร็จแล้ว เมื่อคุณครูกดอนุมัติในหน้าแอดมิน คุณจึงจะสามารถเข้ามาดูคะแนนและผลการเรียนได้ครับ</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    let students = JSON.parse(localStorage.getItem('edu_db')) || [];
+    // 🔗 แก้ไขบรรทัดนี้: วาง URL เว็บแอปพลิเคชันจาก Google Apps Script ที่ช่องด้านล่างนี้แทนข้อความเดิม
+    const SCRIPT_URL = "วาง_URL_เว็บแอป_ที่คัดลอกมาตรงนี้";
+
+    let students = [];
     let currentUser = null;
+
+    function showLoading(status) {
+        document.getElementById('loadingStatus').classList.toggle('hidden', !status);
+    }
 
     function setAuthMode(mode) {
         document.getElementById('loginForm').classList.toggle('hidden', mode === 'reg');
@@ -188,33 +192,56 @@
         document.querySelectorAll('.tab-btn')[1].classList.toggle('active', mode === 'reg');
     }
 
-    function handleRegister() {
+    async function fetchDatabase() {
+        showLoading(true);
+        try {
+            const response = await fetch(SCRIPT_URL);
+            students = await response.json();
+        } catch (err) {
+            alert('ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาตรวจสอบ URL หรือสิทธิ์การเข้าถึง');
+        }
+        showLoading(false);
+    }
+
+    async function handleRegister() {
         const id = document.getElementById('regId').value.trim();
         const name = document.getElementById('regName').value.trim();
         const room = document.getElementById('regRoom').value;
 
-        if(!id || !name) return alert('กรุณากรอกข้อมูลให้ครบ');
-        if(students.find(s => s.id === id)) return alert('รหัสนี้มีในระบบแล้ว');
+        if(!id || !name) return alert('กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งข้อมูล');
+        
+        showLoading(true);
+        await fetchDatabase();
+        if(students.find(s => s.id === id)) {
+            showLoading(false);
+            return alert('รหัสนักศึกษานี้เคยลงทะเบียนเข้าระบบแล้ว');
+        }
 
-        students.push({
-            id, name, room, 
-            status: 'pending',
-            scores: { w:0, m:0, f:0, s:0 },
-            total: 0, grade: 'F'
-        });
-        saveDB();
-        alert('ส่งคำขอลงทะเบียนแล้ว กรุณาแจ้งครูให้กดอนุมัติ');
-        location.reload();
+        try {
+            await fetch(SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "register", id, name, room })
+            });
+            alert('ลงทะเบียนออนไลน์สำเร็จ! กรุณารอคุณครูกดอนุมัติเข้าห้องเรียน');
+            location.reload();
+        } catch(e) {
+            alert('เกิดข้อผิดพลาดในการลงทะเบียน');
+        }
+        showLoading(false);
     }
 
-    function handleLogin() {
+    async function handleLogin() {
         const id = document.getElementById('loginId').value.trim();
-        if(id === 'admin') {
-            currentUser = { role: 'teacher', name: 'คุณครู' };
+        if(!id) return alert('กรุณากรอกรหัสผู้ใช้งาน');
+
+        await fetchDatabase();
+
+        if(id.toLowerCase() === 'admin') {
+            currentUser = { role: 'teacher', name: 'คุณครูผู้ดูแลระบบ (Admin)' };
             showDashboard();
         } else {
             const student = students.find(s => s.id === id);
-            if(!student) return alert('ไม่พบรหัสนักศึกษา หรือ ยังไม่ได้ลงทะเบียน');
+            if(!student) return alert('ไม่พบรหัสนักศึกษานี้ในระบบออนไลน์ กรุณาลงทะเบียนก่อนครับ');
             currentUser = { role: 'student', data: student };
             showDashboard();
         }
@@ -223,7 +250,7 @@
     function showDashboard() {
         document.getElementById('authPanel').classList.add('hidden');
         document.getElementById('mainPanel').classList.remove('hidden');
-        document.getElementById('userInfo').innerHTML = `<b>ผู้ใช้:</b> ${currentUser.name || currentUser.data.name} `;
+        document.getElementById('userInfo').innerHTML = `<b>สถานะปัจจุบัน:</b> ${currentUser.name || currentUser.data.name} `;
         
         if(currentUser.role === 'teacher') {
             document.getElementById('teacherArea').classList.remove('hidden');
@@ -236,12 +263,15 @@
                 document.getElementById('pendingContent').classList.add('hidden');
                 const d = currentUser.data;
                 document.getElementById('stName').innerText = d.name;
-                document.getElementById('stId').innerText = `ห้อง ${d.room} | รหัส ${d.id}`;
-                document.getElementById('stGrade').innerText = `เกรด ${d.grade} (${d.total} คะแนน)`;
+                document.getElementById('stId').innerText = `ห้องเรียนที่: ${d.room} | รหัสนักศึกษา: ${d.id}`;
+                document.getElementById('stGrade').innerText = `เกรด ${d.grade}`;
                 document.getElementById('s1').innerText = d.scores.w;
                 document.getElementById('s2').innerText = d.scores.m;
                 document.getElementById('s3').innerText = d.scores.f;
                 document.getElementById('s4').innerText = d.scores.s;
+            } else {
+                document.getElementById('approvedContent').classList.add('hidden');
+                document.getElementById('pendingContent').classList.remove('hidden');
             }
         }
     }
@@ -251,25 +281,32 @@
         const tbody = document.getElementById('teacherTableBody');
         tbody.innerHTML = '';
 
-        students.filter(s => s.status === 'approved' && (filter === 'all' || s.room === filter))
-        .forEach(s => {
+        const approvedStudents = students.filter(s => s.status === 'approved' && (filter === 'all' || s.room === filter));
+        
+        if(approvedStudents.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="10" style="color:#7f8c8d; padding:20px;">ไม่มีข้อมูลนักศึกษาในห้องนี้</td></tr>`;
+            return;
+        }
+
+        approvedStudents.forEach(s => {
             tbody.innerHTML += `
                 <tr>
                     <td><span class="room-tag">ห้อง ${s.room}</span></td>
                     <td>${s.id}</td>
                     <td style="text-align:left;">${s.name}</td>
-                    <td><input type="number" value="${s.scores.w}" onchange="updateScore('${s.id}', 'w', this.value)" style="width:50px"></td>
-                    <td><input type="number" value="${s.scores.m}" onchange="updateScore('${s.id}', 'm', this.value)" style="width:50px"></td>
-                    <td><input type="number" value="${s.scores.f}" onchange="updateScore('${s.id}', 'f', this.value)" style="width:50px"></td>
-                    <td><input type="number" value="${s.scores.s}" onchange="updateScore('${s.id}', 's', this.value)" style="width:50px"></td>
-                    <td><b>${s.grade}</b></td>
-                    <td><button class="btn btn-danger" onclick="deleteUser('${s.id}')">ลบ</button></td>
+                    <td><input type="number" value="${s.scores.w}" onchange="updateScoreOnline('${s.id}', 'w', this.value)" style="width:55px; text-align:center;"></td>
+                    <td><input type="number" value="${s.scores.m}" onchange="updateScoreOnline('${s.id}', 'm', this.value)" style="width:55px; text-align:center;"></td>
+                    <td><input type="number" value="${s.scores.f}" onchange="updateScoreOnline('${s.id}', 'f', this.value)" style="width:55px; text-align:center;"></td>
+                    <td><input type="number" value="${s.scores.s}" onchange="updateScoreOnline('${s.id}', 's', this.value)" style="width:55px; text-align:center;"></td>
+                    <td><b style="color:var(--primary);">${s.total}</b></td>
+                    <td><b style="color:${s.grade === 'F' ? 'var(--danger)' : 'var(--success)'}">${s.grade}</b></td>
+                    <td><button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteUserOnline('${s.id}')">ลบ</button></td>
                 </tr>
             `;
         });
     }
 
-    function updateScore(id, type, val) {
+    async function updateScoreOnline(id, type, val) {
         const s = students.find(x => x.id === id);
         s.scores[type] = parseFloat(val) || 0;
         s.total = s.scores.w + s.scores.m + s.scores.f + s.scores.s;
@@ -280,7 +317,16 @@
         else if(s.total >= 50) s.grade = 'D';
         else s.grade = 'F';
 
-        saveDB();
+        showLoading(true);
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                action: "update", id: s.id, status: s.status,
+                w: s.scores.w, m: s.scores.m, f: s.scores.f, s: s.scores.s,
+                total: s.total, grade: s.grade
+            })
+        });
+        showLoading(false);
         renderTeacherTable();
     }
 
@@ -289,35 +335,55 @@
         document.getElementById('pendingCount').innerText = pending.length;
         const tbody = document.getElementById('pendingTableBody');
         tbody.innerHTML = '';
+        
+        if(pending.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="color:#7f8c8d; padding:20px;">ไม่มีรายการขออนุมัติค้างอยู่ในขณะนี้</td></tr>`;
+            return;
+        }
+
         pending.forEach(s => {
             tbody.innerHTML += `
                 <tr>
-                    <td>ห้อง ${s.room}</td>
+                    <td><span class="room-tag">ห้อง ${s.room}</span></td>
                     <td>${s.id}</td>
                     <td>${s.name}</td>
                     <td>
-                        <button class="btn btn-success" onclick="approve('${s.id}')">อนุมัติ</button>
-                        <button class="btn btn-danger" onclick="deleteUser('${s.id}')">ปฏิเสธ</button>
+                        <button class="btn btn-success" style="padding:4px 12px; font-size:12px; margin-right:5px;" onclick="approveOnline('${s.id}')">อนุมัติเข้าเรียน</button>
+                        <button class="btn btn-danger" style="padding:4px 12px; font-size:12px;" onclick="deleteUserOnline('${s.id}')">ปฏิเสธ</button>
                     </td>
                 </tr>
             `;
         });
     }
 
-    function approve(id) {
-        students.find(s => s.id === id).status = 'approved';
-        saveDB();
+    async function approveOnline(id) {
+        const s = students.find(x => x.id === id);
+        s.status = 'approved';
+        showLoading(true);
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                action: "update", id: s.id, status: "approved",
+                w: s.scores.w, m: s.scores.m, f: s.scores.f, s: s.scores.s,
+                total: s.total, grade: s.grade
+            })
+        });
+        showLoading(false);
         renderTeacherTable();
         renderPendingTable();
     }
 
-    function deleteUser(id) {
-        if(confirm('ยืนยันการลบข้อมูล?')) {
-            students = students.filter(s => s.id !== id);
-            saveDB();
-            renderTeacherTable();
-            renderPendingTable();
-        }
+    async function deleteUserOnline(id) {
+        if(!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบรายชื่อนักศึกษาคนนี้ออกจากระบบอย่างถาวร?')) return;
+        showLoading(true);
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "delete", id: id })
+        });
+        students = students.filter(s => s.id !== id);
+        showLoading(false);
+        renderTeacherTable();
+        renderPendingTable();
     }
 
     function showTeacherTab(tab) {
@@ -327,17 +393,15 @@
         document.querySelectorAll('.tab-btn')[3].classList.toggle('active', tab === 'approve');
     }
 
-    function saveDB() { localStorage.setItem('edu_db', JSON.stringify(students)); }
-
     function exportExcel() {
-        let csv = "\uFEFFห้อง,รหัส,ชื่อ,รวม,เกรด\n";
+        let csv = "\uFEFFห้อง,รหัสนักศึกษา,ชื่อ-นามสกุล,งาน(40),กลางภาค(20),ปลายภาค(20),จิตพิสัย(10),คะแนนรวม(100),เกรด\n";
         students.filter(s => s.status === 'approved').forEach(s => {
-            csv += `${s.room},${s.id},${s.name},${s.total},${s.grade}\n`;
+            csv += `${s.room},${s.id},${s.name},${s.scores.w},${s.scores.m},${s.scores.f},${s.scores.s},${s.total},${s.grade}\n`;
         });
         const blob = new Blob([csv], {type: 'text/csv;charset=utf-8'});
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = "คะแนนนักเรียน_แยกห้อง.csv";
+        link.download = "รายงานคะแนนสรุป_แยกห้องเรียน.csv";
         link.click();
     }
 </script>
