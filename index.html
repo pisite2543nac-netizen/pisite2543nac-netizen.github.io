@@ -1,587 +1,121 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document Dashboard</title>
-  <style>
-    /* CSS Variables & Reset */
-    :root {
-      --primary-color: #2563eb; /* Modern Blue */
-      --primary-hover: #1d4ed8;
-      --danger-color: #dc2626;
-      --success-color: #16a34a;
-      --bg-color: #f3f4f6;
-      --surface-color: #ffffff;
-      --text-main: #1f2937;
-      --text-muted: #6b7280;
-      --border-color: #e5e7eb;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --radius: 8px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบบันทึกคะแนนนักเรียน</title>
+    <style>
+        body { font-family: 'ChulaCharas', sans-serif; padding: 20px; background-color: #f4f7f6; color: #333; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+        
+        .input-form { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; align-items: end; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-size: 12px; margin-bottom: 5px; font-weight: bold; color: #7f8c8d; }
+        input { padding: 10px; border: 1px solid #dcdde1; border-radius: 6px; outline: none; }
+        input:focus { border-color: #3498db; }
+        
+        button { padding: 10px; cursor: pointer; background-color: #3498db; color: white; border: none; border-radius: 6px; font-weight: bold; transition: 0.3s; }
+        button:hover { background-color: #2980b9; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    
-    body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
-
-    /* Header */
-    header {
-      background-color: var(--surface-color);
-      padding: 1rem 2rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-    .brand { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem; }
-    .admin-badge { 
-      display: none; 
-      background: #dbeafe; 
-      color: #1e40af; 
-      padding: 0.25rem 0.75rem; 
-      border-radius: 9999px; 
-      font-size: 0.875rem; 
-      font-weight: 600;
-      margin-right: 1rem;
-    }
-
-    /* Main Layout */
-    main { flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: 2rem; }
-
-    /* Controls Section (Search & Upload) */
-    .controls-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    @media (max-width: 768px) { .controls-section { grid-template-columns: 1fr; } }
-
-    /* Search Box */
-    .search-box { position: relative; }
-    .search-box input {
-      width: 100%;
-      padding: 0.75rem 1rem 0.75rem 2.5rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .search-box input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-    .search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 20px; height: 20px; }
-
-    /* Upload Area */
-    .upload-area {
-      border: 2px dashed var(--border-color);
-      background-color: var(--surface-color);
-      border-radius: var(--radius);
-      padding: 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      color: var(--text-muted);
-    }
-    .upload-area:hover, .upload-area.dragover { border-color: var(--primary-color); background-color: #eff6ff; color: var(--primary-color); }
-    .upload-icon { width: 32px; height: 32px; margin-bottom: 0.5rem; }
-    #fileInput { display: none; }
-
-    /* Table Section */
-    .card { background: var(--surface-color); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-    .table-container { overflow-x: auto; width: 100%; }
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th { background-color: #f9fafb; padding: 1rem; font-weight: 600; color: var(--text-muted); font-size: 0.875rem; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
-    td { padding: 1rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; font-size: 0.95rem; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover { background-color: #f9fafb; }
-
-    /* Buttons & Actions */
-    .btn {
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: background 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-    .btn-primary { background-color: var(--primary-color); color: white; }
-    .btn-primary:hover { background-color: var(--primary-hover); }
-    .btn-danger { background-color: var(--danger-color); color: white; }
-    .btn-danger:hover { background-color: #b91c1c; }
-    .btn-icon { padding: 0.4rem; border-radius: 4px; }
-    
-    .action-link { color: var(--primary-color); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
-    .action-link:hover { text-decoration: underline; }
-
-    /* Modal */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center;
-      z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s;
-    }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    .modal { background: white; padding: 1.5rem; border-radius: var(--radius); width: 100%; max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); transform: scale(0.95); transition: transform 0.2s; }
-    .modal-overlay.active .modal { transform: scale(1); }
-    .modal h3 { margin-bottom: 1rem; color: var(--text-main); }
-    .modal input { width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 4px; margin-bottom: 1rem; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
-
-    /* Toast Notification */
-    .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 200; display: flex; flex-direction: column; gap: 10px; }
-    .toast {
-      background: white; padding: 1rem 1.5rem; border-radius: var(--radius); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-      border-left: 4px solid var(--primary-color); display: flex; align-items: center; gap: 10px;
-      animation: slideIn 0.3s ease-out forwards; min-width: 300px;
-    }
-    .toast.success { border-left-color: var(--success-color); }
-    .toast.error { border-left-color: var(--danger-color); }
-    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-    /* Utilities */
-    .hidden { display: none !important; }
-    .text-sm { font-size: 0.8rem; color: var(--text-muted); }
-    .loading { display: inline-block; width: 1rem; height: 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
-    .loading-dark { border-color: var(--border-color); border-top-color: var(--primary-color); }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; }
+        th { background-color: #f8f9fa; color: #2c3e50; font-weight: 600; }
+        .total-cell { font-weight: bold; color: #27ae60; }
+        .delete-btn { background-color: #e74c3c; padding: 5px 10px; font-size: 12px; }
+    </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="brand">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-      DocDashboard
-    </div>
-    <div style="display:flex; align-items:center;">
-      <span id="adminBadge" class="admin-badge">Admin Mode</span>
-      <button id="authBtn" class="btn btn-primary" onclick="toggleAuth()">
-        เข้าสู่ระบบแอดมิน
-      </button>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main>
-    <!-- Controls -->
-    <div class="controls-section">
-      <!-- Search -->
-      <div class="search-box">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="searchInput" placeholder="ค้นหาชื่อเอกสาร..." onkeyup="handleSearch()">
-      </div>
-
-      <!-- Upload -->
-      <div class="upload-area" id="dropZone" onclick="document.getElementById('fileInput').click()">
-        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-        <div id="uploadText">ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือก</div>
-        <div class="text-sm">รองรับไฟล์ PDF, DOCX, JPG (สูงสุด 10MB)</div>
-        <input type="file" id="fileInput" onchange="handleFileSelect(event)">
-      </div>
+<div class="container">
+    <h2>📊 ระบบบันทึกคะแนน (100 คะแนนเต็ม)</h2>
+    
+    <div class="input-form">
+        <div class="input-group">
+            <label>ชื่อ-นามสกุล</label>
+            <input type="text" id="name" placeholder="ชื่อนักเรียน">
+        </div>
+        <div class="input-group">
+            <label>งาน (40)</label>
+            <input type="number" id="work" max="40" placeholder="0-40">
+        </div>
+        <div class="input-group">
+            <label>กลางภาค (20)</label>
+            <input type="number" id="mid" max="20" placeholder="0-20">
+        </div>
+        <div class="input-group">
+            <label>ปลายภาค (20)</label>
+            <input type="number" id="final" max="20" placeholder="0-20">
+        </div>
+        <div class="input-group">
+            <label>จิตพิสัย (10)</label>
+            <input type="number" id="spirit" max="10" placeholder="0-10">
+        </div>
+        <button onclick="addScoreRow()">เพิ่มข้อมูล</button>
     </div>
 
-    <!-- Table -->
-    <div class="card">
-      <div class="table-container">
-        <table id="docTable">
-          <thead>
+    <table>
+        <thead>
             <tr>
-              <th>ชื่อเอกสาร</th>
-              <th>วันที่อัปโหลด</th>
-              <th>ขนาด</th>
-              <th style="text-align: right;">การจัดการ</th>
+                <th style="text-align: left;">ชื่อ-นามสกุล</th>
+                <th>งาน (40)</th>
+                <th>กลางภาค (20)</th>
+                <th>ปลายภาค (20)</th>
+                <th>จิตพิสัย (10)</th>
+                <th>รวม (100)</th>
+                <th>จัดการ</th>
             </tr>
-          </thead>
-          <tbody id="tableBody">
-            <!-- Rows will be injected by JS -->
-          </tbody>
-        </table>
-      </div>
-      <div id="emptyState" class="hidden" style="padding: 3rem; text-align: center; color: var(--text-muted);">
-        ไม่พบเอกสารในระบบ
-      </div>
-    </div>
-  </main>
+        </thead>
+        <tbody id="tableBody">
+            <!-- ข้อมูลจะแสดงที่นี่ -->
+        </tbody>
+    </table>
+</div>
 
-  <!-- Modals -->
-  <!-- Login Modal -->
-  <div id="loginModal" class="modal-overlay">
-    <div class="modal">
-      <h3>เข้าสู่ระบบผู้ดูแลระบบ</h3>
-      <p style="margin-bottom: 1rem; font-size: 0.9rem; color: #666;">กรุณาใส่รหัสผ่านเพื่อเปิดสิทธิ์การลบไฟล์</p>
-      <input type="password" id="adminPassword" placeholder="รหัสผ่าน">
-      <div class="modal-actions">
-        <button class="btn" style="background: #e5e7eb;" onclick="closeModal('loginModal')">ยกเลิก</button>
-        <button class="btn btn-primary" onclick="submitLogin()">ยืนยัน</button>
-      </div>
-    </div>
-  </div>
+<script>
+    function addScoreRow() {
+        const fields = ['name', 'work', 'mid', 'final', 'spirit'];
+        const values = {};
+        
+        // ดึงค่าและตรวจสอบความถูกต้อง
+        for (let id of fields) {
+            const el = document.getElementById(id);
+            if (!el.value && id !== 'name') values[id] = 0;
+            else values[id] = el.value;
+        }
 
-  <!-- Delete Confirmation Modal -->
-  <div id="deleteModal" class="modal-overlay">
-    <div class="modal">
-      <h3 style="color: var(--danger-color);">ยืนยันการลบไฟล์?</h3>
-      <p style="margin-bottom: 1rem; color: var(--text-muted);">คุณต้องการลบไฟล์ "<span id="deleteFileName" style="font-weight: bold;"></span>" ใช่หรือไม่</p>
-      <input type="password" id="deletePassword" placeholder="ยืนยันรหัสผ่านอีกครั้ง">
-      <div class="modal-actions">
-        <button class="btn" style="background: #e5e7eb;" onclick="closeModal('deleteModal')">ยกเลิก</button>
-        <button class="btn btn-danger" id="confirmDeleteBtn" onclick="confirmDelete()">ลบไฟล์</button>
-      </div>
-    </div>
-  </div>
+        if (!values.name) {
+            alert("กรุณากรอกชื่อนักเรียน");
+            return;
+        }
 
-  <!-- Toast Container -->
-  <div class="toast-container" id="toastContainer"></div>
+        // คำนวณคะแนนรวม
+        const total = parseFloat(values.work) + parseFloat(values.mid) + 
+                      parseFloat(values.final) + parseFloat(values.spirit);
 
-  <script>
-    // ==========================================
-    // CONFIGURATION
-    // ==========================================
-    // หากวางโค้ดนี้ใน Google Apps Script ให้เปลี่ยนเป็น false
-    // หากเปิดไฟล์นี้ในเบราว์เซอร์ธรรมดา (ทดสอบ UI) ให้เป็น true
-    const IS_DEMO_MODE = true; 
+        if (total > 100) {
+            alert("คะแนนรวมเกิน 100! กรุณาตรวจสอบข้อมูล");
+            return;
+        }
 
-    // State
-    let files = [];
-    let isAdmin = false;
-    let fileToDeleteId = null;
-
-    // ==========================================
-    // INITIALIZATION
-    // ==========================================
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchFiles();
-      setupDragAndDrop();
-    });
-
-    // ==========================================
-    // DATA HANDLING (MOCK vs REAL)
-    // ==========================================
-    function fetchFiles() {
-      if (IS_DEMO_MODE) {
-        // Mock Data
-        setTimeout(() => {
-          files = [
-            { id: '1', name: 'Project_Proposal.pdf', date: '2023-10-25T08:30:00.000Z', size: 2500000, url: '#', downloadUrl: '#' },
-            { id: '2', name: 'Meeting_Notes.docx', date: '2023-10-24T14:15:00.000Z', size: 45000, url: '#', downloadUrl: '#' },
-            { id: '3', name: 'Design_Assets.zip', date: '2023-10-23T09:00:00.000Z', size: 15000000, url: '#', downloadUrl: '#' }
-          ];
-          renderTable(files);
-        }, 500);
-      } else {
-        // Real GAS Call
-        google.script.run
-          .withSuccessHandler(renderTable)
-          .withFailureHandler(showError)
-          .getFiles();
-      }
-    }
-
-    function uploadFileToServer(base64, name, mime) {
-      if (IS_DEMO_MODE) {
-        // Mock Upload
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            const newFile = {
-              id: Date.now().toString(),
-              name: name,
-              date: new Date().toISOString(),
-              size: Math.floor(Math.random() * 1000000),
-              url: '#',
-              downloadUrl: '#'
-            };
-            files.unshift(newFile); // Add to top
-            renderTable(files);
-            showToast('อัปโหลดเรียบร้อยแล้ว', 'success');
-            resolve();
-          }, 1500);
-        });
-      } else {
-        // Real Upload
-        return new Promise((resolve, reject) => {
-          google.script.run
-            .withSuccessHandler((res) => {
-              if(res.success) {
-                files.unshift(res.fileData);
-                renderTable(files);
-                showToast(res.message, 'success');
-                resolve();
-              } else {
-                showToast(res.message, 'error');
-                reject();
-              }
-            })
-            .withFailureHandler((err) => {
-              showToast('เกิดข้อผิดพลาด: ' + err.message, 'error');
-              reject();
-            })
-            .uploadFile(base64, name, mime);
-        });
-      }
-    }
-
-    function deleteFileFromServer(id, password) {
-      if (IS_DEMO_MODE) {
-        // Mock Delete
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            if (password === 'admin123') {
-              files = files.filter(f => f.id !== id);
-              renderTable(files);
-              showToast('ลบไฟล์เรียบร้อยแล้ว', 'success');
-              resolve();
-            } else {
-              showToast('รหัสผ่านไม่ถูกต้อง', 'error');
-              reject();
-            }
-          }, 800);
-        });
-      } else {
-        // Real Delete
-        return new Promise((resolve, reject) => {
-          google.script.run
-            .withSuccessHandler((res) => {
-              if(res.success) {
-                files = files.filter(f => f.id !== id);
-                renderTable(files);
-                showToast(res.message, 'success');
-                resolve();
-              } else {
-                showToast(res.message, 'error');
-                reject();
-              }
-            })
-            .withFailureHandler((err) => {
-              showToast('เกิดข้อผิดพลาด', 'error');
-              reject();
-            })
-            .deleteFile(id, password);
-        });
-      }
-    }
-
-    // ==========================================
-    // UI RENDERING
-    // ==========================================
-    function renderTable(data) {
-      const tbody = document.getElementById('tableBody');
-      const emptyState = document.getElementById('emptyState');
-      tbody.innerHTML = '';
-
-      if (data.length === 0) {
-        emptyState.classList.remove('hidden');
-        return;
-      }
-      emptyState.classList.add('hidden');
-
-      data.forEach(file => {
-        const tr = document.createElement('tr');
-        const dateStr = new Date(file.date).toLocaleDateString('th-TH', {
-          year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-        const sizeStr = formatBytes(file.size);
-
-        // Delete Button (Only for Admin)
-        const deleteBtnHtml = isAdmin 
-          ? `<button class="btn btn-danger btn-icon" onclick="promptDelete('${file.id}', '${file.name}')" title="ลบไฟล์">
-               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-             </button>`
-          : '';
-
-        tr.innerHTML = `
-          <td>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              <div>
-                <div style="font-weight:500;">${file.name}</div>
-              </div>
-            </div>
-          </td>
-          <td><span class="text-sm">${dateStr}</span></td>
-          <td><span class="text-sm">${sizeStr}</span></td>
-          <td style="text-align: right;">
-            <a href="${file.downloadUrl}" target="_blank" class="action-link">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              ดาวน์โหลด
-            </a>
-            ${deleteBtnHtml}
-          </td>
+        const tbody = document.getElementById('tableBody');
+        const row = tbody.insertRow();
+        
+        row.innerHTML = `
+            <td style="text-align: left;">${values.name}</td>
+            <td>${values.work}</td>
+            <td>${values.mid}</td>
+            <td>${values.final}</td>
+            <td>${values.spirit}</td>
+            <td class="total-cell">${total}</td>
+            <td><button class="delete-btn" onclick="this.parentElement.parentElement.remove()">ลบ</button></td>
         `;
-        tbody.appendChild(tr);
-      });
+
+        // ล้างข้อมูลหลังบันทึก
+        fields.forEach(id => document.getElementById(id).value = '');
+        document.getElementById('name').focus();
     }
+</script>
 
-    // ==========================================
-    // INTERACTION LOGIC
-    // ==========================================
-    function handleSearch() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = files.filter(f => f.name.toLowerCase().includes(query));
-      renderTable(filtered);
-    }
-
-    // File Upload
-    function handleFileSelect(event) {
-      const file = event.target.files[0];
-      if (file) processFile(file);
-    }
-
-    function setupDragAndDrop() {
-      const zone = document.getElementById('dropZone');
-      
-      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        zone.addEventListener(eventName, preventDefaults, false);
-      });
-
-      function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
-      ['dragenter', 'dragover'].forEach(eventName => {
-        zone.addEventListener(eventName, () => zone.classList.add('dragover'), false);
-      });
-
-      ['dragleave', 'drop'].forEach(eventName => {
-        zone.addEventListener(eventName, () => zone.classList.remove('dragover'), false);
-      });
-
-      zone.addEventListener('drop', (e) => {
-        const dt = e.dataTransfer;
-        const file = dt.files[0];
-        processFile(file);
-      }, false);
-    }
-
-    function processFile(file) {
-      // Simple validation
-      if (file.size > 10 * 1024 * 1024) { // 10MB limit
-        showToast('ขนาดไฟล์ใหญ่เกินไป (จำกัด 10MB)', 'error');
-        return;
-      }
-
-      const reader = new FileReader();
-      const uploadText = document.getElementById('uploadText');
-      
-      uploadText.innerHTML = '<div class="loading loading-dark"></div> กำลังอัปโหลด...';
-      
-      reader.onload = function(e) {
-        const base64Data = e.target.result.split(',')[1]; // Remove Data URI prefix
-        uploadFileToServer(base64Data, file.name, file.type)
-          .finally(() => {
-            uploadText.innerText = 'ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือก';
-            document.getElementById('fileInput').value = ''; // Reset input
-          });
-      };
-      
-      reader.readAsDataURL(file);
-    }
-
-    // Auth Logic
-    function toggleAuth() {
-      if (isAdmin) {
-        // Logout
-        isAdmin = false;
-        document.getElementById('authBtn').innerText = 'เข้าสู่ระบบแอดมิน';
-        document.getElementById('adminBadge').style.display = 'none';
-        renderTable(files); // Re-render to hide delete buttons
-        showToast('ออกจากระบบแอดมินแล้ว', 'success');
-      } else {
-        // Show Login Modal
-        document.getElementById('loginModal').classList.add('active');
-        document.getElementById('adminPassword').value = '';
-        document.getElementById('adminPassword').focus();
-      }
-    }
-
-    function submitLogin() {
-      const pass = document.getElementById('adminPassword').value;
-      // Note: In real app, verification happens on server side. 
-      // Here we check locally for immediate UI feedback, or re-fetch from server if preferred.
-      // For this hybrid model, we'll just check a string.
-      if (pass === 'admin123') { // Hardcoded for demo, matches GS
-        isAdmin = true;
-        document.getElementById('authBtn').innerText = 'ออกจากระบบ';
-        document.getElementById('adminBadge').style.display = 'inline-block';
-        renderTable(files);
-        closeModal('loginModal');
-        showToast('เข้าสู่ระบบแอดมินสำเร็จ', 'success');
-      } else {
-        showToast('รหัสผ่านไม่ถูกต้อง', 'error');
-      }
-    }
-
-    // Delete Logic
-    function promptDelete(id, name) {
-      fileToDeleteId = id;
-      document.getElementById('deleteFileName').innerText = name;
-      document.getElementById('deletePassword').value = '';
-      document.getElementById('deleteModal').classList.add('active');
-    }
-
-    function confirmDelete() {
-      const pass = document.getElementById('deletePassword').value;
-      const btn = document.getElementById('confirmDeleteBtn');
-      
-      btn.innerHTML = '<div class="loading"></div> กำลังลบ...';
-      
-      deleteFileFromServer(fileToDeleteId, pass)
-        .then(() => closeModal('deleteModal'))
-        .finally(() => {
-          btn.innerText = 'ลบไฟล์';
-        });
-    }
-
-    // Utilities
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
-    }
-
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      
-      // Icon
-      let icon = '';
-      if (type === 'success') icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-      else icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
-
-      toast.innerHTML = `${icon} <span>${message}</span>`;
-      container.appendChild(toast);
-
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
-    }
-
-    function showError(error) {
-      showToast('เกิดข้อผิดพลาด: ' + error.message, 'error');
-    }
-
-    function formatBytes(bytes, decimals = 2) {
-      if (bytes === 0) return '0 Bytes';
-      const k = 1024;
-      const dm = decimals < 0 ? 0 : decimals;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-    }
-  </script>
 </body>
 </html>
