@@ -3,119 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบบันทึกคะแนนนักเรียน</title>
+    <title>ระบบบริหารจัดการและบันทึกคะแนนนักศึกษา</title>
     <style>
-        body { font-family: 'ChulaCharas', sans-serif; padding: 20px; background-color: #f4f7f6; color: #333; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        h2 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; color: #333; padding: 20px; }
+        .container { max-width: 1100px; margin: auto; }
         
-        .input-form { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; align-items: end; }
-        .input-group { display: flex; flex-direction: column; }
-        label { font-size: 12px; margin-bottom: 5px; font-weight: bold; color: #7f8c8d; }
-        input { padding: 10px; border: 1px solid #dcdde1; border-radius: 6px; outline: none; }
-        input:focus { border-color: #3498db; }
-        
-        button { padding: 10px; cursor: pointer; background-color: #3498db; color: white; border: none; border-radius: 6px; font-weight: bold; transition: 0.3s; }
-        button:hover { background-color: #2980b9; }
+        /* Navigation & Header */
+        header { background: #2c3e50; color: white; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 20px; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+        .badge-teacher { background: #e74c3c; color: white; }
+        .badge-student { background: #3498db; color: white; }
+        .logout-btn { background: #7f8c8d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        .logout-btn:hover { background: #95a5a6; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; }
-        th { background-color: #f8f9fa; color: #2c3e50; font-weight: 600; }
-        .total-cell { font-weight: bold; color: #27ae60; }
-        .delete-btn { background-color: #e74c3c; padding: 5px 10px; font-size: 12px; }
+        /* Auth Screen */
+        .auth-card { background: white; max-width: 400px; margin: 100px auto; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .auth-card h2 { margin-bottom: 20px; text-align: center; color: #2c3e50; }
+        .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #ddd; }
+        .tab { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; color: #7f8c8d; }
+        .tab.active { color: #2c3e50; border-bottom: 2px solid #2c3e50; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: bold; color: #555; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .auth-btn { width: 100%; padding: 10px; background: #2c3e50; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .auth-btn:hover { background: #1a252f; }
+        .toggle-auth { text-align: center; margin-top: 15px; font-size: 14px; color: #3498db; cursor: pointer; }
+
+        /* Dashboard Main Layout */
+        .dashboard { display: none; }
+        .visible { display: block; }
+        
+        /* Teacher Sections */
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+        @media(min-width: 768px) { .grid-2 { grid-template-columns: 1fr 2fr; } }
+        
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card h3 { margin-bottom: 15px; color: #2c3e50; border-left: 4px solid #2c3e50; padding-left: 10px; }
+        
+        .score-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        /* Table Styles */
+        .table-responsive { overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; color: #2c3e50; font-weight: bold; }
+        tr:hover { background: #f1f2f6; }
+        
+        /* Action Buttons */
+        .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-success:hover { background: #219653; }
+        .btn-excel { background: #1f7246; color: white; margin-bottom: 15px; }
+        .btn-excel:hover { background: #154c2e; }
+        .btn-danger { background: #e74c3c; color: white; padding: 4px 8px; font-size: 12px; }
+        .btn-danger:hover { background: #c0392b; }
+        
+        /* Badges for Grades */
+        .grade-tag { font-weight: bold; padding: 3px 8px; border-radius: 4px; }
+        .grade-A { background: #d4edda; color: #155724; }
+        .grade-B { background: #cce5ff; color: #004085; }
+        .grade-C { background: #fff3cd; color: #856404; }
+        .grade-D { background: #e2e3e5; color: #383d41; }
+        .grade-F { background: #f8d7da; color: #721c24; }
+        
+        /* Student View Specific */
+        .student-profile { text-align: center; padding: 20px 0; }
+        .student-score-large { font-size: 48px; font-weight: bold; color: #2c3e50; margin: 10px 0; }
+        .student-grade-large { font-size: 64px; font-weight: bold; display: inline-block; margin-top: 10px; padding: 10px 30px; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>📊 ระบบบันทึกคะแนน (100 คะแนนเต็ม)</h2>
-    
-    <div class="input-form">
-        <div class="input-group">
-            <label>ชื่อ-นามสกุล</label>
-            <input type="text" id="name" placeholder="ชื่อนักเรียน">
+    <div id="authScreen" class="auth-card">
+        <h2 id="authTitle">เข้าสู่ระบบ</h2>
+        <div class="tabs" id="authTabs">
+            <div class="tab active" onclick="switchTab('login')">เข้าสู่ระบบ</div>
+            <div class="tab" onclick="switchTab('register')">ลงทะเบียนนักศึกษา</div>
         </div>
-        <div class="input-group">
-            <label>งาน (40)</label>
-            <input type="number" id="work" max="40" placeholder="0-40">
+        
+        <div class="form-group">
+            <label for="roleSelect">ประเภทผู้ใช้งาน</label>
+            <select id="roleSelect" onchange="handleRoleChange()">
+                <option value="student">นักศึกษา (Student)</option>
+                <option value="teacher">อาจารย์ผู้สอน (Admin/Teacher)</option>
+            </select>
         </div>
-        <div class="input-group">
-            <label>กลางภาค (20)</label>
-            <input type="number" id="mid" max="20" placeholder="0-20">
+
+        <div class="form-group" id="studentIdGroup">
+            <label for="authStudentId">รหัสนักศึกษา</label>
+            <input type="text" id="authStudentId" placeholder="เช่น 66010916001">
         </div>
-        <div class="input-group">
-            <label>ปลายภาค (20)</label>
-            <input type="number" id="final" max="20" placeholder="0-20">
+
+        <div class="form-group" id="nameGroup" style="display: none;">
+            <label for="authName">ชื่อ-นามสกุล</label>
+            <input type="text" id="authName" placeholder="เช่น นายสมชาย ใจดี">
         </div>
-        <div class="input-group">
-            <label>จิตพิสัย (10)</label>
-            <input type="number" id="spirit" max="10" placeholder="0-10">
+
+        <div class="form-group" id="passwordGroup" style="display: none;">
+            <label for="authPassword">รหัสผ่านสำหรับอาจารย์</label>
+            <input type="password" id="authPassword" placeholder="ใช้คำว่า admin เพื่อทดสอบ">
         </div>
-        <button onclick="addScoreRow()">เพิ่มข้อมูล</button>
+
+        <button class="auth-btn" id="submitAuthBtn" onclick="handleAuth()">ตกลง</button>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th style="text-align: left;">ชื่อ-นามสกุล</th>
-                <th>งาน (40)</th>
-                <th>กลางภาค (20)</th>
-                <th>ปลายภาค (20)</th>
-                <th>จิตพิสัย (10)</th>
-                <th>รวม (100)</th>
-                <th>จัดการ</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <!-- ข้อมูลจะแสดงที่นี่ -->
-        </tbody>
-    </table>
-</div>
+    <div id="dashboardScreen" class="dashboard container">
+        <header>
+            <h1 id="headerTitle">ระบบจัดการผลการเรียน</h1>
+            <div class="user-info">
+                <span id="userDisplay"></span>
+                <span id="roleBadge" class="badge"></span>
+                <button class="logout-btn" onclick="logout()">ออกจากระบบ</button>
+            </div>
+        </header>
 
-<script>
-    function addScoreRow() {
-        const fields = ['name', 'work', 'mid', 'final', 'spirit'];
-        const values = {};
-        
-        // ดึงค่าและตรวจสอบความถูกต้อง
-        for (let id of fields) {
-            const el = document.getElementById(id);
-            if (!el.value && id !== 'name') values[id] = 0;
-            else values[id] = el.value;
+        <div id="teacherView" style="display: none;">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>กรอก/แก้ไขคะแนน</h3>
+                    <div class="form-group">
+                        <label>เลือกนักศึกษาที่ลงทะเบียนแล้ว</label>
+                        <select id="scoreStudentSelect">
+                            <option value="">-- เลือกนักศึกษา --</option>
+                        </select>
+                    </div>
+                    <div class="score-inputs">
+                        <div class="form-group">
+                            <label>คะแนนงาน (40)</label>
+                            <input type="number" id="scoreWork" max="40" min="0" placeholder="0-40">
+                        </div>
+                        <div class="form-group">
+                            <label>สอบกลางภาค (20)</label>
+                            <input type="number" id="scoreMid" max="20" min="0" placeholder="0-20">
+                        </div>
+                        <div class="form-group">
+                            <label>สอบปลายภาค (20)</label>
+                            <input type="number" id="scoreFinal" max="20" min="0" placeholder="0-20">
+                        </div>
+                        <div class="form-group">
+                            <label>จิตพิสัย (10)</label>
+                            <input type="number" id="scoreSpirit" max="10" min="0" placeholder="0-10">
+                        </div>
+                    </div>
+                    <button class="btn btn-success" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="saveScore()">
+                        💾 บันทึกและคำนวณคะแนน
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h3>📊 ตารางคะแนนและเกรดทั้งหมด</h3>
+                    <button class="btn btn-excel" onclick="exportToExcel()">📥 Export เป็น Excel (CSV)</button>
+                    
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>รหัสนักศึกษา</th>
+                                    <th>ชื่อ-นามสกุล</th>
+                                    <th>งาน (40)</th>
+                                    <th>กลางภาค (20)</th>
+                                    <th>ปลายภาค (20)</th>
+                                    <th>จิต (10)</th>
+                                    <th>รวม (100)</th>
+                                    <th>เกรด</th>
+                                    <th>จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scoreTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="studentView" style="display: none;">
+            <div class="card" style="max-width: 600px; margin: auto; text-align: center;">
+                <div class="student-profile">
+                    <h2 id="stProfileName">นักศึกษา</h2>
+                    <p id="stProfileId" style="color: #7f8c8d; margin-top: 5px;"></p>
+                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                    
+                    <h3>ผลการเรียนของคุณ</h3>
+                    <div class="student-score-large"><span id="stTotalScore">-</span> <span style="font-size: 20px; color: #7f8c8d;">/ 100 คะแนน</span></div>
+                    
+                    <div id="stGradeBadge" class="student-grade-large grade-tag">รอผลการเรียน</div>
+
+                    <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left;">
+                        <div class="card" style="background: #f8f9fa;"><strong>คะแนนงาน:</strong> <span id="stWork">-</span> / 40</div>
+                        <div class="card" style="background: #f8f9fa;"><strong>กลางภาค:</strong> <span id="stMid">-</span> / 20</div>
+                        <div class="card" style="background: #f8f9fa;"><strong>ปลายภาค:</strong> <span id="stFinal">-</span> / 20</div>
+                        <div class="card" style="background: #f8f9fa;"><strong>จิตพิสัย:</strong> <span id="stSpirit">-</span> / 10</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // โครงสร้างฐานข้อมูลจำลอง (ดึงจาก LocalStorage)
+        let students = JSON.parse(localStorage.getItem('db_students')) || [];
+        let currentMode = 'login'; 
+        let currentUser = null;
+
+        function init() {
+            handleRoleChange();
+            checkSession();
         }
 
-        if (!values.name) {
-            alert("กรุณากรอกชื่อนักเรียน");
-            return;
+        function switchTab(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if(mode === 'login') {
+                document.getElementById('authTabs').children[0].classList.add('active');
+                document.getElementById('authTitle').innerText = 'เข้าสู่ระบบ';
+                document.getElementById('submitAuthBtn').innerText = 'เข้าสู่ระบบ';
+                document.getElementById('nameGroup').style.display = 'none';
+            } else {
+                document.getElementById('authTabs').children[1].classList.add('active');
+                document.getElementById('authTitle').innerText = 'ลงทะเบียนนักศึกษาใหม่';
+                document.getElementById('submitAuthBtn').innerText = 'ลงทะเบียน';
+                document.getElementById('roleSelect').value = 'student';
+                handleRoleChange();
+            }
         }
 
-        // คำนวณคะแนนรวม
-        const total = parseFloat(values.work) + parseFloat(values.mid) + 
-                      parseFloat(values.final) + parseFloat(values.spirit);
-
-        if (total > 100) {
-            alert("คะแนนรวมเกิน 100! กรุณาตรวจสอบข้อมูล");
-            return;
+        function handleRoleChange() {
+            const role = document.getElementById('roleSelect').value;
+            if (role === 'teacher') {
+                document.getElementById('studentIdGroup').style.display = 'none';
+                document.getElementById('passwordGroup').style.display = 'block';
+                document.getElementById('nameGroup').style.display = 'none';
+                if(currentMode === 'register') switchTab('login');
+                document.getElementById('authTabs').style.visibility = 'hidden';
+            } else {
+                document.getElementById('studentIdGroup').style.display = 'block';
+                document.getElementById('passwordGroup').style.display = 'none';
+                document.getElementById('authTabs').style.visibility = 'visible';
+                document.getElementById('nameGroup').style.display = (currentMode === 'register') ? 'block' : 'none';
+            }
         }
 
-        const tbody = document.getElementById('tableBody');
-        const row = tbody.insertRow();
-        
-        row.innerHTML = `
-            <td style="text-align: left;">${values.name}</td>
-            <td>${values.work}</td>
-            <td>${values.mid}</td>
-            <td>${values.final}</td>
-            <td>${values.spirit}</td>
-            <td class="total-cell">${total}</td>
-            <td><button class="delete-btn" onclick="this.parentElement.parentElement.remove()">ลบ</button></td>
-        `;
+        function handleAuth() {
+            const role = document.getElementById('roleSelect').value;
+            
+            if (role === 'teacher') {
+                const pass = document.getElementById('authPassword').value;
+                if(pass === 'admin') { // รหัสผ่านครูเริ่มต้น
+                    currentUser = { role: 'teacher', name: 'อาจารย์ผู้ควบคุมระบบ' };
+                    sessionStorage.setItem('session_user', JSON.stringify(currentUser));
+                    renderDashboard();
+                } else {
+                    alert('รหัสผ่านอาจารย์ไม่ถูกต้อง! (ใส่คำว่า admin)');
+                }
+            } else {
+                const studentId = document.getElementById('authStudentId').value.trim();
+                if(!studentId) return alert('กรุณากรอกรหัสนักศึกษา');
 
-        // ล้างข้อมูลหลังบันทึก
-        fields.forEach(id => document.getElementById(id).value = '');
-        document.getElementById('name').focus();
-    }
-</script>
+                if (currentMode === 'register') {
+                    const name = document.getElementById('authName').value.trim();
+                    if(!name) return alert('กรุณากรอกชื่อ-นามสกุล');
+                    
+                    if(students.some(s => s.id === studentId)) {
+                        return alert('รหัสนักศึกษานี้เคยลงทะเบียนแล้ว');
+                    }
 
+                    const newStudent = {
+                        id: studentId,
+                        name: name,
+                        scores: { work: 0, mid: 0, final: 0, spirit: 0 },
+                        total: 0,
+                        grade: 'F'
+                    };
+                    students.push(newStudent);
+                    localStorage.setItem('db_students', JSON.stringify(students));
+                    alert('ลงทะเบียนสำเร็จ!');
+                    currentUser = { role: 'student', id: studentId, name: name };
+                    sessionStorage.setItem('session_user', JSON.stringify(currentUser));
+                    renderDashboard();
+                } else {
+                    const student = students.find(s => s.id === studentId);
+                    if(student) {
+                        currentUser = { role: 'student', id: student.id, name: student.name };
+                        sessionStorage.setItem('session_user', JSON.stringify(currentUser));
+                        renderDashboard();
+                    } else {
+                        alert('ไม่พบรหัสนักศึกษาในระบบ กรุณาเลือกแท็บ "ลงทะเบียนนักศึกษา" ก่อน');
+                    }
+                }
+            }
+        }
+
+        function calculateGrade(total) {
+            if (total >= 80) return 'A';
+            if (total >= 70) return 'B';
+            if (total >= 60) return 'C';
+            if (total >= 50) return 'D';
+            return 'F';
+        }
+
+        function checkSession() {
+            const session = sessionStorage.getItem('session_user');
+            if(session) {
+                currentUser = JSON.parse(session);
+                renderDashboard();
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('session_user');
+            currentUser = null;
+            document.getElementById('dashboardScreen').classList.remove('visible');
+            document.getElementById('authScreen').style.display = 'block';
+        }
+
+        function renderDashboard() {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').classList.add('visible');
+            document.getElementById('userDisplay').innerText = currentUser.name;
+            const badge = document.getElementById('roleBadge');
+            
+            if(currentUser.role === 'teacher') {
+                badge.innerText = 'ADMIN / TEACHER';
+                badge.className = 'badge badge-teacher';
+                document.getElementById('teacherView').style.display = 'block';
+                document.getElementById('studentView').style.display = 'none';
+                updateTeacherPanel();
+            } else {
+                badge.innerText = `STUDENT ID: ${currentUser.id}`;
+                badge.className = 'badge badge-student';
+                document.getElementById('teacherView').style.display = 'none';
+                document.getElementById('studentView').style.display = 'block';
+                updateStudentPanel();
+            }
+        }
+
+        function updateTeacherPanel() {
+            const select = document.getElementById('scoreStudentSelect');
+            select.innerHTML = '<option value="">-- เลือกนักศึกษา --</option>';
+            students.forEach(s => {
+                select.innerHTML += `<option value="${s.id}">${s.id} - ${s.name}</option>`;
+            });
+
+            const tbody = document.getElementById('scoreTableBody');
+            tbody.innerHTML = '';
+            
+            if(students.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="color:#7f8c8d; padding:20px;">ยังไม่มีนักศึกษาลงทะเบียนในระบบ</td></tr>`;
+                return;
+            }
+
+            students.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${s.id}</td>
+                    <td style="text-align:left;">${s.name}</td>
+                    <td>${s.scores.work}</td>
+                    <td>${s.scores.mid}</td>
+                    <td>${s.scores.final}</td>
+                    <td>${s.scores.spirit}</td>
+                    <td style="font-weight:bold;">${s.total}</td>
+                    <td><span class="grade-tag grade-${s.grade}">เกรด ${s.grade}</span></td>
+                    <td><button class="btn btn-danger" onclick="deleteStudent('${s.id}')">ลบ</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveScore() {
+            const studentId = document.getElementById('scoreStudentSelect').value;
+            if(!studentId) return alert('กรุณาเลือกนักศึกษาที่ต้องการใส่คะแนน');
+
+            const work = parseFloat(document.getElementById('scoreWork').value) || 0;
+            const mid = parseFloat(document.getElementById('scoreMid').value) || 0;
+            const final = parseFloat(document.getElementById('scoreFinal').value) || 0;
+            const spirit = parseFloat(document.getElementById('scoreSpirit').value) || 0;
+
+            if(work > 40 || mid > 20 || final > 20 || spirit > 10 || work < 0 || mid < 0 || final < 0 || spirit < 0) {
+                return alert('คะแนนเกินหรือต่ำกว่าเกณฑ์! (งานสูงสุด 40 / กลางภาค 20 / ปลายภาค 20 / จิตพิสัย 10)');
+            }
+
+            const idx = students.findIndex(s => s.id === studentId);
+            if(idx > -1) {
+                const total = work + mid + final + spirit;
+                students[idx].scores = { work, mid, final, spirit };
+                students[idx].total = total;
+                students[idx].grade = calculateGrade(total);
+                
+                localStorage.setItem('db_students', JSON.stringify(students));
+                alert('บันทึกและตัดเกรดอัตโนมัติสำเร็จ!');
+                
+                document.getElementById('scoreWork').value = '';
+                document.getElementById('scoreMid').value = '';
+                document.getElementById('scoreFinal').value = '';
+                document.getElementById('scoreSpirit').value = '';
+                updateTeacherPanel();
+            }
+        }
+
+        function deleteStudent(id) {
+            if(confirm('ยืนยันที่จะลบข้อมูลนักศึกษารหัส ' + id + '?')) {
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('db_students', JSON.stringify(students));
+                updateTeacherPanel();
+            }
+        }
+
+        function exportToExcel() {
+            if(students.length === 0) return alert('ไม่มีข้อมูลที่จะสกัดออก');
+            let csvContent = "\uFEFF"; // ป้องกันปัญหาภาษาไทยเพี้ยนใน Excel
+            csvContent += "รหัสนักศึกษา,ชื่อ-นามสกุล,คะแนนงาน(40),กลางภาค(20),ปลายภาค(20),จิตพิสัย(10),คะแนนรวม(100),เกรด\n";
+            students.forEach(s => {
+                csvContent += `${s.id},${s.name},${s.scores.work},${s.scores.mid},${s.scores.final},${s.scores.spirit},${s.total},${s.grade}\n`;
+            });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", "รายงานคะแนนและเกรดนักศึกษา.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function updateStudentPanel() {
+            const student = students.find(s => s.id === currentUser.id);
+            if(student) {
+                document.getElementById('stProfileName').innerText = student.name;
+                document.getElementById('stProfileId').innerText = `รหัสนักศึกษา: ${student.id}`;
+                document.getElementById('stWork').innerText = student.scores.work;
+                document.getElementById('stMid').innerText = student.scores.mid;
+                document.getElementById('stFinal').innerText = student.scores.final;
+                document.getElementById('stSpirit').innerText = student.scores.spirit;
+                document.getElementById('stTotalScore').innerText = student.total;
+                
+                const badge = document.getElementById('stGradeBadge');
+                badge.innerText = `เกรด ${student.grade}`;
+                badge.className = `student-grade-large grade-tag grade-${student.grade}`;
+            }
+        }
+
+        init();
+    </script>
 </body>
 </html>
