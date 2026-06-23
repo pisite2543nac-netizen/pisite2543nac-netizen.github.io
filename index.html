@@ -3,407 +3,1441 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบบริหารจัดการและบันทึกคะแนนนักศึกษาออนไลน์</title>
+    <title>HTML Quest - เกมเรียนรู้ HTML</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --primary: #2c3e50; --secondary: #34495e; --success: #27ae60; --danger: #e74c3c; --warning: #f39c12; --info: #3498db; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: #f4f7f6; padding: 20px; }
-        .container { max-width: 1200px; margin: auto; }
-        
-        header { background: var(--primary); color: white; padding: 1rem 2rem; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 10px; }
-        .bg-pending { background: var(--warning); color: white; }
-        .bg-approved { background: var(--success); color: white; }
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --card2: #1c2333;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #00ff88;
+            --accent-dim: #00cc6a;
+            --gold: #e3b341;
+            --danger: #ff6b6b;
+            --easy: #00ff88;
+            --medium: #f0883e;
+            --hard: #ff6b6b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        #bgCanvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+        #app {
+            position: relative; z-index: 1;
+            min-height: 100vh;
+        }
+        .code-font { font-family: 'Fira Code', monospace; }
 
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
-        .tab-btn { padding: 10px 20px; cursor: pointer; border: none; background: none; font-weight: bold; color: #7f8c8d; }
-        .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+        /* แถบ XP */
+        .xp-bar-outer {
+            background: var(--border);
+            border-radius: 999px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .xp-bar-inner {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+            border-radius: 999px;
+            transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 10px rgba(0,255,136,0.4);
+        }
 
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 5px; }
-        label { font-size: 13px; font-weight: bold; color: #555; }
-        .btn { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; }
-        .btn-main { background: var(--primary); color: white; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
+        /* การ์ด */
+        .game-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .game-card:hover { border-color: var(--accent); box-shadow: 0 0 20px rgba(0,255,136,0.1); }
 
-        .table-res { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; }
-        th { background: #f8f9fa; }
-        .room-tag { background: #eee; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: bold; }
+        /* ปุ่มหลัก */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+            color: #0d1117;
+            font-weight: 700;
+            padding: 14px 36px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-family: 'Kanit', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,255,136,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(0,255,136,0.5);
+        }
+        .btn-primary:active { transform: translateY(0); }
 
-        .auth-box { max-width: 450px; margin: 80px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .hidden { display: none; }
-        .loading { text-align: center; padding: 20px; font-weight: bold; color: var(--info); }
+        .btn-secondary {
+            background: var(--card2);
+            color: var(--text);
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Kanit', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ตัวเลือกคำถาม */
+        .quiz-option {
+            background: var(--card2);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .quiz-option:hover { border-color: var(--accent); background: rgba(0,255,136,0.05); }
+        .quiz-option.correct {
+            border-color: var(--accent);
+            background: rgba(0,255,136,0.15);
+            animation: correctPulse 0.5s ease;
+        }
+        .quiz-option.wrong {
+            border-color: var(--danger);
+            background: rgba(255,107,107,0.15);
+            animation: shake 0.4s ease;
+        }
+        .quiz-option.disabled { pointer-events: none; opacity: 0.6; }
+        .quiz-option.disabled.correct { opacity: 1; }
+
+        .option-letter {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .quiz-option:hover .option-letter { background: var(--accent); color: var(--bg); }
+        .quiz-option.correct .option-letter { background: var(--accent); color: var(--bg); }
+        .quiz-option.wrong .option-letter { background: var(--danger); color: #fff; }
+
+        /* โค้ดบล็อก */
+        .code-block {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            tab-size: 2;
+        }
+        .code-block .tag { color: #7ee787; }
+        .code-block .attr { color: #79c0ff; }
+        .code-block .val { color: #ffa657; }
+        .code-block .txt { color: #e6edf3; }
+        .code-block .cmt { color: #8b949e; font-style: italic; }
+        .code-block .doctype { color: #8b949e; }
+
+        /* พรีวิว */
+        .preview-frame {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .preview-frame iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            display: block;
+        }
+        .preview-bar {
+            background: var(--card);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+        .preview-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+
+        /* แผนที่ */
+        .map-node {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .map-node.locked { opacity: 0.4; cursor: not-allowed; }
+        .map-node.locked:hover { opacity: 0.5; }
+        .map-node.completed .node-circle { background: var(--accent); border-color: var(--accent); }
+        .map-node.current .node-circle {
+            border-color: var(--accent);
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+        .node-circle {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            border: 3px solid var(--border);
+            background: var(--card);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        .map-connector {
+            width: 3px;
+            height: 40px;
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+        .map-connector.done { background: var(--accent); }
+        .map-connector.pending { background: var(--border); }
+
+        /* แบนด์ความยาก */
+        .diff-badge {
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .diff-easy { background: rgba(0,255,136,0.15); color: var(--easy); }
+        .diff-medium { background: rgba(240,136,62,0.15); color: var(--medium); }
+        .diff-hard { background: rgba(255,107,107,0.15); color: var(--hard); }
+
+        /* แอนิเมชัน */
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+        @keyframes nodePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(0,255,136,0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0,255,136,0.3); }
+            50% { text-shadow: 0 0 40px rgba(0,255,136,0.6), 0 0 80px rgba(0,255,136,0.2); }
+        }
+        @keyframes scoreCount {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes toastIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes toastOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .animate-fadeInUp { animation: fadeInUp 0.6s ease forwards; }
+        .animate-fadeIn { animation: fadeIn 0.5s ease forwards; }
+        .animate-slideDown { animation: slideDown 0.4s ease forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-glow { animation: glow 3s ease-in-out infinite; }
+
+        .stagger-1 { animation-delay: 0.1s; opacity: 0; }
+        .stagger-2 { animation-delay: 0.2s; opacity: 0; }
+        .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+        .stagger-4 { animation-delay: 0.4s; opacity: 0; }
+        .stagger-5 { animation-delay: 0.5s; opacity: 0; }
+        .stagger-6 { animation-delay: 0.6s; opacity: 0; }
+
+        /* โทสต์ */
+        .toast {
+            animation: toastIn 0.4s ease forwards;
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        .toast.leaving { animation: toastOut 0.3s ease forwards; }
+        .toast-success { background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.3); color: var(--accent); }
+        .toast-error { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--danger); }
+        .toast-info { background: rgba(227,179,65,0.15); border: 1px solid rgba(227,179,65,0.3); color: var(--gold); }
+
+        /* คอนเฟตตี */
+        .confetti-piece {
+            position: fixed;
+            width: 10px; height: 10px;
+            z-index: 100;
+            animation: confettiFall linear forwards;
+        }
+
+        /* ไอคอนเหรียญ */
+        .coin-icon {
+            color: var(--gold);
+            filter: drop-shadow(0 0 4px rgba(227,179,65,0.5));
+        }
+
+        /* เลเวลอัพ โอเวอร์เลย์ */
+        .levelup-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 90;
+            display: flex; align-items: center; justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .levelup-card {
+            text-align: center;
+            animation: scoreCount 0.5s ease;
+        }
+
+        /* สครอลล์บาร์ */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+        /* รีสปอนซิฟ */
+        @media (max-width: 768px) {
+            .code-block { font-size: 0.75rem; padding: 14px; }
+            .node-circle { width: 44px; height: 44px; font-size: 1rem; }
+            .map-connector { height: 28px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
+    <canvas id="bgCanvas" aria-hidden="true"></canvas>
+    <div id="app" role="main"></div>
+    <div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:80;display:flex;flex-direction:column;gap:10px;"></div>
+    <div id="overlay-container"></div>
 
-<div class="container">
-    <div id="authPanel" class="auth-box">
-        <h2 style="text-align: center; margin-bottom: 20px;">🎓 ระบบบันทึกคะแนนออนไลน์</h2>
-        <div class="tabs">
-            <button class="tab-btn active" onclick="setAuthMode('login')">เข้าสู่ระบบ</button>
-            <button class="tab-btn" onclick="setAuthMode('reg')">ลงทะเบียนนศ.</button>
-        </div>
-
-        <div id="loginForm">
-            <label>รหัสนักศึกษา (ตัวทดสอบ.)</label>
-            <input type="text" id="loginId" placeholder="เลขทะเบียนนักศึกษา">
-            <button class="btn btn-main" style="width: 100%; margin-top: 20px;" onclick="handleLogin()">เข้าสู่ระบบ</button>
-        </div>
-
-        <div id="regForm" class="hidden">
-            <label>รหัสนักศึกษา</label>
-            <input type="text" id="regId" placeholder="เช่น 66xxxxx">
-            <label>ชื่อ-นามสกุล</label>
-            <input type="text" id="regName" placeholder="นาย/นางสาว...">
-            <label>เลือกห้องเรียน</label>
-            <select id="regRoom">
-                <option value="1">ห้องเรียน 1</option>
-                <option value="2">ห้องเรียน 2</option>
-                <option value="3">ห้องเรียน 3</option>
-                <option value="4">ห้องเรียน 4</option>
-                <option value="5">ห้องเรียน 5</option>
-            </select>
-            <button class="btn btn-success" style="width: 100%; margin-top: 20px;" onclick="handleRegister()">ส่งคำขอลงทะเบียน</button>
-        </div>
-    </div>
-
-    <div id="mainPanel" class="hidden">
-        <header>
-            <div id="userInfo"></div>
-            <button class="btn btn-danger" onclick="location.reload()">ออกจากระบบ</button>
-        </header>
-
-        <div id="loadingStatus" class="loading hidden">🔄 กำลังรับส่งข้อมูลกับฐานข้อมูลออนไลน์...</div>
-
-        <div id="teacherArea" class="hidden">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="showTeacherTab('score')">📊 จัดการคะแนนแยกห้อง</button>
-                <button class="tab-btn" onclick="showTeacherTab('approve')">🔔 อนุมัตินักศึกษาออนไลน์ <span id="pendingCount" class="badge bg-pending">0</span></button>
-            </div>
-
-            <div id="scoreTab">
-                <div class="card">
-                    <h3>ตัวกรองห้องเรียน</h3>
-                    <div class="form-grid" style="margin-top:10px;">
-                        <div>
-                            <label>เลือกแสดงห้อง</label>
-                            <select id="filterRoom" onchange="renderTeacherTable()">
-                                <option value="all">ทุกห้องเรียน (1-5)</option>
-                                <option value="1">ห้อง 1</option>
-                                <option value="2">ห้อง 2</option>
-                                <option value="3">ห้อง 3</option>
-                                <option value="4">ห้อง 4</option>
-                                <option value="5">ห้อง 5</option>
-                            </select>
-                        </div>
-                        <div style="display:flex; align-items:flex-end;">
-                            <button class="btn btn-main" onclick="exportExcel()">📥 Export เป็นไฟล์ Excel (CSV)</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <p style="color: #7f8c8d; font-size: 12px; margin-bottom: 10px;">💡 เกร็ด: เมื่อแก้ไขตัวเลขคะแนนในตาราง ระบบจะคำนวณเกรดและบันทึกออนไลน์ส่งตรงไปที่ Google Sheets ทันทีอัตโนมัติ</p>
-                    <div class="table-res">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ห้อง</th>
-                                    <th>รหัสนักศึกษา</th>
-                                    <th>ชื่อ-นามสกุล</th>
-                                    <th>งาน (40)</th>
-                                    <th>กลางภาค (20)</th>
-                                    <th>ปลายภาค (20)</th>
-                                    <th>จิตพิสัย (10)</th>
-                                    <th>รวม (100)</th>
-                                    <th>เกรด</th>
-                                    <th>การจัดการ</th>
-                                </tr>
-                            </thead>
-                            <tbody id="teacherTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="approveTab" class="hidden">
-                <div class="card">
-                    <h3>📥 รายการนักศึกษาที่ขอลงทะเบียนออนไลน์เข้ามาใหม่</h3>
-                    <div class="table-res">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ห้อง</th>
-                                    <th>รหัสนักศึกษา</th>
-                                    <th>ชื่อ-นามสกุล</th>
-                                    <th>การจัดการคำร้อง</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pendingTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="studentArea" class="hidden">
-            <div id="approvedContent" class="hidden">
-                <div class="card" style="text-align: center; max-width: 600px; margin: auto;">
-                    <h2 id="stName"></h2>
-                    <p id="stId" style="color: #7f8c8d; margin-top: 5px;"></p>
-                    <div style="font-size: 60px; margin: 20px 0; font-weight: bold; color: var(--primary);" id="stGrade">-</div>
-                    <h3 style="margin-bottom: 15px;">รายละเอียดคะแนนดิบ</h3>
-                    <div class="form-grid">
-                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>คะแนนงาน</b><br><span id="s1" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 40</div>
-                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>กลางภาค</b><br><span id="s2" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 20</div>
-                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>ปลายภาค</b><br><span id="s3" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 20</div>
-                        <div class="card" style="background: #f8f9fa; margin: 0;"><b>จิตพิสัย</b><br><span id="s4" style="font-size:20px; font-weight:bold; color:var(--info);"></span> / 10</div>
-                    </div>
-                </div>
-            </div>
-            <div id="pendingContent" class="card" style="text-align: center; padding: 50px; max-width: 600px; margin: auto;">
-                <h2 style="color: var(--warning);">⏳ อยู่ระหว่างรอคุณครูตรวจสอบและอนุมัติ</h2>
-                <p style="margin-top: 10px; color: #555;">บัญชีของคุณส่งคำร้องสำเร็จแล้ว เมื่อคุณครูกดอนุมัติในหน้าแอดมิน คุณจึงจะสามารถเข้ามาดูคะแนนและผลการเรียนได้ครับ</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // 🔗 แก้ไขบรรทัดนี้: วาง URL เว็บแอปพลิเคชันจาก Google Apps Script ที่ช่องด้านล่างนี้แทนข้อความเดิม
-    const SCRIPT_URL = "https://script.google.com/u/0/home/projects/1L7FdgBeIW-wrl122W3yedm1dZ9qfowtMj4ZZ2GvO6TALvjrd8pK_0PJc/edit";
-
-    let students = [];
-    let currentUser = null;
-
-    function showLoading(status) {
-        document.getElementById('loadingStatus').classList.toggle('hidden', !status);
-    }
-
-    function setAuthMode(mode) {
-        document.getElementById('loginForm').classList.toggle('hidden', mode === 'reg');
-        document.getElementById('regForm').classList.toggle('hidden', mode === 'login');
-        document.querySelectorAll('.tab-btn')[0].classList.toggle('active', mode === 'login');
-        document.querySelectorAll('.tab-btn')[1].classList.toggle('active', mode === 'reg');
-    }
-
-    async function fetchDatabase() {
-        showLoading(true);
-        try {
-            const response = await fetch(SCRIPT_URL);
-            students = await response.json();
-        } catch (err) {
-            alert('ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาตรวจสอบ URL หรือสิทธิ์การเข้าถึง');
+    <script>
+    // ============================================================
+    // ข้อมูลบทเรียนและคำถาม
+    // ============================================================
+    const LESSONS = [
+        {
+            id: 1,
+            title: 'โครงสร้างพื้นฐาน HTML',
+            icon: 'fa-solid fa-house-chimney',
+            desc: 'เรียนรู้โครงสร้างหลักของเอกสาร HTML ทุกหน้าเว็บต้องมี',
+            points: [
+                'ทุกเอกสาร HTML เริ่มต้นด้วย <code class="code-font text-green-400">&lt;!DOCTYPE html&gt;</code>',
+                'แท็ก <code class="code-font text-green-400">&lt;html&gt;</code> เป็นภาชนะหลัก (root) ครอบทุกอย่าง',
+                '<code class="code-font text-green-400">&lt;head&gt;</code> ใส่ข้อมูลเมตา เช่น ชื่อหน้าเว็บใน <code class="code-font text-green-400">&lt;title&gt;</code>',
+                '<code class="code-font text-green-400">&lt;body&gt;</code> ใส่เนื้อหาที่แสดงผลบนหน้าจอทั้งหมด'
+            ],
+            code: `<!DOCTYPE html>\n<html>\n  <head>\n    <title>หน้าเว็บแรกของฉัน</title>\n  </head>\n  <body>\n    <h1>สวัสดีชาวโลก!</h1>\n    <p>นี่คือเว็บไซต์แรกของฉัน</p>\n  </body>\n</html>`,
+            quizzes: [
+                {
+                    q: 'แท็กไหนเป็นรากศาล (root) ของเอกสาร HTML ทั้งหมด?',
+                    opts: ['&lt;head&gt;', '&lt;html&gt;', '&lt;body&gt;', '&lt;title&gt;'],
+                    ans: 1, diff: 'easy'
+                },
+                {
+                    q: 'แท็ก &lt;title&gt; ควรอยู่ภายใต้แท็กใด?',
+                    opts: ['&lt;body&gt;', '&lt;html&gt;', '&lt;head&gt;', '&lt;p&gt;'],
+                    ans: 2, diff: 'easy'
+                },
+                {
+                    q: 'เนื้อหาที่แสดงผลบนหน้าเว็บเบราว์เซอร์จะอยู่ในแท็กใด?',
+                    opts: ['&lt;head&gt;', '&lt;title&gt;', '&lt;html&gt;', '&lt;body&gt;'],
+                    ans: 3, diff: 'easy'
+                }
+            ]
+        },
+        {
+            id: 2,
+            title: 'หัวข้อและย่อหน้า',
+            icon: 'fa-solid fa-heading',
+            desc: 'เรียนรู้การสร้างหัวข้อและย่อหน้าข้อความ',
+            points: [
+                'แท็ก <code class="code-font text-green-400">&lt;h1&gt;</code> ถึง <code class="code-font text-green-400">&lt;h6&gt;</code> ใช้สร้างหัวข้อ โดย h1 ใหญ่ที่สุด',
+                '<code class="code-font text-green-400">&lt;p&gt;</code> ใช้สร้างย่อหน้าข้อความ',
+                '<code class="code-font text-green-400">&lt;br&gt;</code> ขึ้นบรรทัดใหม่ (ไม่มีแท็กปิด)',
+                '<code class="code-font text-green-400">&lt;hr&gt;</code> สร้างเส้นแบ่ง (ไม่มีแท็กปิด)'
+            ],
+            code: `<h1>หัวข้อเล็กที่สุด h1</h1>\n<h2>หัวข้อ h2</h2>\n<h3>หัวข้อ h3</h3>\n<p>นี่คือย่อหน้าแรกของข้อความ\n  สามารถเขียนหลายบรรทัดได้</p>\n<hr>\n<p>นี่คือย่อหน้าที่สอง</p>`,
+            quizzes: [
+                {
+                    q: 'แท็กสำหรับสร้างหัวข้อที่ใหญ่ที่สุดคืออะไร?',
+                    opts: ['&lt;h6&gt;', '&lt;h1&gt;', '&lt;p&gt;', '&lt;head&gt;'],
+                    ans: 1, diff: 'easy'
+                },
+                {
+                    q: 'แท็กสำหรับสร้างย่อหน้าข้อความคืออะไร?',
+                    opts: ['&lt;br&gt;', '&lt;hr&gt;', '&lt;p&gt;', '&lt;div&gt;'],
+                    ans: 2, diff: 'easy'
+                },
+                {
+                    q: 'ข้อใดถูกต้องเกี่ยวกับแท็กหัวข้อ?',
+                    opts: [
+                        '&lt;h1&gt; มีขนาดเล็กที่สุด',
+                        '&lt;h6&gt; มีขนาดใหญ่ที่สุด',
+                        '&lt;h1&gt; มีขนาดใหญ่ที่สุด',
+                        'หัวข้อทุกตัวมีขนาดเท่ากัน'
+                    ],
+                    ans: 2, diff: 'medium'
+                }
+            ]
+        },
+        {
+            id: 3,
+            title: 'จัดรูปแบบข้อความ',
+            icon: 'fa-solid fa-font',
+            desc: 'เรียนรู้แท็กจัดรูปแบบข้อความให้โดดเด่น',
+            points: [
+                '<code class="code-font text-green-400">&lt;strong&gt;</code> ทำข้อความเป็น <strong>ตัวหนา</strong> (มีนัยสำคัญ)',
+                '<code class="code-font text-green-400">&lt;em&gt;</code> ทำข้อความเป็น <em>ตัวเอียง</em> (เน้นย้ำ)',
+                '<code class="code-font text-green-400">&lt;u&gt;</code> ทำข้อความ <u>ขีดเส้นใต้</u>',
+                '<code class="code-font text-green-400">&lt;mark&gt;</code> ทำข้อความ <mark style="background:#e3b341;color:#0d1117;padding:0 4px;border-radius:3px;">ไฮไลท์</mark>'
+            ],
+            code: `<p>ข้อความ <strong>ตัวหนา</strong> ด้วย strong</p>\n<p>ข้อความ <em>ตัวเอียง</em> ด้วย em</p>\n<p>ข้อความ <u>ขีดเส้นใต้</u> ด้วย u</p>\n<p>ข้อความ <mark>ไฮไลท์</mark> ด้วย mark</p>\n<p><small>ข้อความเล็ก</small> ด้วย small</p>`,
+            quizzes: [
+                {
+                    q: 'แท็กสำหรับทำข้อความเป็นตัวหนาคืออะไร?',
+                    opts: ['&lt;em&gt;', '&lt;b&gt;', '&lt;strong&gt;', '&lt;bold&gt;'],
+                    ans: 2, diff: 'easy'
+                },
+                {
+                    q: 'แท็กสำหรับทำข้อความเอียงเพื่อเน้นย้ำคืออะไร?',
+                    opts: ['&lt;i&gt;', '&lt;italic&gt;', '&lt;em&gt;', '&lt;slant&gt;'],
+                    ans: 2, diff: 'easy'
+                },
+                {
+                    q: 'แท็ก &lt;mark&gt; ใช้ทำอะไร?',
+                    opts: [
+                        'ขีดทับข้อความ',
+                        'ไฮไลท์ข้อความ',
+                        'ทำข้อความเล็กลง',
+                        'ลบข้อความ'
+                    ],
+                    ans: 1, diff: 'medium'
+                }
+            ]
+        },
+        {
+            id: 4,
+            title: 'ลิงก์และรูปภาพ',
+            icon: 'fa-solid fa-link',
+            desc: 'เรียนรู้การสร้างลิงก์เชื่อมโยงและแสดงรูปภาพ',
+            points: [
+                '<code class="code-font text-green-400">&lt;a href="URL"&gt;</code> สร้างลิงก์ไปยัง URL ที่กำหนด',
+                '<code class="code-font text-green-400">&lt;img src="URL" alt="คำอธิบาย"&gt;</code> แสดงรูปภาพ',
+                'attribute <code class="code-font text-yellow-400">alt</code> สำคัญมากสำหรับการเข้าถึง (accessibility)',
+                'เพิ่ม <code class="code-font text-yellow-400">target="_blank"</code> เพื่อเปิดลิงก์ในแท็บใหม่'
+            ],
+            code: `<a href="https://example.com">\n  คลิกที่นี่เพื่อไปเว็บไซต์\n</a>\n<br><br>\n<img src="https://picsum.photos/seed/htmlquest/300/150" alt="รูปตัวอย่าง">\n<br><br>\n<a href="https://example.com" target="_blank">\n  เปิดในแท็บใหม่\n</a>`,
+            quizzes: [
+                {
+                    q: 'แท็กสำหรับสร้างลิงก์ไปยังเว็บอื่นคืออะไร?',
+                    opts: ['&lt;link&gt;', '&lt;href&gt;', '&lt;a&gt;', '&lt;url&gt;'],
+                    ans: 2, diff: 'easy'
+                },
+                {
+                    q: 'ในแท็ก &lt;img&gt; attribute ไหนใช้ระบุที่อยู่ของรูปภาพ?',
+                    opts: ['href', 'link', 'src', 'alt'],
+                    ans: 2, diff: 'medium'
+                },
+                {
+                    q: 'ถ้าต้องการให้ลิงก์เปิดในแท็บใหม่ ต้องเพิ่ม attribute อะไร?',
+                    opts: [
+                        'new="tab"',
+                        'target="_blank"',
+                        'open="new"',
+                        'window="blank"'
+                    ],
+                    ans: 1, diff: 'hard'
+                }
+            ]
+        },
+        {
+            id: 5,
+            title: 'ลิสต์รายการ',
+            icon: 'fa-solid fa-list',
+            desc: 'เรียนรู้การสร้างรายการแบบมีลำดับและไม่มีลำดับ',
+            points: [
+                '<code class="code-font text-green-400">&lt;ul&gt;</code> สร้างลิสต์ไม่มีลำดับ (Unordered List) แสดงเป็นสัญลักษณ์',
+                '<code class="code-font text-green-400">&lt;ol&gt;</code> สร้างลิสต์มีลำดับ (Ordered List) แสดงเป็นตัวเลข',
+                '<code class="code-font text-green-400">&lt;li&gt;</code> กำหนดแต่ละรายการในลิสต์',
+                'สามารถซ้อนลิสต์เข้าไปในลิสต์ได้ (Nested List)'
+            ],
+            code: `<h3>ลิสต์ไม่มีลำดับ (ul)</h3>\n<ul>\n  <li>แอปเปิล</li>\n  <li>กล้วย</li>\n  <li>ส้ม</li>\n</ul>\n\n<h3>ลิสต์มีลำดับ (ol)</h3>\n<ol>\n  <li>ต้มน้ำ</li>\n  <li>ใส่บะหมี่</li>\n  <li>เสิร์ฟ</li>\n</ol>`,
+            quizzes: [
+                {
+                    q: 'แท็กสำหรับสร้างลิสต์แบบไม่มีลำดับ (สัญลักษณ์) คืออะไร?',
+                    opts: ['&lt;ol&gt;', '&lt;list&gt;', '&lt;ul&gt;', '&lt;dl&gt;'],
+                    ans: 2, diff: 'easy'
+                },
+                {
+                    q: '&lt;ol&gt; และ &lt;ul&gt; ต่างกันอย่างไร?',
+                    opts: [
+                        'ไม่ต่างกันเลย',
+                        'ol แสดงตัวเลข, ul แสดงสัญลักษณ์',
+                        'ol แสดงสัญลักษณ์, ul แสดงตัวเลข',
+                        'ol ใช้กับรูปภาพ, ul ใช้กับข้อความ'
+                    ],
+                    ans: 1, diff: 'medium'
+                },
+                {
+                    q: 'แท็กใดใช้กำหนดแต่ละรายการในลิสต์?',
+                    opts: ['&lt;item&gt;', '&lt;li&gt;', '&lt;list&gt;', '&lt;entry&gt;'],
+                    ans: 1, diff: 'medium'
+                }
+            ]
+        },
+        {
+            id: 6,
+            title: 'ตาราง',
+            icon: 'fa-solid fa-table',
+            desc: 'เรียนรู้การสร้างตารางเพื่อแสดงข้อมูลเป็นแถวและคอลัมน์',
+            points: [
+                '<code class="code-font text-green-400">&lt;table&gt;</code> สร้างตาราง',
+                '<code class="code-font text-green-400">&lt;tr&gt;</code> สร้างแถว (table row)',
+                '<code class="code-font text-green-400">&lt;th&gt;</code> สร้างหัวตาราง (ตัวหนา) และ <code class="code-font text-green-400">&lt;td&gt;</code> สร้างเซลล์ข้อมูล',
+                '<code class="code-font text-yellow-400">colspan</code> รวมคอลัมน์, <code class="code-font text-yellow-400">rowspan</code> รวมแถว'
+            ],
+            code: `<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;text-align:center;">\n  <tr>\n    <th>ชื่อ</th>\n    <th>อายุ</th>\n    <th>เมือง</th>\n  </tr>\n  <tr>\n    <td>สมชาย</td>\n    <td>25</td>\n    <td>กรุงเทพ</td>\n  </tr>\n  <tr>\n    <td>สมหญิง</td>\n    <td>30</td>\n    <td>เชียงใหม่</td>\n  </tr>\n</table>`,
+            quizzes: [
+                {
+                    q: 'แท็กสำหรับสร้างตารางคืออะไร?',
+                    opts: ['&lt;grid&gt;', '&lt;tab&gt;', '&lt;table&gt;', '&lt;matrix&gt;'],
+                    ans: 2, diff: 'medium'
+                },
+                {
+                    q: '&lt;th&gt; และ &lt;td&gt; ต่างกันอย่างไร?',
+                    opts: [
+                        'ไม่ต่างกัน',
+                        'th คือหัวตาราง (ตัวหนา) td คือเซลล์ข้อมูล',
+                        'th คือเซลล์ข้อมูล td คือหัวตาราง',
+                        'th ใช้แถว td ใช้คอลัมน์'
+                    ],
+                    ans: 1, diff: 'hard'
+                },
+                {
+                    q: 'ถ้าต้องการรวมเซลล์ 2 คอลัมน์เข้าด้วยกัน ต้องใช้ attribute อะไร?',
+                    opts: [
+                        'rowspan="2"',
+                        'merge="2"',
+                        'colspan="2"',
+                        'combine="2"'
+                    ],
+                    ans: 2, diff: 'hard'
+                }
+            ]
         }
-        showLoading(false);
-    }
+    ];
 
-    async function handleRegister() {
-        const id = document.getElementById('regId').value.trim();
-        const name = document.getElementById('regName').value.trim();
-        const room = document.getElementById('regRoom').value;
+    // ระดับเลเวล
+    const LEVELS = [
+        { min: 0, name: 'เด็กใหม่', icon: 'fa-solid fa-seedling' },
+        { min: 50, name: 'ผู้ฝึกหัด', icon: 'fa-solid fa-user-graduate' },
+        { min: 120, name: 'นักเขียนโค้ด', icon: 'fa-solid fa-code' },
+        { min: 220, name: 'โปรแกรมเมอร์', icon: 'fa-solid fa-laptop-code' },
+        { min: 320, name: 'มาสเตอร์ HTML', icon: 'fa-solid fa-crown' }
+    ];
 
-        if(!id || !name) return alert('กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งข้อมูล');
-        
-        showLoading(true);
-        await fetchDatabase();
-        if(students.find(s => s.id === id)) {
-            showLoading(false);
-            return alert('รหัสนักศึกษานี้เคยลงทะเบียนเข้าระบบแล้ว');
+    // คะแนนตามความยาก
+    const DIFF_SCORES = { easy: 10, medium: 20, hard: 30 };
+    const DIFF_COINS = { easy: 1, medium: 2, hard: 3 };
+    const DIFF_LABELS = { easy: 'ง่าย', medium: 'ปานกลาง', hard: 'ยาก' };
+
+    // ============================================================
+    // สถานะเกม
+    // ============================================================
+    const state = {
+        screen: 'start',
+        currentLesson: 0,
+        currentQ: 0,
+        xp: 0,
+        coins: 0,
+        streak: 0,
+        maxStreak: 0,
+        lessonScores: {},
+        quizSession: { score: 0, total: 0, answers: [] },
+        answered: false,
+        prevLevel: 0
+    };
+
+    // ============================================================
+    // ระบบเสียง
+    // ============================================================
+    const Audio = {
+        ctx: null,
+        init() {
+            if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        },
+        play(type) {
+            try {
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                gain.gain.value = 0.08;
+                const now = this.ctx.currentTime;
+
+                if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523, now);
+                    osc.frequency.setValueAtTime(659, now + 0.1);
+                    osc.frequency.setValueAtTime(784, now + 0.2);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                    osc.start(now); osc.stop(now + 0.4);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.3);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                    osc.start(now); osc.stop(now + 0.3);
+                } else if (type === 'levelup') {
+                    osc.frequency.setValueAtTime(523, now);
+                    osc.frequency.setValueAtTime(659, now + 0.12);
+                    osc.frequency.setValueAtTime(784, now + 0.24);
+                    osc.frequency.setValueAtTime(1047, now + 0.36);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+                    osc.start(now); osc.stop(now + 0.6);
+                } else if (type === 'coin') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(1200, now);
+                    osc.frequency.setValueAtTime(1600, now + 0.06);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                    osc.start(now); osc.stop(now + 0.15);
+                } else if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, now);
+                    gain.gain.value = 0.04;
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                    osc.start(now); osc.stop(now + 0.08);
+                }
+            } catch (e) { /* เงียบถ้าไม่รองรับ */ }
         }
+    };
 
-        try {
-            await fetch(SCRIPT_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "register", id, name, room })
+    // ============================================================
+    // พื้นหลัง Canvas - สัญลักษณ์ลอย
+    // ============================================================
+    const bgCanvas = document.getElementById('bgCanvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    let bgSymbols = [];
+
+    function initBg() {
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
+        bgSymbols = [];
+        const symbols = ['<', '>', '/', '=', '"', '}', '{', ';', '#', '<>', '</>', '<div>', '<p>'];
+        const count = Math.floor((bgCanvas.width * bgCanvas.height) / 25000);
+        for (let i = 0; i < count; i++) {
+            bgSymbols.push({
+                x: Math.random() * bgCanvas.width,
+                y: Math.random() * bgCanvas.height,
+                symbol: symbols[Math.floor(Math.random() * symbols.length)],
+                size: 10 + Math.random() * 14,
+                speed: 0.15 + Math.random() * 0.35,
+                opacity: 0.04 + Math.random() * 0.08,
+                drift: (Math.random() - 0.5) * 0.3
             });
-            alert('ลงทะเบียนออนไลน์สำเร็จ! กรุณารอคุณครูกดอนุมัติเข้าห้องเรียน');
-            location.reload();
-        } catch(e) {
-            alert('เกิดข้อผิดพลาดในการลงทะเบียน');
-        }
-        showLoading(false);
-    }
-
-    async function handleLogin() {
-        const id = document.getElementById('loginId').value.trim();
-        if(!id) return alert('กรุณากรอกรหัสผู้ใช้งาน');
-
-        await fetchDatabase();
-
-        if(id.toLowerCase() === 'admin') {
-            currentUser = { role: 'teacher', name: 'คุณครูผู้ดูแลระบบ (Admin)' };
-            showDashboard();
-        } else {
-            const student = students.find(s => s.id === id);
-            if(!student) return alert('ไม่พบรหัสนักศึกษานี้ในระบบออนไลน์ กรุณาลงทะเบียนก่อนครับ');
-            currentUser = { role: 'student', data: student };
-            showDashboard();
         }
     }
 
-    function showDashboard() {
-        document.getElementById('authPanel').classList.add('hidden');
-        document.getElementById('mainPanel').classList.remove('hidden');
-        document.getElementById('userInfo').innerHTML = `<b>สถานะปัจจุบัน:</b> ${currentUser.name || currentUser.data.name} `;
-        
-        if(currentUser.role === 'teacher') {
-            document.getElementById('teacherArea').classList.remove('hidden');
-            renderTeacherTable();
-            renderPendingTable();
-        } else {
-            document.getElementById('studentArea').classList.remove('hidden');
-            if(currentUser.data.status === 'approved') {
-                document.getElementById('approvedContent').classList.remove('hidden');
-                document.getElementById('pendingContent').classList.add('hidden');
-                const d = currentUser.data;
-                document.getElementById('stName').innerText = d.name;
-                document.getElementById('stId').innerText = `ห้องเรียนที่: ${d.room} | รหัสนักศึกษา: ${d.id}`;
-                document.getElementById('stGrade').innerText = `เกรด ${d.grade}`;
-                document.getElementById('s1').innerText = d.scores.w;
-                document.getElementById('s2').innerText = d.scores.m;
-                document.getElementById('s3').innerText = d.scores.f;
-                document.getElementById('s4').innerText = d.scores.s;
+    function animateBg() {
+        bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+        bgCtx.font = 'normal normal 14px "Fira Code", monospace';
+        bgSymbols.forEach(s => {
+            s.y -= s.speed;
+            s.x += s.drift;
+            if (s.y < -30) { s.y = bgCanvas.height + 30; s.x = Math.random() * bgCanvas.width; }
+            if (s.x < -30) s.x = bgCanvas.width + 30;
+            if (s.x > bgCanvas.width + 30) s.x = -30;
+            bgCtx.font = `${s.size}px "Fira Code", monospace`;
+            bgCtx.fillStyle = `rgba(0, 255, 136, ${s.opacity})`;
+            bgCtx.fillText(s.symbol, s.x, s.y);
+        });
+        requestAnimationFrame(animateBg);
+    }
+
+    window.addEventListener('resize', () => {
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
+    });
+
+    // ============================================================
+    // ฟังก์ชันช่วยเหลือ
+    // ============================================================
+    function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function highlightCode(code) {
+        let html = escapeHtml(code);
+        // คอมเมนต์
+        html = html.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="cmt">$1</span>');
+        // DOCTYPE
+        html = html.replace(/(&lt;!DOCTYPE\s+html&gt;)/gi, '<span class="doctype">$1</span>');
+        // แท็กเปิดและปิด
+        html = html.replace(/(&lt;\/?)([\w-]+)/g, '$1<span class="tag">$2</span>');
+        // attribute="value"
+        html = html.replace(/([\w-]+)(=)(&quot;)(.*?)(&quot;)/g, '<span class="attr">$1</span>$2<span class="val">$3$4$5</span>');
+        return html;
+    }
+
+    function getLevel(xp) {
+        let level = LEVELS[0];
+        for (const l of LEVELS) {
+            if (xp >= l.min) level = l;
+        }
+        return level;
+    }
+
+    function getLevelIndex(xp) {
+        let idx = 0;
+        for (let i = 0; i < LEVELS.length; i++) {
+            if (xp >= LEVELS[i].min) idx = i;
+        }
+        return idx;
+    }
+
+    function getNextLevelXp(xp) {
+        const idx = getLevelIndex(xp);
+        if (idx >= LEVELS.length - 1) return LEVELS[idx].min;
+        return LEVELS[idx + 1].min;
+    }
+
+    function getCurrentLevelXp(xp) {
+        return LEVELS[getLevelIndex(xp)].min;
+    }
+
+    function getLessonStatus(id) {
+        return state.lessonScores[id] ? 'completed' : (id === 1 || state.lessonScores[id - 1] ? 'current' : 'locked');
+    }
+
+    function isAllCompleted() {
+        return LESSONS.every(l => state.lessonScores[l.id]);
+    }
+
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+        toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i><span>${message}</span>`;
+        container.appendChild(toast);
+        setTimeout(() => { toast.classList.add('leaving'); }, 2500);
+        setTimeout(() => { toast.remove(); }, 2900);
+    }
+
+    function spawnConfetti(count = 60) {
+        const colors = ['#00ff88', '#e3b341', '#ff6b6b', '#79c0ff', '#ffa657', '#d2a8ff'];
+        for (let i = 0; i < count; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.style.left = Math.random() * 100 + 'vw';
+            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+            piece.style.width = (6 + Math.random() * 8) + 'px';
+            piece.style.height = (6 + Math.random() * 8) + 'px';
+            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+            piece.style.animationDelay = Math.random() * 1.5 + 's';
+            document.body.appendChild(piece);
+            setTimeout(() => piece.remove(), 6000);
+        }
+    }
+
+    function saveProgress() {
+        localStorage.setItem('htmlQuest', JSON.stringify({
+            xp: state.xp, coins: state.coins,
+            lessonScores: state.lessonScores, maxStreak: state.maxStreak
+        }));
+    }
+
+    function loadProgress() {
+        try {
+            const saved = localStorage.getItem('htmlQuest');
+            if (saved) {
+                const data = JSON.parse(saved);
+                state.xp = data.xp || 0;
+                state.coins = data.coins || 0;
+                state.lessonScores = data.lessonScores || {};
+                state.maxStreak = data.maxStreak || 0;
+                state.prevLevel = getLevelIndex(state.xp);
+            }
+        } catch (e) { /* เริ่มใหม่ถ้าข้อมูลเสียหาย */ }
+    }
+
+    // ============================================================
+    // ฟังก์ชันเรนเดอร์
+    // ============================================================
+    const app = document.getElementById('app');
+
+    function render() {
+        switch (state.screen) {
+            case 'start': renderStart(); break;
+            case 'map': renderMap(); break;
+            case 'lesson': renderLesson(); break;
+            case 'quiz': renderQuiz(); break;
+            case 'quizResult': renderQuizResult(); break;
+            case 'complete': renderComplete(); break;
+        }
+    }
+
+    // --- หน้าเริ่มต้น ---
+    function renderStart() {
+        app.innerHTML = `
+        <div class="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+            <div class="animate-fadeInUp">
+                <div class="text-6xl md:text-8xl font-black tracking-tight mb-4 animate-glow" style="color:var(--accent);">
+                    HTML QUEST
+                </div>
+                <p class="text-lg md:text-xl mb-2" style="color:var(--muted);">
+                    เกมเรียนรู้ HTML แบบเล่นเกม ทำแบบทดสอบ สะสมคะแนน
+                </p>
+                <p class="text-sm mb-10" style="color:var(--border);">
+                    6 บทเรียน / 18 คำถาม / 3 ระดับความยาก
+                </p>
+            </div>
+            <div class="animate-fadeInUp stagger-2">
+                <button class="btn-primary text-lg px-12 py-4" data-action="startGame">
+                    <i class="fa-solid fa-play mr-2"></i>เริ่มเกม
+                </button>
+            </div>
+            ${state.xp > 0 ? `
+            <div class="mt-8 animate-fadeInUp stagger-3 text-sm" style="color:var(--muted);">
+                <i class="fa-solid fa-rotate-right mr-1"></i> ดำเนินการต่อจากเดิม (Level ${getLevelIndex(state.xp) + 1})
+            </div>` : ''}
+            <div class="mt-16 animate-fadeIn stagger-4 flex gap-8 text-center" style="color:var(--muted);">
+                <div><i class="fa-solid fa-book-open text-2xl mb-2" style="color:var(--accent);"></i><br><span class="text-xs">เรียนรู้</span></div>
+                <div><i class="fa-solid fa-pen-to-square text-2xl mb-2" style="color:var(--gold);"></i><br><span class="text-xs">ทดสอบ</span></div>
+                <div><i class="fa-solid fa-trophy text-2xl mb-2" style="color:var(--danger);"></i><br><span class="text-xs">สะสมคะแนน</span></div>
+            </div>
+        </div>`;
+    }
+
+    // --- แถบด้านบน ---
+    function renderTopBar() {
+        const lvl = getLevel(state.xp);
+        const lvlIdx = getLevelIndex(state.xp);
+        const curXp = getCurrentLevelXp(state.xp);
+        const nextXp = getNextLevelXp(state.xp);
+        const progress = nextXp > curXp ? ((state.xp - curXp) / (nextXp - curXp)) * 100 : 100;
+
+        return `
+        <header class="sticky top-0 z-50 animate-slideDown" style="background:rgba(13,17,23,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
+            <div class="max-w-3xl mx-auto px-4 py-3">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--accent);">
+                            <i class="${lvl.icon}"></i> Lv.${lvlIdx + 1} ${lvl.name}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        ${state.streak > 1 ? `<span class="flex items-center gap-1" style="color:#ff6b6b;"><i class="fa-solid fa-fire"></i> ${state.streak}x</span>` : ''}
+                        <span class="flex items-center gap-1 coin-icon"><i class="fa-solid fa-coins"></i> ${state.coins}</span>
+                        <span class="flex items-center gap-1" style="color:var(--accent);"><i class="fa-solid fa-star"></i> ${state.xp} XP</span>
+                    </div>
+                </div>
+                <div class="xp-bar-outer">
+                    <div class="xp-bar-inner" style="width:${Math.min(progress, 100)}%"></div>
+                </div>
+                <div class="flex justify-between mt-1 text-xs" style="color:var(--muted);">
+                    <span>${state.xp} XP</span>
+                    <span>${nextXp > curXp ? nextXp + ' XP' : 'MAX'}</span>
+                </div>
+            </div>
+        </header>`;
+    }
+
+    // --- หน้าแผนที่ ---
+    function renderMap() {
+        let nodesHtml = '';
+        LESSONS.forEach((lesson, i) => {
+            const status = getLessonStatus(lesson.id);
+            const score = state.lessonScores[lesson.id];
+            const isCompleted = status === 'completed';
+            const isCurrent = status === 'current';
+            const isLocked = status === 'locked';
+
+            if (i > 0) {
+                const connDone = getLessonStatus(LESSONS[i - 1].id) === 'completed';
+                nodesHtml += `<div class="map-connector ${connDone ? 'done' : 'pending'}"></div>`;
+            }
+
+            nodesHtml += `
+            <div class="map-node ${status} animate-fadeInUp stagger-${Math.min(i + 1, 6)}" data-action="${isLocked ? '' : 'selectLesson'}" data-id="${lesson.id}">
+                <div class="game-card p-4 flex items-center gap-4 max-w-md mx-auto" style="${isCurrent ? 'border-color:var(--accent);box-shadow:0 0 20px rgba(0,255,136,0.1);' : ''}">
+                    <div class="node-circle flex-shrink-0">
+                        ${isCompleted ? '<i class="fa-solid fa-check" style="color:var(--bg);"></i>' :
+                          isLocked ? '<i class="fa-solid fa-lock" style="color:var(--muted);"></i>' :
+                          `<i class="${lesson.icon}" style="color:var(--accent);"></i>`}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs font-semibold" style="color:var(--muted);">บทที่ ${lesson.id}</span>
+                            ${isCompleted && score ? `<span class="text-xs" style="color:var(--accent);">${score.score}/${score.total}</span>` : ''}
+                        </div>
+                        <div class="font-semibold text-sm md:text-base truncate">${lesson.title}</div>
+                        ${isCurrent ? '<div class="text-xs mt-1" style="color:var(--accent);"><i class="fa-solid fa-arrow-right mr-1"></i>เลือกเพื่อเริ่มเรียน</div>' : ''}
+                        ${isCompleted ? '<div class="text-xs mt-1" style="color:var(--muted);"><i class="fa-solid fa-circle-check mr-1"></i>เรียนรู้แล้ว</div>' : ''}
+                    </div>
+                    ${!isLocked ? '<i class="fa-solid fa-chevron-right" style="color:var(--muted);"></i>' : ''}
+                </div>
+            </div>`;
+        });
+
+        app.innerHTML = `
+        ${renderTopBar()}
+        <main class="max-w-3xl mx-auto px-4 py-8">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">แผนที่การเรียนรู้</h1>
+            <p class="text-center mb-10" style="color:var(--muted);">เลือกบทเรียนเพื่อเริ่มเรียนรู้และทดสอบ</p>
+            <div class="flex flex-col items-center gap-0">
+                ${nodesHtml}
+            </div>
+            ${state.xp > 0 ? `
+            <div class="mt-10 text-center">
+                <button class="btn-secondary text-sm" data-action="resetProgress">
+                    <i class="fa-solid fa-rotate-left mr-2"></i>รีเซ็ตความคืบหน้า
+                </button>
+            </div>` : ''}
+        </main>`;
+    }
+
+    // --- หน้าบทเรียน ---
+    function renderLesson() {
+        const lesson = LESSONS[state.currentLesson];
+        const previewHtml = lesson.code.replace(/\n/g, ' ');
+
+        app.innerHTML = `
+        ${renderTopBar()}
+        <main class="max-w-3xl mx-auto px-4 py-8">
+            <button class="btn-secondary text-sm mb-6" data-action="backToMap">
+                <i class="fa-solid fa-arrow-left mr-2"></i>กลับแผนที่
+            </button>
+
+            <div class="animate-fadeInUp">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-sm font-semibold px-3 py-1 rounded-full" style="background:rgba(0,255,136,0.1);color:var(--accent);">บทที่ ${lesson.id}</span>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-bold mb-2">${lesson.title}</h1>
+                <p class="mb-6" style="color:var(--muted);">${lesson.desc}</p>
+            </div>
+
+            <!-- จุดสำคัญ -->
+            <div class="game-card p-6 mb-6 animate-fadeInUp stagger-1">
+                <h2 class="font-bold text-lg mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i> สิ่งที่ต้องรู้
+                </h2>
+                <ul class="space-y-3">
+                    ${lesson.points.map(p => `
+                        <li class="flex items-start gap-3 text-sm leading-relaxed">
+                            <i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:0.7rem;"></i>
+                            <span>${p}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+
+            <!-- โค้ดตัวอย่าง -->
+            <div class="animate-fadeInUp stagger-2 mb-3">
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="fa-solid fa-code" style="color:var(--accent);"></i>
+                    <span class="font-semibold text-sm">โค้ดตัวอย่าง</span>
+                </div>
+                <div class="code-block">${highlightCode(lesson.code)}</div>
+            </div>
+
+            <!-- พรีวิว -->
+            <div class="animate-fadeInUp stagger-3 mb-8">
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="fa-solid fa-eye" style="color:var(--gold);"></i>
+                    <span class="font-semibold text-sm">ผลลัพธ์บนเบราว์เซอร์</span>
+                </div>
+                <div class="preview-frame">
+                    <div class="preview-bar">
+                        <div class="preview-dot" style="background:#ff5f57;"></div>
+                        <div class="preview-dot" style="background:#febc2e;"></div>
+                        <div class="preview-dot" style="background:#28c840;"></div>
+                        <span class="ml-3 text-xs" style="color:var(--muted);">preview</span>
+                    </div>
+                    <iframe srcdoc="${escapeHtml(lesson.code)}" sandbox="allow-scripts" title="ตัวอย่างผลลัพธ์"></iframe>
+                </div>
+            </div>
+
+            <div class="text-center animate-fadeInUp stagger-4">
+                <button class="btn-primary text-lg" data-action="startQuiz">
+                    <i class="fa-solid fa-pen-to-square mr-2"></i>เริ่มทดสอบ (${lesson.quizzes.length} คำถาม)
+                </button>
+            </div>
+        </main>`;
+    }
+
+    // --- หน้าคำถาม ---
+    function renderQuiz() {
+        const lesson = LESSONS[state.currentLesson];
+        const quiz = lesson.quizzes[state.currentQ];
+        const total = lesson.quizzes.length;
+        const letters = ['A', 'B', 'C', 'D'];
+
+        app.innerHTML = `
+        ${renderTopBar()}
+        <main class="max-w-3xl mx-auto px-4 py-8">
+            <!-- แถบความคืบหน้าของคำถาม -->
+            <div class="flex items-center gap-3 mb-8 animate-slideDown">
+                <span class="text-sm font-semibold" style="color:var(--accent);">คำถาม ${state.currentQ + 1}/${total}</span>
+                <div class="flex-1 h-2 rounded-full" style="background:var(--border);">
+                    <div class="h-full rounded-full transition-all duration-500" style="background:var(--accent);width:${((state.currentQ) / total) * 100}%;"></div>
+                </div>
+                <span class="diff-badge diff-${quiz.diff}">${DIFF_LABELS[quiz.diff]}</span>
+            </div>
+
+            <!-- คำถาม -->
+            <div class="game-card p-6 md:p-8 mb-6 animate-fadeInUp">
+                <h2 class="text-lg md:text-xl font-bold leading-relaxed">${quiz.q}</h2>
+            </div>
+
+            <!-- ตัวเลือก -->
+            <div class="space-y-3" id="options-container">
+                ${quiz.opts.map((opt, i) => `
+                    <div class="quiz-option animate-fadeInUp stagger-${i + 1}" data-action="answer" data-idx="${i}">
+                        <span class="option-letter">${letters[i]}</span>
+                        <span class="flex-1">${opt}</span>
+                    </div>
+                `).join('')}
+            </div>
+
+            <!-- ผลลัพธ์หลังตอบ -->
+            <div id="answer-feedback" class="mt-6" style="display:none;"></div>
+
+            <!-- ปุ่มถัดไป -->
+            <div id="next-btn-container" class="mt-6 text-center" style="display:none;"></div>
+        </main>`;
+    }
+
+    // --- หน้าผลลัพธ์คำถาม ---
+    function renderQuizResult() {
+        const lesson = LESSONS[state.currentLesson];
+        const s = state.quizSession;
+        const pct = s.total > 0 ? Math.round((s.score / s.total) * 100) : 0;
+        const passed = pct >= 60;
+
+        app.innerHTML = `
+        ${renderTopBar()}
+        <main class="max-w-3xl mx-auto px-4 py-8 text-center">
+            <div class="animate-fadeInUp">
+                <div class="text-6xl mb-4">${passed ? '<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>' : '<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div>
+                <h1 class="text-2xl md:text-3xl font-bold mb-2">${passed ? 'ยอดเยี่ยม!' : 'ลองอีกครั้ง!'}</h1>
+                <p class="mb-8" style="color:var(--muted);">${lesson.title}</p>
+            </div>
+
+            <div class="game-card p-8 mb-6 animate-fadeInUp stagger-1" style="animation:scoreCount 0.5s ease;">
+                <div class="text-5xl font-black mb-2" style="color:${passed ? 'var(--accent)' : 'var(--danger)'};">${pct}%</div>
+                <div class="text-lg mb-6" style="color:var(--muted);">${s.score} / ${s.total} ข้อ</div>
+
+                <!-- รายละเอียดแต่ละข้อ -->
+                <div class="space-y-2 text-left mb-6">
+                    ${s.answers.map((a, i) => {
+                        const quiz = lesson.quizzes[i];
+                        return `
+                        <div class="flex items-center gap-3 p-3 rounded-lg text-sm" style="background:${a.correct ? 'rgba(0,255,136,0.08)' : 'rgba(255,107,107,0.08)'};">
+                            <i class="fa-solid ${a.correct ? 'fa-circle-check' : 'fa-circle-xmark'}" style="color:${a.correct ? 'var(--accent)' : 'var(--danger)'};"></i>
+                            <span class="flex-1 truncate">คำถาม ${i + 1}: ${quiz.q}</span>
+                            <span class="diff-badge diff-${quiz.diff} text-xs">+${a.correct ? (DIFF_SCORES[quiz.diff] + (a.streakBonus || 0)) : 0}</span>
+                        </div>`;
+                    }).join('')}
+                </div>
+
+                <!-- สถิติ -->
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="p-3 rounded-lg" style="background:var(--card2);">
+                        <div class="text-xl font-bold" style="color:var(--accent);">+${s.xpEarned}</div>
+                        <div class="text-xs" style="color:var(--muted);">XP</div>
+                    </div>
+                    <div class="p-3 rounded-lg" style="background:var(--card2);">
+                        <div class="text-xl font-bold coin-icon">+${s.coinsEarned}</div>
+                        <div class="text-xs" style="color:var(--muted);">เหรียญ</div>
+                    </div>
+                    <div class="p-3 rounded-lg" style="background:var(--card2);">
+                        <div class="text-xl font-bold" style="color:#ff6b6b;">${s.maxStreakInSession}x</div>
+                        <div class="text-xs" style="color:var(--muted);">Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center animate-fadeInUp stagger-2">
+                ${!passed ? `<button class="btn-secondary" data-action="retryQuiz"><i class="fa-solid fa-rotate-right mr-2"></i>ลองอีกครั้ง</button>` : ''}
+                <button class="btn-primary" data-action="backToMap">
+                    <i class="fa-solid fa-map mr-2"></i>${isAllCompleted() ? 'ดูผลลัพธ์สุดท้าย' : 'กลับแผนที่'}
+                </button>
+            </div>
+        </main>`;
+
+        if (passed) spawnConfetti(40);
+    }
+
+    // --- หน้าจบเกม ---
+    function renderComplete() {
+        const totalQ = LESSONS.reduce((s, l) => s + l.quizzes.length, 0);
+        const totalCorrect = Object.values(state.lessonScores).reduce((s, v) => s + v.score, 0);
+        const pct = Math.round((totalCorrect / totalQ) * 100);
+        const lvlIdx = getLevelIndex(state.xp);
+
+        app.innerHTML = `
+        ${renderTopBar()}
+        <main class="max-w-3xl mx-auto px-4 py-8 text-center">
+            <div class="animate-fadeInUp">
+                <div class="text-7xl mb-4 animate-float"><i class="fa-solid fa-crown" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,0.5));"></i></div>
+                <h1 class="text-3xl md:text-4xl font-black mb-2 animate-glow" style="color:var(--accent);">สำเร็จการเรียนรู้!</h1>
+                <p class="text-lg mb-10" style="color:var(--muted);">คุณได้เรียนรู้ HTML พื้นฐานครบทุกบทแล้ว</p>
+            </div>
+
+            <div class="game-card p-8 mb-8 animate-fadeInUp stagger-1" style="animation:scoreCount 0.6s ease;">
+                <div class="text-6xl font-black mb-2" style="color:var(--accent);">${pct}%</div>
+                <p class="mb-6" style="color:var(--muted);">คะแนนรวมทุกบท</p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="p-4 rounded-xl" style="background:var(--card2);">
+                        <i class="fa-solid fa-star text-xl mb-2" style="color:var(--accent);"></i>
+                        <div class="text-2xl font-bold">${state.xp}</div>
+                        <div class="text-xs" style="color:var(--muted);">XP ทั้งหมด</div>
+                    </div>
+                    <div class="p-4 rounded-xl" style="background:var(--card2);">
+                        <i class="fa-solid fa-coins text-xl mb-2 coin-icon"></i>
+                        <div class="text-2xl font-bold">${state.coins}</div>
+                        <div class="text-xs" style="color:var(--muted);">เหรียญทั้งหมด</div>
+                    </div>
+                    <div class="p-4 rounded-xl" style="background:var(--card2);">
+                        <i class="fa-solid ${LEVELS[lvlIdx].icon} text-xl mb-2" style="color:var(--gold);"></i>
+                        <div class="text-2xl font-bold">Lv.${lvlIdx + 1}</div>
+                        <div class="text-xs" style="color:var(--muted);">${LEVELS[lvlIdx].name}</div>
+                    </div>
+                    <div class="p-4 rounded-xl" style="background:var(--card2);">
+                        <i class="fa-solid fa-fire text-xl mb-2" style="color:#ff6b6b;"></i>
+                        <div class="text-2xl font-bold">${state.maxStreak}x</div>
+                        <div class="text-xs" style="color:var(--muted);">Streak สูงสุด</div>
+                    </div>
+                </div>
+
+                <!-- สรุปแต่ละบท -->
+                <div class="space-y-2 text-left">
+                    ${LESSONS.map(l => {
+                        const sc = state.lessonScores[l.id];
+                        const lp = sc ? Math.round((sc.score / sc.total) * 100) : 0;
+                        return `
+                        <div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--card2);">
+                            <i class="${l.icon}" style="color:var(--accent);width:20px;text-align:center;"></i>
+                            <span class="flex-1 text-sm">${l.title}</span>
+                            <span class="text-sm font-bold" style="color:${lp >= 60 ? 'var(--accent)' : 'var(--danger)'};">${sc ? sc.score + '/' + sc.total : '-'}</span>
+                        </div>`;
+                    }).join('')}
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center animate-fadeInUp stagger-2">
+                <button class="btn-secondary" data-action="backToMap"><i class="fa-solid fa-map mr-2"></i>ดูแผนที่</button>
+                <button class="btn-primary" data-action="resetProgress"><i class="fa-solid fa-rotate-left mr-2"></i>เล่นใหม่ทั้งหมด</button>
+            </div>
+        </main>`;
+
+        spawnConfetti(100);
+    }
+
+    // ============================================================
+    // จัดการ Event
+    // ============================================================
+    app.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        const action = btn.dataset.action;
+        Audio.play('click');
+
+        switch (action) {
+            case 'startGame':
+                state.screen = 'map';
+                render();
+                break;
+
+            case 'backToMap':
+                state.screen = isAllCompleted() ? 'complete' : 'map';
+                render();
+                break;
+
+            case 'selectLesson': {
+                const id = parseInt(btn.dataset.id);
+                if (getLessonStatus(id) === 'locked') return;
+                state.currentLesson = id - 1;
+                state.screen = 'lesson';
+                render();
+                break;
+            }
+
+            case 'startQuiz':
+                state.currentQ = 0;
+                state.streak = 0;
+                state.quizSession = { score: 0, total: LESSONS[state.currentLesson].quizzes.length, answers: [], xpEarned: 0, coinsEarned: 0, maxStreakInSession: 0 };
+                state.answered = false;
+                state.screen = 'quiz';
+                render();
+                break;
+
+            case 'answer': {
+                if (state.answered) return;
+                state.answered = true;
+                const idx = parseInt(btn.dataset.idx);
+                const lesson = LESSONS[state.currentLesson];
+                const quiz = lesson.quizzes[state.currentQ];
+                const isCorrect = idx === quiz.ans;
+
+                // ไฮไลท์ตัวเลือก
+                const options = document.querySelectorAll('.quiz-option');
+                options.forEach((opt, i) => {
+                    opt.classList.add('disabled');
+                    if (i === quiz.ans) opt.classList.add('correct');
+                    if (i === idx && !isCorrect) opt.classList.add('wrong');
+                });
+
+                // คำนวณคะแนน
+                let xpGain = 0;
+                let coinGain = 0;
+                let streakBonus = 0;
+
+                if (isCorrect) {
+                    state.streak++;
+                    if (state.streak > state.maxStreak) state.maxStreak = state.streak;
+                    streakBonus = Math.max(0, (state.streak - 1)) * 5;
+                    xpGain = DIFF_SCORES[quiz.diff] + streakBonus;
+                    coinGain = DIFF_COINS[quiz.diff];
+                    state.xp += xpGain;
+                    state.coins += coinGain;
+                    state.quizSession.score++;
+                    state.quizSession.xpEarned += xpGain;
+                    state.quizSession.coinsEarned += coinGain;
+                    Audio.play('correct');
+                    if (coinGain > 0) setTimeout(() => Audio.play('coin'), 200);
+                    showToast(`+${xpGain} XP${streakBonus > 0 ? ' (Streak +' + streakBonus + ')' : ''}  +${coinGain} เหรียญ`, 'success');
+                } else {
+                    state.streak = 0;
+                    Audio.play('wrong');
+                    showToast('ตอบผิด! ดูคำอธิบายด้านล่าง', 'error');
+                }
+
+                if (state.streak > state.quizSession.maxStreakInSession) {
+                    state.quizSession.maxStreakInSession = state.streak;
+                }
+
+                state.quizSession.answers.push({ correct: isCorrect, streakBonus });
+
+                // อัปเดตแถบ XP แบบ real-time
+                updateTopBar();
+
+                // ตรวจ Level Up
+                const newLvl = getLevelIndex(state.xp);
+                if (newLvl > state.prevLevel) {
+                    state.prevLevel = newLvl;
+                    setTimeout(() => showLevelUp(newLvl), 800);
+                }
+
+                // แสดง feedback
+                const feedback = document.getElementById('answer-feedback');
+                feedback.style.display = 'block';
+                feedback.innerHTML = `
+                    <div class="game-card p-4 animate-fadeInUp" style="border-color:${isCorrect ? 'var(--accent)' : 'var(--danger)'};">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid ${isCorrect ? 'fa-circle-check' : 'fa-circle-xmark'}" style="color:${isCorrect ? 'var(--accent)' : 'var(--danger)'};"></i>
+                            <span class="font-bold">${isCorrect ? 'ถูกต้อง!' : 'ไม่ถูกต้อง'}</span>
+                        </div>
+                        ${!isCorrect ? `<p class="text-sm" style="color:var(--muted);">คำตอบที่ถูกต้องคือ <strong style="color:var(--accent);">${quiz.opts[quiz.ans]}</strong></p>` : ''}
+                    </div>`;
+
+                // ปุ่มถัดไป
+                const nextContainer = document.getElementById('next-btn-container');
+                nextContainer.style.display = 'block';
+                const isLast = state.currentQ >= lesson.quizzes.length - 1;
+                nextContainer.innerHTML = `
+                    <button class="btn-primary" data-action="nextQuestion">
+                        ${isLast ? '<i class="fa-solid fa-flag-checkered mr-2"></i>ดูผลลัพธ์' : '<i class="fa-solid fa-arrow-right mr-2"></i>คำถามถัดไป'}
+                    </button>`;
+                break;
+            }
+
+            case 'nextQuestion': {
+                const lesson = LESSONS[state.currentLesson];
+                if (state.currentQ < lesson.quizzes.length - 1) {
+                    state.currentQ++;
+                    state.answered = false;
+                    state.screen = 'quiz';
+                    render();
+                } else {
+                    // บันทึกคะแนนบทเรียน (เฉพาะถ้าผ่าน)
+                    const s = state.quizSession;
+                    const pct = (s.score / s.total) * 100;
+                    if (pct >= 60) {
+                        const existing = state.lessonScores[lesson.id];
+                        // เก็บคะแนนที่ดีที่สุด
+                        if (!existing || s.score > existing.score) {
+                            state.lessonScores[lesson.id] = { score: s.score, total: s.total };
+                        }
+                    }
+                    saveProgress();
+                    state.screen = 'quizResult';
+                    render();
+                }
+                break;
+            }
+
+            case 'retryQuiz':
+                state.currentQ = 0;
+                state.streak = 0;
+                state.quizSession = { score: 0, total: LESSONS[state.currentLesson].quizzes.length, answers: [], xpEarned: 0, coinsEarned: 0, maxStreakInSession: 0 };
+                state.answered = false;
+                state.screen = 'quiz';
+                render();
+                break;
+
+            case 'resetProgress':
+                state.xp = 0;
+                state.coins = 0;
+                state.streak = 0;
+                state.maxStreak = 0;
+                state.lessonScores = {};
+                state.prevLevel = 0;
+                localStorage.removeItem('htmlQuest');
+                showToast('รีเซ็ตความคืบหน้าเรียบร้อย', 'info');
+                state.screen = 'start';
+                render();
+                break;
+        }
+    });
+
+    // อัปเดตแถบด้านบนแบบ real-time โดยไม่ต้อง re-render ทั้งหน้า
+    function updateTopBar() {
+        const lvl = getLevel(state.xp);
+        const lvlIdx = getLevelIndex(state.xp);
+        const curXp = getCurrentLevelXp(state.xp);
+        const nextXp = getNextLevelXp(state.xp);
+        const progress = nextXp > curXp ? ((state.xp - curXp) / (nextXp - curXp)) * 100 : 100;
+
+        const header = document.querySelector('header');
+        if (!header) return;
+
+        // อัปเดตตัวเลข
+        const xpSpan = header.querySelector('[style*="color:var(--accent)"]');
+        if (xpSpan) xpSpan.innerHTML = `<i class="fa-solid fa-star"></i> ${state.xp} XP`;
+        const coinSpan = header.querySelector('.coin-icon');
+        if (coinSpan) coinSpan.innerHTML = `<i class="fa-solid fa-coins"></i> ${state.coins}`;
+        const lvlSpan = header.querySelector('span.flex.items-center.gap-2');
+        if (lvlSpan) lvlSpan.innerHTML = `<i class="${lvl.icon}"></i> Lv.${lvlIdx + 1} ${lvl.name}`;
+
+        // อัปเดตแถบ XP
+        const bar = header.querySelector('.xp-bar-inner');
+        if (bar) bar.style.width = Math.min(progress, 100) + '%';
+
+        // อัปเดตตัวเลขใต้แถบ
+        const barTexts = header.querySelectorAll('.text-xs');
+        if (barTexts.length >= 2) {
+            barTexts[0].textContent = state.xp + ' XP';
+            barTexts[1].textContent = nextXp > curXp ? nextXp + ' XP' : 'MAX';
+        }
+
+        // Streak
+        let streakEl = header.querySelector('[style*="color:#ff6b6b"]');
+        if (state.streak > 1 && !streakEl) {
+            const statsDiv = header.querySelector('.flex.items-center.gap-4');
+            if (statsDiv) {
+                const span = document.createElement('span');
+                span.className = 'flex items-center gap-1';
+                span.style.color = '#ff6b6b';
+                span.innerHTML = `<i class="fa-solid fa-fire"></i> ${state.streak}x`;
+                statsDiv.insertBefore(span, statsDiv.firstChild);
+            }
+        } else if (streakEl) {
+            if (state.streak > 1) {
+                streakEl.innerHTML = `<i class="fa-solid fa-fire"></i> ${state.streak}x`;
             } else {
-                document.getElementById('approvedContent').classList.add('hidden');
-                document.getElementById('pendingContent').classList.remove('hidden');
+                streakEl.remove();
             }
         }
     }
 
-    function renderTeacherTable() {
-        const filter = document.getElementById('filterRoom').value;
-        const tbody = document.getElementById('teacherTableBody');
-        tbody.innerHTML = '';
+    // แสดง Level Up
+    function showLevelUp(lvlIdx) {
+        const lvl = LEVELS[lvlIdx];
+        Audio.play('levelup');
+        const overlay = document.getElementById('overlay-container');
+        overlay.innerHTML = `
+        <div class="levelup-overlay" data-action="closeLevelUp">
+            <div class="levelup-card">
+                <div class="text-5xl mb-4 animate-float"><i class="${lvl.icon}" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,0.6));"></i></div>
+                <div class="text-sm font-semibold mb-2" style="color:var(--gold);">LEVEL UP!</div>
+                <div class="text-3xl font-black mb-2" style="color:var(--accent);">Level ${lvlIdx + 1}</div>
+                <div class="text-xl font-semibold mb-6">${lvl.name}</div>
+                <div class="text-sm" style="color:var(--muted);">คลิกเพื่อดำเนินการต่อ</div>
+            </div>
+        </div>`;
 
-        const approvedStudents = students.filter(s => s.status === 'approved' && (filter === 'all' || s.room === filter));
-        
-        if(approvedStudents.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="10" style="color:#7f8c8d; padding:20px;">ไม่มีข้อมูลนักศึกษาในห้องนี้</td></tr>`;
-            return;
-        }
+        // คอนเฟตตี้เพิ่มเติม
+        spawnConfetti(50);
 
-        approvedStudents.forEach(s => {
-            tbody.innerHTML += `
-                <tr>
-                    <td><span class="room-tag">ห้อง ${s.room}</span></td>
-                    <td>${s.id}</td>
-                    <td style="text-align:left;">${s.name}</td>
-                    <td><input type="number" value="${s.scores.w}" onchange="updateScoreOnline('${s.id}', 'w', this.value)" style="width:55px; text-align:center;"></td>
-                    <td><input type="number" value="${s.scores.m}" onchange="updateScoreOnline('${s.id}', 'm', this.value)" style="width:55px; text-align:center;"></td>
-                    <td><input type="number" value="${s.scores.f}" onchange="updateScoreOnline('${s.id}', 'f', this.value)" style="width:55px; text-align:center;"></td>
-                    <td><input type="number" value="${s.scores.s}" onchange="updateScoreOnline('${s.id}', 's', this.value)" style="width:55px; text-align:center;"></td>
-                    <td><b style="color:var(--primary);">${s.total}</b></td>
-                    <td><b style="color:${s.grade === 'F' ? 'var(--danger)' : 'var(--success)'}">${s.grade}</b></td>
-                    <td><button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteUserOnline('${s.id}')">ลบ</button></td>
-                </tr>
-            `;
+        // ปิดเมื่อคลิก
+        overlay.querySelector('.levelup-overlay').addEventListener('click', () => {
+            overlay.innerHTML = '';
         });
     }
 
-    async function updateScoreOnline(id, type, val) {
-        const s = students.find(x => x.id === id);
-        s.scores[type] = parseFloat(val) || 0;
-        s.total = s.scores.w + s.scores.m + s.scores.f + s.scores.s;
-        
-        if(s.total >= 80) s.grade = 'A';
-        else if(s.total >= 70) s.grade = 'B';
-        else if(s.total >= 60) s.grade = 'C';
-        else if(s.total >= 50) s.grade = 'D';
-        else s.grade = 'F';
-
-        showLoading(true);
-        await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({
-                action: "update", id: s.id, status: s.status,
-                w: s.scores.w, m: s.scores.m, f: s.scores.f, s: s.scores.s,
-                total: s.total, grade: s.grade
-            })
-        });
-        showLoading(false);
-        renderTeacherTable();
-    }
-
-    function renderPendingTable() {
-        const pending = students.filter(s => s.status === 'pending');
-        document.getElementById('pendingCount').innerText = pending.length;
-        const tbody = document.getElementById('pendingTableBody');
-        tbody.innerHTML = '';
-        
-        if(pending.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="color:#7f8c8d; padding:20px;">ไม่มีรายการขออนุมัติค้างอยู่ในขณะนี้</td></tr>`;
-            return;
-        }
-
-        pending.forEach(s => {
-            tbody.innerHTML += `
-                <tr>
-                    <td><span class="room-tag">ห้อง ${s.room}</span></td>
-                    <td>${s.id}</td>
-                    <td>${s.name}</td>
-                    <td>
-                        <button class="btn btn-success" style="padding:4px 12px; font-size:12px; margin-right:5px;" onclick="approveOnline('${s.id}')">อนุมัติเข้าเรียน</button>
-                        <button class="btn btn-danger" style="padding:4px 12px; font-size:12px;" onclick="deleteUserOnline('${s.id}')">ปฏิเสธ</button>
-                    </td>
-                </tr>
-            `;
-        });
-    }
-
-    async function approveOnline(id) {
-        const s = students.find(x => x.id === id);
-        s.status = 'approved';
-        showLoading(true);
-        await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({
-                action: "update", id: s.id, status: "approved",
-                w: s.scores.w, m: s.scores.m, f: s.scores.f, s: s.scores.s,
-                total: s.total, grade: s.grade
-            })
-        });
-        showLoading(false);
-        renderTeacherTable();
-        renderPendingTable();
-    }
-
-    async function deleteUserOnline(id) {
-        if(!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบรายชื่อนักศึกษาคนนี้ออกจากระบบอย่างถาวร?')) return;
-        showLoading(true);
-        await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "delete", id: id })
-        });
-        students = students.filter(s => s.id !== id);
-        showLoading(false);
-        renderTeacherTable();
-        renderPendingTable();
-    }
-
-    function showTeacherTab(tab) {
-        document.getElementById('scoreTab').classList.toggle('hidden', tab !== 'score');
-        document.getElementById('approveTab').classList.toggle('hidden', tab !== 'approve');
-        document.querySelectorAll('.tab-btn')[2].classList.toggle('active', tab === 'score');
-        document.querySelectorAll('.tab-btn')[3].classList.toggle('active', tab === 'approve');
-    }
-
-    function exportExcel() {
-        let csv = "\uFEFFห้อง,รหัสนักศึกษา,ชื่อ-นามสกุล,งาน(40),กลางภาค(20),ปลายภาค(20),จิตพิสัย(10),คะแนนรวม(100),เกรด\n";
-        students.filter(s => s.status === 'approved').forEach(s => {
-            csv += `${s.room},${s.id},${s.name},${s.scores.w},${s.scores.m},${s.scores.f},${s.scores.s},${s.total},${s.grade}\n`;
-        });
-        const blob = new Blob([csv], {type: 'text/csv;charset=utf-8'});
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "รายงานคะแนนสรุป_แยกห้องเรียน.csv";
-        link.click();
-    }
-</script>
+    // ============================================================
+    // เริ่มต้น
+    // ============================================================
+    loadProgress();
+    state.prevLevel = getLevelIndex(state.xp);
+    initBg();
+    animateBg();
+    render();
+    </script>
 </body>
 </html>
