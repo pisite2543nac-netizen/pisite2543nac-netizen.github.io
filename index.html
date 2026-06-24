@@ -43,23 +43,21 @@
         .nc{width:50px;height:50px;border-radius:50%;border:3px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s;}
         .mc{width:3px;height:36px;margin:0 auto;border-radius:2px;}.mc.d{background:var(--accent);}.mc.p{background:var(--border);}
         .coin-i{color:var(--gold);filter:drop-shadow(0 0 4px rgba(227,179,65,.5));}
-        .db{padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:600;}
-        .d-easy{background:rgba(0,255,136,.12);color:var(--accent);}.d-medium{background:rgba(240,136,62,.12);color:#f0883e;}.d-hard{background:rgba(255,107,107,.12);color:var(--danger);}
-        .auth-card{max-width:420px;width:100%;}
+        .auth-card{max-width:440px;width:100%;}
         .tab-btn{padding:10px 0;flex:1;text-align:center;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;color:var(--muted);}
         .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
         .input-field{width:100%;padding:12px 16px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Kanit',sans-serif;font-size:.95rem;outline:none;transition:border-color .3s;}
         .input-field:focus{border-color:var(--accent);}
         .input-field::placeholder{color:var(--muted);}
-        .role-opt{padding:12px 16px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .3s;flex:1;text-align:center;}
-        .role-opt.sel{border-color:var(--accent);background:rgba(0,255,136,.06);}
-        .role-opt:hover{border-color:rgba(0,255,136,.5);}
+        .admin-toggle{cursor:pointer;transition:color .3s;}.admin-toggle:hover{color:var(--gold);}
+        .admin-box{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s ease;opacity:0;}
+        .admin-box.open{max-height:200px;opacity:1;}
         .sb{animation:si .4s ease forwards;border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:10px;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.4);pointer-events:auto;}
         .sb.lv{animation:so .3s ease forwards;}
         .sb-s{background:rgba(0,255,136,.15);border:1px solid rgba(0,255,136,.3);color:var(--accent);}.sb-e{background:rgba(255,107,107,.15);border:1px solid rgba(255,107,107,.3);color:var(--danger);}.sb-i{background:rgba(227,179,65,.15);border:1px solid rgba(227,179,65,.3);color:var(--gold);}
         .suc-b{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
         .err-b{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
-        .confetti{position:fixed;width:10px;height:10px;z-index:100;animation:cf linear forwards;pointer-events:none;}
+        .confetti{position:fixed;width:10px;height:10px;z-index:100;animation:cfa linear forwards;pointer-events:none;}
         .lu-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:90;display:flex;align-items:center;justify-content:center;animation:fi .3s ease;}.lu-c{text-align:center;animation:sc .5s ease;}
         @keyframes np{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.4);}50%{box-shadow:0 0 0 12px rgba(0,255,136,0);}}
         @keyframes fiu{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
@@ -68,14 +66,13 @@
         @keyframes fl{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
         @keyframes gl{0%,100%{text-shadow:0 0 20px rgba(0,255,136,.3);}50%{text-shadow:0 0 40px rgba(0,255,136,.6),0 0 80px rgba(0,255,136,.2);}}
         @keyframes sc{from{transform:scale(.5);opacity:0;}to{transform:scale(1);opacity:1;}}
-        @keyframes cf{0%{transform:translateY(-100vh) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+        @keyframes cfa{0%{transform:translateY(-100vh) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
         @keyframes si{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
         @keyframes so{from{transform:translateX(0);opacity:1;}to{transform:translateX(100%);opacity:0;}}
-        @keyframes sh{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-3px);}80%{transform:translateX(3px);}}
         .afiu{animation:fiu .6s ease forwards;}.afi{animation:fi .5s ease forwards;}.asd{animation:sd .4s ease forwards;}.afl{animation:fl 3s ease-in-out infinite;}.agl{animation:gl 3s ease-in-out infinite;}
         .s1{animation-delay:.1s;opacity:0;}.s2{animation-delay:.2s;opacity:0;}.s3{animation-delay:.3s;opacity:0;}.s4{animation-delay:.4s;opacity:0;}.s5{animation-delay:.5s;opacity:0;}
         ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-        @media(max-width:768px){.code-block,.ce,.ln{font-size:.7rem;}.nc{width:42px;height:42px;font-size:.95rem;}.mc{height:28px;}.ew,.ce{min-height:180px;}}
+        @media(max-width:768px){.code-block,.ce,.ln{font-size:.7rem;}.nc{width:42px;height:42px;font-size:.95rem;}.mc{height:28px;}.ew,.ce{min-height:180px;}.admin-table-wrap{font-size:.78rem;}}
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
     </style>
 </head>
@@ -85,10 +82,10 @@
     <div id="tc" style="position:fixed;top:20px;right:20px;z-index:80;display:flex;flex-direction:column;gap:10px;pointer-events:none;"></div>
     <div id="oc"></div>
 <script>
-/* ================================================================
-   ข้อมูลบทเรียน แบบฝึกพิมพ์ และแบบทดสอบเขียนโค้ด
-   ================================================================ */
-const L=[
+const ADMIN_CODE = 'admin1234';
+const DEFAULT_PW = '123456';
+
+const LS=[
 {id:1,title:'โครงสร้างพื้นฐาน HTML',icon:'fa-solid fa-house-chimney',
 desc:'เรียนรู้โครงสร้างหลักของเอกสาร HTML',
 pts:['ทุกเอกสาร HTML เริ่มด้วย <code class="cf" style="color:#7ee787;">&lt;!DOCTYPE html&gt;</code>','<code class="cf" style="color:#7ee787;">&lt;html&gt;</code> เป็นภาชนะหลักครอบทุกอย่าง','<code class="cf" style="color:#7ee787;">&lt;head&gt;</code> ใส่ข้อมูลเมตา เช่น <code class="cf" style="color:#7ee787;">&lt;title&gt;</code>','<code class="cf" style="color:#7ee787;">&lt;body&gt;</code> ใส่เนื้อหาที่แสดงบนหน้าจอ'],
@@ -178,7 +175,7 @@ start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n 
 cks:[{lb:'มี <ol>',ck:d=>!!d.querySelector('ol')},{lb:'มี <li> อย่างน้อย 4',ck:d=>d.querySelectorAll('ol li').length>=4}]},
 {title:'สร้างลิสต์ซ้อน',desc:'สร้าง ul ที่มี li ซ้อน ul อยู่ข้างในอีกชั้น',
 start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
-cks:[{lb:'มี ul ชั้นนอก',ck:d=>!!d.querySelector('ul')},{lb:'มี ul ชั้นใน (ซ้อนกัน)',ck:d=>{const inner=d.querySelector('ul ul');return !!inner;}}]}
+cks:[{lb:'มี ul ชั้นนอก',ck:d=>!!d.querySelector('ul')},{lb:'มี ul ชั้นใน (ซ้อนกัน)',ck:d=>!!d.querySelector('ul ul')}]}
 ]},
 {id:6,title:'ตาราง',icon:'fa-solid fa-table',
 desc:'เรียนรู้การสร้างตาราง',
@@ -191,7 +188,7 @@ tests:[
 {title:'สร้างตารางพื้นฐาน',desc:'สร้างตารางที่มี th และ td',
 start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
 cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <th>',ck:d=>!!d.querySelector('th')},{lb:'มี <td>',ck:d=>!!d.querySelector('td')}]},
-{title:'สร้างตารางหลายแถว',desc:'สร้างตารางที่มี tr อย่างน้อย 3 แถว (รวมหัวตาราง)',
+{title:'สร้างตารางหลายแถว',desc:'สร้างตารางที่มี tr อย่างน้อย 3 แถว',
 start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
 cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <tr> อย่างน้อย 3',ck:d=>d.querySelectorAll('tr').length>=3}]},
 {title:'สร้างตาราง colspan',desc:'สร้างตารางที่ใช้ colspan รวมคอลัมน์',
@@ -202,18 +199,12 @@ cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี colspan'
 
 const LVLS=[{m:0,n:'เด็กใหม่',i:'fa-solid fa-seedling'},{m:70,n:'ผู้ฝึกหัด',i:'fa-solid fa-user-graduate'},{m:170,n:'นักเขียนโค้ด',i:'fa-solid fa-code'},{m:300,n:'โปรแกรมเมอร์',i:'fa-solid fa-laptop-code'},{m:450,n:'มาสเตอร์ HTML',i:'fa-solid fa-crown'}];
 
-/* ================================================================
-   สถานะเกม
-   ================================================================ */
 const S={screen:'auth',user:null,curL:0,curQ:0,xp:0,coins:0,streak:0,maxStreak:0,
-lScores:{},pDone:{},tDone:{},answered:false,prevLvl:0,
-authTab:'login',authErr:'',
+lScores:{},pDone:{},tDone:{},prevLvl:0,
+authTab:'login',authErr:'',adminOpen:false,
 tSession:{results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0},
 pSubmitted:false,pAllPass:false};
 
-/* ================================================================
-   ระบบเสียง
-   ================================================================ */
 const AX={c:null,
 init(){if(!this.c)this.c=new(window.AudioContext||window.webkitAudioContext)();},
 p(t){try{this.init();const o=this.c.createOscillator(),g=this.c.createGain();o.connect(g);g.connect(this.c.destination);g.gain.value=.06;const n=this.c.currentTime;
@@ -225,9 +216,6 @@ else if(t==='cl'){o.type='sine';o.frequency.setValueAtTime(800,n);g.gain.value=.
 else if(t==='win'){o.frequency.setValueAtTime(523,n);o.frequency.setValueAtTime(659,n+.1);o.frequency.setValueAtTime(784,n+.2);o.frequency.setValueAtTime(1047,n+.3);o.frequency.setValueAtTime(1319,n+.4);g.gain.exponentialRampToValueAtTime(.001,n+.7);o.start(n);o.stop(n+.7);}
 }catch(e){}}};
 
-/* ================================================================
-   พื้นหลัง Canvas
-   ================================================================ */
 const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');let bgS=[];
 function initBg(){bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];
 const sy=['<','>','/','=','"','}','{',';','#','</>','<div>','<p>','<h1>'];
@@ -236,9 +224,6 @@ for(let i=0;i<cn;i++)bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.hei
 function aBg(){bgX.clearRect(0,0,bgC.width,bgC.height);bgS.forEach(s=>{s.y-=s.sp;s.x+=s.dr;if(s.y<-30){s.y=bgC.height+30;s.x=Math.random()*bgC.width;}if(s.x<-30)s.x=bgC.width+30;if(s.x>bgC.width+30)s.x=-30;bgX.font=`${s.sz}px "Fira Code",monospace`;bgX.fillStyle=`rgba(0,255,136,${s.op})`;bgX.fillText(s.s,s.x,s.y);});requestAnimationFrame(aBg);}
 addEventListener('resize',()=>{bgC.width=innerWidth;bgC.height=innerHeight;});
 
-/* ================================================================
-   ฟังก์ชันช่วยเหลือ
-   ================================================================ */
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function hlC(c){let h=esc(c);h=h.replace(/(&lt;!--[\s\S]*?--&gt;)/g,'<span class="cmt">$1</span>');h=h.replace(/(&lt;!DOCTYPE\s+html&gt;)/gi,'<span class="doctype">$1</span>');h=h.replace(/(&lt;\/?)([\w-]+)/g,'$1<span class="tag">$2</span>');h=h.replace(/([\w-]+)(=)(&quot;)(.*?)(&quot;)/g,'<span class="attr">$1</span>$2<span class="val">$3$4$5</span>');return h;}
 function gLv(xp){let l=LVLS[0];for(const v of LVLS)if(xp>=v.m)l=v;return l;}
@@ -246,33 +231,34 @@ function gLi(xp){let i=0;for(let j=0;j<LVLS.length;j++)if(xp>=LVLS[j].m)i=j;retu
 function gNx(xp){const i=gLi(xp);return i>=LVLS.length-1?LVLS[i].m:LVLS[i+1].m;}
 function gCx(xp){return LVLS[gLi(xp)].m;}
 function gSt(id){return S.lScores[id]?'done':(id===1||S.lScores[id-1]?'cur':'locked');}
-function allDone(){return L.every(l=>S.lScores[l.id]);}
+function allDone(){return LS.every(l=>S.lScores[l.id]);}
 function gBody(c){const m=c.match(/<body[^>]*>([\s\S]*?)<\/body>/i);return m?m[1]:c;}
 function toast(m,t='s'){const c=document.getElementById('tc');const d=document.createElement('div');d.className=`sb sb-${t}`;const ic={s:'fa-circle-check',e:'fa-circle-xmark',i:'fa-circle-info'};d.innerHTML=`<i class="fa-solid ${ic[t]||ic.i}"></i><span>${m}</span>`;c.appendChild(d);setTimeout(()=>d.classList.add('lv'),2500);setTimeout(()=>d.remove(),2900);}
 function conf(n=40){const cs=['#00ff88','#e3b341','#ff6b6b','#79c0ff','#ffa657','#d2a8ff'];for(let i=0;i<n;i++){const p=document.createElement('div');p.className='confetti';p.style.left=Math.random()*100+'vw';p.style.background=cs[Math.floor(Math.random()*cs.length)];p.style.width=(6+Math.random()*8)+'px';p.style.height=(6+Math.random()*8)+'px';p.style.borderRadius=Math.random()>.5?'50%':'2px';p.style.animationDuration=(2+Math.random()*3)+'s';p.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),5500);}}
+function last3(id){return id.length>=3?id.slice(-3):id;}
 
 /* ================================================================
-   ระบบ Auth (localStorage)
+   Auth — ระบบผู้ใช้
    ================================================================ */
-function getUsers(){try{return JSON.parse(localStorage.getItem('hq_users'))||[];}catch(e){return[];}}
-function saveUsers(u){localStorage.setItem('hq_users',JSON.stringify(u));}
-function getUser(name){return getUsers().find(u=>u.username===name);}
-function regUser(name,pw,role){
-    if(getUser(name))return'ชื่อผู้ใช้นี้มีอยู่แล้ว';
-    if(name.length<2)return'ชื่อผู้ใช้ต้องมีอย่างน้อย 2 ตัวอักษร';
+function getU(){try{return JSON.parse(localStorage.getItem('hq_u'))||[];}catch(e){return[];}}
+function saveU(u){localStorage.setItem('hq_u',JSON.stringify(u));}
+function findU(sid){return getU().find(u=>u.sid===sid);}
+function regU(name,sid,room,pw){
+    if(!name.trim())return'กรุณากรอกชื่อ';
+    if(!sid.trim())return'กรุณากรอกรหัสนักศึกษา';
+    if(sid.trim().length<3)return'รหัสนักศึกษาต้องมีอย่างน้อย 3 ตัว';
+    if(!room.trim())return'กรุณากรอกห้องเรียน';
     if(pw.length<3)return'รหัสผ่านต้องมีอย่างน้อย 3 ตัวอักษร';
-    const users=getUsers();users.push({username:name,password:pw,role,xp:0,coins:0,lScores:{},pDone:{},tDone:{},maxStreak:0});saveUsers(users);return'ok';
+    if(findU(sid.trim()))return'รหัสนักศึกษานี้มีอยู่แล้ว';
+    const u=getU();u.push({name:name.trim(),sid:sid.trim(),room:room.trim(),password:pw,xp:0,coins:0,lScores:{},pDone:{},tDone:{},maxStreak:0});saveU(u);return'ok';
 }
-function loginUser(name,pw){
-    const u=getUser(name);if(!u)return'ไม่พบชื่อผู้ใช้นี้';
+function loginU(sid,pw){
+    const u=findU(sid.trim());if(!u)return'ไม่พบรหัสนักศึกษานี้';
     if(u.password!==pw)return'รหัสผ่านไม่ถูกต้อง';return u;
 }
-function saveCurUser(){
-    if(!S.user)return;const users=getUsers();
-    const i=users.findIndex(u=>u.username===S.user.username);
-    if(i>=0){users[i]={...users[i],xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak};saveUsers(users);}
-}
-function loadUserData(u){S.xp=u.xp||0;S.coins=u.coins||0;S.lScores=u.lScores||{};S.pDone=u.pDone||{};S.tDone=u.tDone||{};S.maxStreak=u.maxStreak||0;S.prevLvl=gLi(S.xp);}
+function saveCur(){if(!S.user||S.user.role==='admin')return;const u=getU();const i=u.findIndex(x=>x.sid===S.user.sid);
+if(i>=0){u[i]={...u[i],xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak};saveU(u);}}
+function loadU(u){S.xp=u.xp||0;S.coins=u.coins||0;S.lScores=u.lScores||{};S.pDone=u.pDone||{};S.tDone=u.tDone||{};S.maxStreak=u.maxStreak||0;S.prevLvl=gLi(S.xp);}
 
 /* ================================================================
    เรนเดอร์
@@ -281,21 +267,21 @@ const app=document.getElementById('app');
 function R(){switch(S.screen){
     case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;
     case 'lesson':rLesson();break;case 'practice':rPractice();break;
-    case 'testIntro':rTestIntro();break;case 'test':rTest();break;
-    case 'testResult':rTestResult();break;case 'complete':rComplete();break;
+    case 'testIntro':rTI();break;case 'test':rTest();break;
+    case 'testResult':rTR();break;case 'complete':rComp();break;
 }}
 
-/* --- แถบด้านบน --- */
 function tBar(){
     const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);
     const pct=nx>cx?((S.xp-cx)/(nx-cx))*100:100;
+    const label=S.user?S.user.role==='admin'?'Admin':`${S.user.name} (${last3(S.user.sid)})`:'';
     return `<header class="sticky top-0 z-50 asd" style="background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
     <div class="max-w-4xl mx-auto px-4 py-3">
         <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-3">
                 <button class="bs bsm" data-action="logout" title="ออกจากระบบ"><i class="fa-solid fa-right-from-bracket"></i></button>
                 <span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--accent);"><i class="${lv.i}"></i> Lv.${li+1} ${lv.n}</span>
-                <span class="text-xs px-2 py-1 rounded-full" style="background:var(--card2);color:var(--muted);">${S.user?S.user.username:''}</span>
+                <span class="text-xs px-2 py-1 rounded-full" style="background:var(--card2);color:var(--muted);">${label}</span>
             </div>
             <div class="flex items-center gap-4 text-sm">
                 ${S.streak>1?`<span class="flex items-center gap-1" style="color:#ff6b6b;"><i class="fa-solid fa-fire"></i> ${S.streak}x</span>`:''}
@@ -308,14 +294,16 @@ function tBar(){
     </div></header>`;
 }
 
-/* --- หน้า Auth --- */
+/* ================================================================
+   หน้า Auth — สมัคร: ชื่อ, รหัสนักศึกษา, ห้อง, รหัสผ่าน
+   ================================================================ */
 function rAuth(){
     const isL=S.authTab==='login';
-    app.innerHTML=`<div class="min-h-screen flex items-center justify-center px-4">
+    app.innerHTML=`<div class="min-h-screen flex items-center justify-center px-4 py-8">
     <div class="auth-card afiu">
         <div class="text-center mb-6">
             <div class="text-4xl font-black agl mb-2" style="color:var(--accent);">HTML QUEST</div>
-            <p class="text-sm" style="color:var(--muted);">เข้าสู่ระบบเพื่อเริ่มเรียนรู้</p>
+            <p class="text-sm" style="color:var(--muted);">เรียนรู้ HTML ผ่านการเขียนโค้ดจริง</p>
         </div>
         <div class="gc p-6">
             <div class="flex mb-6" style="border-bottom:1px solid var(--border);">
@@ -323,76 +311,117 @@ function rAuth(){
                 <div class="tab-btn ${!isL?'active':''}" data-action="authTab" data-tab="register">สมัครสมาชิก</div>
             </div>
             ${S.authErr?`<div class="err-b mb-4 text-sm"><i class="fa-solid fa-circle-xmark" style="color:var(--danger);"></i><span>${S.authErr}</span></div>`:''}
+
+            ${isL?`
+            <!-- ล็อกอิน: รหัสนักศึกษา + รหัสผ่าน -->
             <div class="space-y-4">
                 <div>
-                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">ชื่อผู้ใช้</label>
-                    <input type="text" id="authUser" class="input-field" placeholder="กรอกชื่อผู้ใช้" value="${isL?'':document.getElementById('authUser')?.value||''}">
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-id-card mr-1"></i>รหัสนักศึกษา</label>
+                    <input type="text" id="aSid" class="input-field cf" placeholder="กรอกรหัสนักศึกษา" autocomplete="off">
                 </div>
                 <div>
-                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">รหัสผ่าน</label>
-                    <input type="password" id="authPw" class="input-field" placeholder="กรอกรหัสผ่าน">
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-lock mr-1"></i>รหัสผ่าน</label>
+                    <input type="password" id="aPw" class="input-field" placeholder="กรอกรหัสผ่าน">
                 </div>
-                ${!isL?`
+                <button class="bp w-full" data-action="doLogin"><i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ</button>
+            </div>
+            `:`
+            <!-- สมัคร: ชื่อ + รหัสนักศึกษา + ห้อง + รหัสผ่าน -->
+            <div class="space-y-4">
                 <div>
-                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">ยืนยันรหัสผ่าน</label>
-                    <input type="password" id="authPw2" class="input-field" placeholder="กรอกรหัสผ่านอีกครั้ง">
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-user mr-1"></i>ชื่อ-นามสกุล</label>
+                    <input type="text" id="rName" class="input-field" placeholder="กรอกชื่อ-นามสกุล">
                 </div>
                 <div>
-                    <label class="text-sm font-semibold mb-2 block" style="color:var(--muted);">บทบาท</label>
-                    <div class="flex gap-3">
-                        <div class="role-opt ${S._role!=='admin'?'sel':''}" data-action="setRole" data-role="student">
-                            <i class="fa-solid fa-user-graduate text-lg mb-1" style="color:var(--accent);"></i>
-                            <div class="text-sm font-semibold">ผู้เรียน</div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-id-card mr-1"></i>รหัสนักศึกษา</label>
+                    <input type="text" id="rSid" class="input-field cf" placeholder="กรอกรหัสนักศึกษา" autocomplete="off">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-door-open mr-1"></i>ห้องเรียน</label>
+                    <input type="text" id="rRoom" class="input-field" placeholder="เช่น ม.1/1, ปวช.1/2">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-lock mr-1"></i>รหัสผ่าน</label>
+                    <input type="password" id="rPw" class="input-field" placeholder="รหัสผ่านเริ่มต้น: 123456" value="123456">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-lock mr-1"></i>ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="rPw2" class="input-field" placeholder="กรอกรหัสผ่านอีกครั้ง" value="123456">
+                </div>
+                <button class="bp w-full" data-action="doReg"><i class="fa-solid fa-user-plus"></i> สมัครสมาชิก</button>
+            </div>
+            `}
+
+            <!-- รหัสแอดมิน -->
+            <div class="mt-6 pt-5" style="border-top:1px solid var(--border);">
+                <div class="admin-toggle flex items-center gap-2 text-sm" style="color:var(--muted);" data-action="toggleAdmin">
+                    <i class="fa-solid fa-shield-halved" style="color:var(--gold);"></i>
+                    <span>เข้าสู่ระบบแอดมิน</span>
+                    <i class="fa-solid fa-chevron-down ml-auto text-xs transition-transform ${S.adminOpen?'rotate-180':''}" id="adminArrow"></i>
+                </div>
+                <div class="admin-box ${S.adminOpen?'open':''}" id="adminBox">
+                    <div class="space-y-3 pt-4">
+                        <div>
+                            <label class="text-sm font-semibold mb-1 block" style="color:var(--gold);">รหัสแอดมิน</label>
+                            <input type="password" id="aAdmin" class="input-field" placeholder="กรอกรหัสแอดมิน" style="border-color:rgba(227,179,65,.3);">
                         </div>
-                        <div class="role-opt ${S._role==='admin'?'sel':''}" data-action="setRole" data-role="admin">
-                            <i class="fa-solid fa-user-shield text-lg mb-1" style="color:var(--gold);"></i>
-                            <div class="text-sm font-semibold">ผู้ดูแล</div>
-                        </div>
+                        <button class="bs w-full" style="border-color:rgba(227,179,65,.3);color:var(--gold);" data-action="doAdmin">
+                            <i class="fa-solid fa-shield-halved"></i> เข้าแอดมิน
+                        </button>
                     </div>
-                </div>`:''}
-                <button class="bp w-full" data-action="${isL?'doLogin':'doRegister'}">${isL?'<i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ':'<i class="fa-solid fa-user-plus"></i> สมัครสมาชิก'}</button>
+                </div>
             </div>
         </div>
     </div></div>`;
     S.authErr='';
 }
 
-/* --- หน้า Admin --- */
+/* ================================================================
+   หน้า Admin — แสดง ชื่อ, ห้อง, ท้าย3ตัว, คะแนน, เลเวล
+   ================================================================ */
 function rAdmin(){
-    const users=getUsers().filter(u=>u.role==='student');
-    const totalChecks=L.reduce((s,l)=>s+l.tests.reduce((s2,t)=>s2+t.cks.length,0),0);
-    app.innerHTML=`${tBar()}<main class="max-w-5xl mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold mb-2"><i class="fa-solid fa-user-shield mr-2" style="color:var(--gold);"></i>แดชบอร์ดผู้ดูแล</h1>
+    const users=getU();
+    const totalCk=LS.reduce((s,l)=>s+l.tests.reduce((s2,t)=>s2+t.cks.length,0),0);
+    app.innerHTML=`${tBar()}<main class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-2"><i class="fa-solid fa-shield-halved mr-2" style="color:var(--gold);"></i>แดชบอร์ดผู้ดูแล</h1>
         <p class="mb-8" style="color:var(--muted);">ภาพรวมผู้เรียนทั้งหมด</p>
+
+        <!-- สถิติรวม -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 afiu">
             <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--accent);">${users.length}</div><div class="text-xs mt-1" style="color:var(--muted);">ผู้เรียนทั้งหมด</div></div>
             <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--gold);">${users.length?Math.round(users.reduce((s,u)=>s+gLi(u.xp),0)/users.length)+1:0}</div><div class="text-xs mt-1" style="color:var(--muted);">เลเวลเฉลี่ย</div></div>
-            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:#79c0ff;">${users.filter(u=>allDoneU(u)).length}</div><div class="text-xs mt-1" style="color:var(--muted);">เรียนครบทุกบท</div></div>
+            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:#79c0ff;">${users.filter(u=>LS.every(l=>u.lScores[l.id])).length}</div><div class="text-xs mt-1" style="color:var(--muted);">เรียนครบทุกบท</div></div>
             <div class="gc p-5 text-center"><div class="text-3xl font-black coin-i">${users.reduce((s,u)=>s+u.coins,0)}</div><div class="text-xs mt-1" style="color:var(--muted);">เหรียญรวม</div></div>
         </div>
+
+        <!-- ตารางผู้เรียน -->
         <div class="gc overflow-hidden afiu s1">
             <div class="p-4" style="border-bottom:1px solid var(--border);"><h2 class="font-bold">รายชื่อผู้เรียน</h2></div>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto admin-table-wrap">
                 <table class="w-full text-sm">
                     <thead><tr style="background:var(--card2);">
-                        <th class="text-left p-3 font-semibold">ชื่อผู้ใช้</th>
+                        <th class="text-left p-3 font-semibold">ชื่อ</th>
+                        <th class="text-center p-3 font-semibold">ห้อง</th>
+                        <th class="text-center p-3 font-semibold">ท้าย 3 ตัว</th>
                         <th class="text-center p-3 font-semibold">เลเวล</th>
                         <th class="text-center p-3 font-semibold">XP</th>
                         <th class="text-center p-3 font-semibold">เหรียญ</th>
-                        <th class="text-center p-3 font-semibold">บทที่เรียน</th>
-                        <th class="text-center p-3 font-semibold">ฝึกพิมพ์</th>
-                        <th class="text-center p-3 font-semibold">ทดสอบ</th>
+                        <th class="text-center p-3 font-semibold">คะแนน<br><span class="font-normal text-xs" style="color:var(--muted);">ทดสอบ</span></th>
+                        <th class="text-center p-3 font-semibold">บทที่<br><span class="font-normal text-xs" style="color:var(--muted);">ผ่าน</span></th>
                     </tr></thead>
-                    <tbody>${users.length===0?'<tr><td colspan="7" class="p-6 text-center" style="color:var(--muted);">ยังไม่มีผู้เรียน</td></tr>':users.map(u=>{
-                        const li=gLi(u.xp);const ld=L.filter(l=>u.lScores[l.id]).length;const pd=L.filter(l=>u.pDone[l.id]).length;const td=L.filter(l=>u.tDone[l.id]).length;
+                    <tbody>${users.length===0?`<tr><td colspan="8" class="p-6 text-center" style="color:var(--muted);">ยังไม่มีผู้เรียน</td></tr>`:users.map(u=>{
+                        const li=gLi(u.xp);const ld=LS.filter(l=>u.lScores[l.id]).length;
+                        const totalScored=Object.values(u.lScores).reduce((s,v)=>s+v.score,0);
+                        const totalPossible=Object.values(u.lScores).reduce((s,v)=>s+v.total,0);
                         return `<tr style="border-top:1px solid var(--border);">
-                            <td class="p-3 font-semibold">${esc(u.username)}</td>
-                            <td class="p-3 text-center"><span style="color:var(--accent);">Lv.${li+1}</span></td>
+                            <td class="p-3 font-semibold">${esc(u.name)}</td>
+                            <td class="p-3 text-center">${esc(u.room)}</td>
+                            <td class="p-3 text-center"><span class="cf font-bold" style="color:var(--gold);">${last3(u.sid)}</span></td>
+                            <td class="p-3 text-center"><span style="color:var(--accent);">Lv.${li+1}</span> <span class="text-xs" style="color:var(--muted);">${LVLS[li].n}</span></td>
                             <td class="p-3 text-center">${u.xp}</td>
                             <td class="p-3 text-center coin-i">${u.coins}</td>
-                            <td class="p-3 text-center">${ld}/${L.length}</td>
-                            <td class="p-3 text-center">${pd}/${L.length}</td>
-                            <td class="p-3 text-center">${td}/${L.length}</td>
+                            <td class="p-3 text-center"><span class="font-bold" style="color:${totalPossible>0?'var(--accent)':'var(--muted)'};">${totalPossible>0?totalScored+'/'+totalPossible:'-'}</span></td>
+                            <td class="p-3 text-center">${ld} / ${LS.length}</td>
                         </tr>`;}).join('')}
                     </tbody>
                 </table>
@@ -400,21 +429,20 @@ function rAdmin(){
         </div>
     </main>`;
 }
-function allDoneU(u){return L.every(l=>u.lScores[l.id]);}
 
-/* --- หน้าแผนที่ --- */
+/* --- แผนที่ --- */
 function rMap(){
     let nodes='';
-    L.forEach((l,i)=>{
+    LS.forEach((l,i)=>{
         const st=gSt(l.id),sc=S.lScores[l.id],pd=S.pDone[l.id],td=S.tDone[l.id];
-        if(i>0){const cd=gSt(L[i-1].id)==='done';nodes+=`<div class="mc ${cd?'d':'p'}"></div>`;}
+        if(i>0){const cd=gSt(LS[i-1].id)==='done';nodes+=`<div class="mc ${cd?'d':'p'}"></div>`;}
         nodes+=`<div class="mn ${st} afiu s${Math.min(i+1,5)}" data-action="${st==='locked'?'':'selL'}" data-id="${l.id}">
             <div class="gc p-4 flex items-center gap-4 max-w-md mx-auto" style="${st==='cur'?'border-color:var(--accent);box-shadow:0 0 20px rgba(0,255,136,.1);':''}">
                 <div class="nc flex-shrink-0">${st==='done'?'<i class="fa-solid fa-check" style="color:var(--bg);"></i>':st==='locked'?'<i class="fa-solid fa-lock" style="color:var(--muted);"></i>':`<i class="${l.icon}" style="color:var(--accent);"></i>`}</div>
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 mb-1 flex-wrap">
                         <span class="text-xs font-semibold" style="color:var(--muted);">บทที่ ${l.id}</span>
-                        ${sc?`<span class="text-xs" style="color:var(--accent);">ทดสอบ ${sc.score}/${sc.total}</span>`:''}
+                        ${sc?`<span class="text-xs" style="color:var(--accent);">${sc.score}/${sc.total}</span>`:''}
                         ${pd?'<span class="text-xs" style="color:var(--gold);"><i class="fa-solid fa-keyboard"></i></span>':''}
                         ${td?'<span class="text-xs" style="color:#79c0ff;"><i class="fa-solid fa-pen-to-square"></i></span>':''}
                     </div>
@@ -432,57 +460,33 @@ function rMap(){
     </main>`;
 }
 
-/* --- หน้าบทเรียน --- */
+/* --- บทเรียน --- */
 function rLesson(){
-    const l=L[S.curL];
+    const l=LS[S.curL];
     app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
         <button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับ</button>
-        <div class="afiu">
-            <span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(0,255,136,.1);color:var(--accent);">บทที่ ${l.id}</span>
-            <h1 class="text-2xl md:text-3xl font-bold mb-2">${l.title}</h1>
-            <p class="mb-6" style="color:var(--muted);">${l.desc}</p>
-        </div>
-        <div class="gc p-6 mb-6 afiu s1">
-            <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i> สิ่งที่ต้องรู้</h2>
-            <ul class="space-y-3">${l.pts.map(p=>`<li class="flex items-start gap-3 text-sm leading-relaxed"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.7rem;"></i><span>${p}</span></li>`).join('')}</ul>
-        </div>
-        <div class="afiu s2 mb-3">
-            <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดตัวอย่าง</span></div>
-            <div class="code-block">${hlC(l.code)}</div>
-        </div>
-        <div class="afiu s3 mb-8">
-            <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">ผลลัพธ์</span></div>
-            <div class="pf"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe srcdoc="${esc(l.code)}" sandbox="allow-scripts" title="ตัวอย่าง"></iframe></div>
-        </div>
-        <div class="text-center afiu s4">
-            <button class="bp text-lg" data-action="goPrac"><i class="fa-solid fa-keyboard mr-2"></i>ลองพิมพ์โค้ด</button>
-        </div></main>`;
+        <div class="afiu"><span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(0,255,136,.1);color:var(--accent);">บทที่ ${l.id}</span>
+        <h1 class="text-2xl md:text-3xl font-bold mb-2">${l.title}</h1><p class="mb-6" style="color:var(--muted);">${l.desc}</p></div>
+        <div class="gc p-6 mb-6 afiu s1"><h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i> สิ่งที่ต้องรู้</h2>
+        <ul class="space-y-3">${l.pts.map(p=>`<li class="flex items-start gap-3 text-sm leading-relaxed"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.7rem;"></i><span>${p}</span></li>`).join('')}</ul></div>
+        <div class="afiu s2 mb-3"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดตัวอย่าง</span></div><div class="code-block">${hlC(l.code)}</div></div>
+        <div class="afiu s3 mb-8"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">ผลลัพธ์</span></div><div class="pf"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe srcdoc="${esc(l.code)}" sandbox="allow-scripts" title="ตัวอย่าง"></iframe></div></div>
+        <div class="text-center afiu s4"><button class="bp text-lg" data-action="goPrac"><i class="fa-solid fa-keyboard mr-2"></i>ลองพิมพ์โค้ด</button></div></main>`;
 }
 
-/* --- หน้าฝึกพิมพ์ (มีเคล็ดลับ + feedback) --- */
+/* --- ฝึกพิมพ์ --- */
 function rPractice(){
-    const l=L[S.curL],ch=l.prac;S.pSubmitted=false;S.pAllPass=false;
+    const l=LS[S.curL],ch=l.prac;S.pSubmitted=false;S.pAllPass=false;
     app.innerHTML=`${tBar()}<main class="max-w-4xl mx-auto px-4 py-8">
         <button class="bs bsm mb-4" data-action="toLesson"><i class="fa-solid fa-arrow-left mr-2"></i>กลับเนื้อหา</button>
-        <div class="afiu mb-6">
-            <span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(227,179,65,.12);color:var(--gold);"><i class="fa-solid fa-keyboard mr-1"></i>แบบฝึกพิมพ์</span>
-            <h1 class="text-xl md:text-2xl font-bold mb-1">${ch.title}</h1>
-            <p style="color:var(--muted);">${ch.desc}</p>
-        </div>
+        <div class="afiu mb-6"><span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(227,179,65,.12);color:var(--gold);"><i class="fa-solid fa-keyboard mr-1"></i>แบบฝึกพิมพ์</span>
+        <h1 class="text-xl md:text-2xl font-bold mb-1">${ch.title}</h1><p style="color:var(--muted);">${ch.desc}</p></div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 afiu s1">
-            <div>
-                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดของคุณ</span></div>
-                <div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(ch.start)}</textarea></div>
-            </div>
-            <div>
-                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิวแบบเรียลไทม์</span></div>
-                <div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">live</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div>
-            </div>
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดของคุณ</span></div><div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(ch.start)}</textarea></div></div>
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิว</span></div><div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">live</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div></div>
         </div>
-        <div class="gc p-5 mb-6 afiu s2">
-            <h3 class="font-semibold text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-list-check" style="color:var(--accent);"></i> รายการตรวจสอบ</h3>
-            <div class="space-y-2" id="cList">${ch.cks.map((c,i)=>`<div class="ci pend" id="ck-${i}"><span style="width:20px;text-align:center;flex-shrink:0;"><i class="fa-solid fa-circle" style="font-size:.6rem;"></i></span><span>${c.lb}</span></div><div class="ch" id="ht-${i}"><i class="fa-solid fa-lightbulb mr-1" style="color:var(--gold);"></i>${c.ht}</div>`).join('')}</div>
-        </div>
+        <div class="gc p-5 mb-6 afiu s2"><h3 class="font-semibold text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-list-check" style="color:var(--accent);"></i> รายการตรวจสอบ</h3>
+        <div class="space-y-2" id="cList">${ch.cks.map((c,i)=>`<div class="ci pend" id="ck-${i}"><span style="width:20px;text-align:center;flex-shrink:0;"><i class="fa-solid fa-circle" style="font-size:.6rem;"></i></span><span>${c.lb}</span></div><div class="ch" id="ht-${i}"><i class="fa-solid fa-lightbulb mr-1" style="color:var(--gold);"></i>${c.ht}</div>`).join('')}</div></div>
         <div id="pResult" style="display:none;" class="mb-6"></div>
         <div class="flex flex-wrap gap-3 justify-center afiu s3">
             <button class="bs bsm" data-action="pHint"><i class="fa-solid fa-lightbulb mr-2" style="color:var(--gold);"></i>เคล็ดลับ</button>
@@ -490,200 +494,131 @@ function rPractice(){
             <button class="bp bsm" data-action="pCheck" id="pChkBtn"><i class="fa-solid fa-circle-check mr-2"></i>ตรวจสอบ</button>
         </div>
         <div class="text-center mt-4 afiu s4"><button class="bs bsm" data-action="skipTest"><i class="fa-solid fa-forward mr-2"></i>ข้ามไปทดสอบ</button></div>
-    </main>`;
-    initEd();
+    </main>`;initEd();
 }
 
-/* --- หน้าแนะนำทดสอบ --- */
-function rTestIntro(){
-    const l=L[S.curL];
-    const totalCk=l.tests.reduce((s,t)=>s+t.cks.length,0);
+/* --- แนะนำทดสอบ --- */
+function rTI(){
+    const l=LS[S.curL];
     app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8 text-center">
         <button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับแผนที่</button>
-        <div class="afiu">
-            <div class="text-5xl mb-4"><i class="fa-solid fa-pen-to-square" style="color:#79c0ff;"></i></div>
-            <h1 class="text-2xl font-bold mb-2">แบบทดสอบ: ${l.title}</h1>
-            <p class="mb-8" style="color:var(--muted);">ทดสอบความเข้าใจด้วยการเขียนโค้ดจริง</p>
-        </div>
-        <div class="gc p-6 mb-8 text-left afiu s1">
-            <h3 class="font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-info-circle" style="color:#79c0ff;"></i> กฎการทดสอบ</h3>
-            <ul class="space-y-3 text-sm" style="color:var(--muted);">
-                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>มี ${l.tests.length} ข้อ ต้องเขียนโค้ด HTML เองทั้งหมด</li>
-                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ระหว่างทดสอบ <strong style="color:var(--text);">จะไม่แสดงผลถูก/ผิด</strong> ของแต่ละข้อ</li>
-                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>สามารถดูพรีวิวผลลัพธ์ของโค้ดได้ตลอดเวลา</li>
-                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผลคะแนนจะสรุปให้ทั้งหมด <strong style="color:var(--text);">หลังทำเสร็จทุกข้อ</strong></li>
-                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผ่านเกณฑ์ 60% ของเงื่อนไขทั้งหมดจะถือว่าสำเร็จบทนี้</li>
-            </ul>
-        </div>
+        <div class="afiu"><div class="text-5xl mb-4"><i class="fa-solid fa-pen-to-square" style="color:#79c0ff;"></i></div>
+        <h1 class="text-2xl font-bold mb-2">แบบทดสอบ: ${l.title}</h1><p class="mb-8" style="color:var(--muted);">ทดสอบความเข้าใจด้วยการเขียนโค้ดจริง</p></div>
+        <div class="gc p-6 mb-8 text-left afiu s1"><h3 class="font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-info-circle" style="color:#79c0ff;"></i> กฎการทดสอบ</h3>
+        <ul class="space-y-3 text-sm" style="color:var(--muted);">
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>มี ${l.tests.length} ข้อ ต้องเขียนโค้ด HTML เองทั้งหมด</li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ระหว่างทดสอบ <strong style="color:var(--text);">จะไม่แสดงผลถูก/ผิด</strong></li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>สามารถดูพรีวิวผลลัพธ์ได้ตลอดเวลา</li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผลคะแนนสรุป <strong style="color:var(--text);">หลังทำเสร็จทุกข้อ</strong></li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผ่านเกณฑ์ 60% ถือว่าสำเร็จบทนี้</li>
+        </ul></div>
         <div class="afiu s2"><button class="bp text-lg" data-action="startTest"><i class="fa-solid fa-play mr-2"></i>เริ่มทดสอบ (${l.tests.length} ข้อ)</button></div>
     </main>`;
 }
 
-/* --- หน้าทดสอบ (เขียนโค้ด ไม่แสดงผล) --- */
+/* --- ทดสอบ (ไม่แสดงผล) --- */
 function rTest(){
-    const l=L[S.curL],t=l.tests[S.curQ];
-    const total=l.tests.length;
+    const l=LS[S.curL],t=l.tests[S.curQ];const total=l.tests.length;
     app.innerHTML=`${tBar()}<main class="max-w-4xl mx-auto px-4 py-8">
-        <div class="flex items-center gap-3 mb-4 asd">
-            <span class="text-sm font-semibold" style="color:var(--accent);">ข้อที่ ${S.curQ+1}/${total}</span>
-            <div class="flex-1 h-2 rounded-full" style="background:var(--border);"><div class="h-full rounded-full transition-all duration-500" style="background:var(--accent);width:${(S.curQ/total)*100}%;"></div></div>
-        </div>
-        <div class="gc p-5 mb-4 afiu">
-            <h2 class="text-lg font-bold mb-1">${t.title}</h2>
-            <p class="text-sm" style="color:var(--muted);">${t.desc}</p>
-        </div>
+        <div class="flex items-center gap-3 mb-4 asd"><span class="text-sm font-semibold" style="color:var(--accent);">ข้อที่ ${S.curQ+1}/${total}</span>
+        <div class="flex-1 h-2 rounded-full" style="background:var(--border);"><div class="h-full rounded-full transition-all duration-500" style="background:var(--accent);width:${(S.curQ/total)*100}%;"></div></div></div>
+        <div class="gc p-5 mb-4 afiu"><h2 class="text-lg font-bold mb-1">${t.title}</h2><p class="text-sm" style="color:var(--muted);">${t.desc}</p></div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 afiu s1">
-            <div>
-                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">เขียนโค้ดที่นี่</span></div>
-                <div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(t.start)}</textarea></div>
-            </div>
-            <div>
-                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิว</span></div>
-                <div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div>
-            </div>
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">เขียนโค้ดที่นี่</span></div><div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(t.start)}</textarea></div></div>
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิว</span></div><div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div></div>
         </div>
-        <div class="text-center afiu s2">
-            <button class="bp" data-action="submitTestQ"><i class="fa-solid fa-paper-plane mr-2"></i>${S.curQ<total-1?'ส่งคำตอบนี้':'ส่งคำตอบสุดท้าย'}</button>
-        </div>
-    </main>`;
-    initEd();
+        <div class="text-center afiu s2"><button class="bp" data-action="submitTQ"><i class="fa-solid fa-paper-plane mr-2"></i>${S.curQ<total-1?'ส่งคำตอบนี้':'ส่งคำตอบสุดท้าย'}</button></div>
+    </main>`;initEd();
 }
 
-/* --- หน้าผลลัพธ์ทดสอบ (สรุปท้ายสุด) --- */
-function rTestResult(){
-    const l=L[S.curL],ts=S.tSession;
-    const totalCk=ts.totalChecks,passedCk=ts.passedChecks;
-    const pct=totalCk>0?Math.round((passedCk/totalCk)*100):0;
-    const passed=pct>=60;
-
+/* --- ผลลัพธ์ทดสอบ --- */
+function rTR(){
+    const l=LS[S.curL],ts=S.tSession;const pct=ts.totalChecks>0?Math.round((ts.passedChecks/ts.totalChecks)*100):0;const passed=pct>=60;
     app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
-        <div class="afiu text-center">
-            <div class="text-6xl mb-4">${passed?'<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>':'<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div>
-            <h1 class="text-2xl font-bold mb-2">${passed?'สำเร็จ!':'ยังไม่ผ่านเกณฑ์'}</h1>
-            <p class="mb-8" style="color:var(--muted);">${l.title} — ผลลัพธ์แบบทดสอบ</p>
-        </div>
+        <div class="afiu text-center"><div class="text-6xl mb-4">${passed?'<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>':'<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div>
+        <h1 class="text-2xl font-bold mb-2">${passed?'สำเร็จ!':'ยังไม่ผ่านเกณฑ์'}</h1><p class="mb-8" style="color:var(--muted);">${l.title}</p></div>
         <div class="gc p-8 mb-6 afiu s1" style="animation:sc .5s ease;">
             <div class="text-5xl font-black mb-2" style="color:${passed?'var(--accent)':'var(--danger)'};">${pct}%</div>
-            <div class="text-lg mb-1" style="color:var(--muted);">${passedCk} / ${totalCk} เงื่อนไขผ่าน</div>
+            <div class="text-lg mb-1" style="color:var(--muted);">${ts.passedChecks} / ${ts.totalChecks} เงื่อนไขผ่าน</div>
             <div class="text-sm mb-6" style="color:var(--muted);">เกณฑ์ผ่าน: 60%</div>
-
-            <!-- รายละเอียดแต่ละข้อ -->
-            <div class="space-y-4 mb-6 text-left">
-                ${ts.results.map((r,qi)=>{
-                    const t=l.tests[qi];
-                    const qPassed=r.passed===r.total;
-                    return `<div class="p-4 rounded-xl" style="background:var(--card2);">
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="flex items-center gap-2">
-                                <i class="fa-solid ${qPassed?'fa-circle-check':'fa-circle-xmark'}" style="color:${qPassed?'var(--accent)':'var(--danger)'};"></i>
-                                <span class="font-semibold text-sm">ข้อที่ ${qi+1}: ${t.title}</span>
-                            </div>
-                            <span class="text-sm font-bold" style="color:${qPassed?'var(--accent)':'var(--danger)'};">${r.passed}/${r.total}</span>
-                        </div>
-                        <div class="space-y-1 ml-7">
-                            ${r.details.map(d=>`<div class="flex items-center gap-2 text-xs">
-                                <i class="fa-solid ${d.ok?'fa-check':'fa-xmark'}" style="color:${d.ok?'var(--accent)':'var(--danger)'};width:14px;text-align:center;"></i>
-                                <span style="color:${d.ok?'var(--muted)':'var(--danger)'};">${d.label}</span>
-                            </div>`).join('')}
-                        </div>
-                    </div>`;}).join('')}
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 text-center">
-                <div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold" style="color:var(--accent);">+${ts.xpEarned}</div><div class="text-xs" style="color:var(--muted);">XP</div></div>
-                <div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold coin-i">+${ts.coinsEarned}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div>
-            </div>
+            <div class="space-y-4 mb-6 text-left">${ts.results.map((r,qi)=>{const t=l.tests[qi];const qOk=r.passed===r.total;
+            return `<div class="p-4 rounded-xl" style="background:var(--card2);"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><i class="fa-solid ${qOk?'fa-circle-check':'fa-circle-xmark'}" style="color:${qOk?'var(--accent)':'var(--danger)'};"></i><span class="font-semibold text-sm">ข้อ ${qi+1}: ${t.title}</span></div><span class="text-sm font-bold" style="color:${qOk?'var(--accent)':'var(--danger)'};">${r.passed}/${r.total}</span></div>
+            <div class="space-y-1 ml-7">${r.details.map(d=>`<div class="flex items-center gap-2 text-xs"><i class="fa-solid ${d.ok?'fa-check':'fa-xmark'}" style="color:${d.ok?'var(--accent)':'var(--danger)'};width:14px;text-align:center;"></i><span style="color:${d.ok?'var(--muted)':'var(--danger)'};">${d.label}</span></div>`).join('')}</div></div>`;}).join('')}</div>
+            <div class="grid grid-cols-2 gap-4 text-center"><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold" style="color:var(--accent);">+${ts.xpEarned}</div><div class="text-xs" style="color:var(--muted);">XP</div></div><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold coin-i">+${ts.coinsEarned}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div></div>
         </div>
         <div class="flex flex-col sm:flex-row gap-3 justify-center afiu s2">
-            ${!passed?`<button class="bs" data-action="retryTest"><i class="fa-solid fa-rotate-right mr-2"></i>ลองทดสอบอีกครั้ง</button>`:''}
+            ${!passed?`<button class="bs" data-action="retryT"><i class="fa-solid fa-rotate-right mr-2"></i>ลองอีกครั้ง</button>`:''}
             <button class="bp" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>${allDone()?'ดูผลสุดท้าย':'กลับแผนที่'}</button>
-        </div>
-    </main>`;
-    if(passed)conf(40);
+        </div></main>`;if(passed)conf(40);
 }
 
-/* --- หน้าจบเกม --- */
-function rComplete(){
+/* --- จบเกม --- */
+function rComp(){
     const li=gLi(S.xp);
     app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8 text-center">
         <div class="afiu"><div class="text-7xl mb-4 afl"><i class="fa-solid fa-crown" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,.5));"></i></div>
-        <h1 class="text-3xl font-black mb-2 agl" style="color:var(--accent);">สำเร็จการเรียนรู้!</h1>
-        <p class="text-lg mb-10" style="color:var(--muted);">เรียน HTML ครบทุกบทแล้ว</p></div>
+        <h1 class="text-3xl font-black mb-2 agl" style="color:var(--accent);">สำเร็จการเรียนรู้!</h1><p class="text-lg mb-10" style="color:var(--muted);">เรียน HTML ครบทุกบทแล้ว</p></div>
         <div class="gc p-8 mb-8 afiu s1" style="animation:sc .6s ease;">
             <div class="grid grid-cols-3 gap-4 mb-8">
                 <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-star text-xl mb-2" style="color:var(--accent);"></i><div class="text-2xl font-bold">${S.xp}</div><div class="text-xs" style="color:var(--muted);">XP</div></div>
                 <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-coins text-xl mb-2 coin-i"></i><div class="text-2xl font-bold">${S.coins}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div>
                 <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid ${LVLS[li].i} text-xl mb-2" style="color:var(--gold);"></i><div class="text-2xl font-bold">Lv.${li+1}</div><div class="text-xs" style="color:var(--muted);">${LVLS[li].n}</div></div>
             </div>
-            <div class="space-y-2 text-left">${L.map(l=>{const sc=S.lScores[l.id];return `<div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--card2);"><i class="${l.icon}" style="color:var(--accent);width:20px;text-align:center;"></i><span class="flex-1 text-sm text-left">${l.title}</span><span class="text-sm font-bold" style="color:sc?'var(--accent)':'var(--danger)';">${sc?sc.score+'/'+sc.total:'-'}</span></div>`;}).join('')}</div>
+            <div class="space-y-2 text-left">${LS.map(l=>{const sc=S.lScores[l.id];return `<div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--card2);"><i class="${l.icon}" style="color:var(--accent);width:20px;text-align:center;"></i><span class="flex-1 text-sm text-left">${l.title}</span><span class="text-sm font-bold" style="color:sc?'var(--accent)':'var(--danger)';">${sc?sc.score+'/'+sc.total:'-'}</span></div>`;}).join('')}</div>
         </div>
         <div class="flex gap-3 justify-center afiu s2"><button class="bs" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>ดูแผนที่</button></div>
-    </main>`;
-    conf(80);
+    </main>`;conf(80);
 }
 
 /* ================================================================
-   ระบบเอดิเตอร์
+   เอดิเตอร์
    ================================================================ */
-let eTimer=null;
+let eT=null;
 function initEd(){
     const ed=document.getElementById('eCode'),ln=document.getElementById('eLn'),pf=document.getElementById('pFrame');
     if(!ed)return;
     ed.addEventListener('keydown',e=>{
-        if(e.key==='Tab'){e.preventDefault();const s=ed.selectionStart,en=ed.selectionEnd;ed.value=ed.value.substring(0,s)+'  '+ed.value.substring(en);ed.selectionStart=ed.selectionEnd=s+2;onEdIn();}
-        if(e.key==='Enter'){e.preventDefault();const s=ed.selectionStart;const ls=ed.value.lastIndexOf('\n',s-1)+1;const indent=ed.value.substring(ls,s).match(/^\s*/)[0];const nl='\n'+indent;ed.value=ed.value.substring(0,s)+nl+ed.value.substring(ed.selectionEnd);ed.selectionStart=ed.selectionEnd=s+nl.length;onEdIn();}
+        if(e.key==='Tab'){e.preventDefault();const s=ed.selectionStart,en=ed.selectionEnd;ed.value=ed.value.substring(0,s)+'  '+ed.value.substring(en);ed.selectionStart=ed.selectionEnd=s+2;onEI();}
+        if(e.key==='Enter'){e.preventDefault();const s=ed.selectionStart;const ls=ed.value.lastIndexOf('\n',s-1)+1;const ind=ed.value.substring(ls,s).match(/^\s*/)[0];const nl='\n'+ind;ed.value=ed.value.substring(0,s)+nl+ed.value.substring(ed.selectionEnd);ed.selectionStart=ed.selectionEnd=s+nl.length;onEI();}
     });
-    ed.addEventListener('input',()=>{onEdIn();clearTimeout(eTimer);eTimer=setTimeout(updCk,300);});
+    ed.addEventListener('input',()=>{onEI();clearTimeout(eT);eT=setTimeout(upCk,300);});
     ed.addEventListener('scroll',()=>{if(ln)ln.scrollTop=ed.scrollTop;});
-    upLn();upPf();
-    setTimeout(updCk,100);
+    upLn();upPf();setTimeout(upCk,100);
 }
-function onEdIn(){upLn();upPf();}
+function onEI(){upLn();upPf();}
 function upLn(){const ed=document.getElementById('eCode'),ln=document.getElementById('eLn');if(!ed||!ln)return;ln.innerHTML=Array.from({length:ed.value.split('\n').length},(_,i)=>i+1).join('<br>');}
 function upPf(){const ed=document.getElementById('eCode'),pf=document.getElementById('pFrame');if(ed&&pf)pf.srcdoc=ed.value;}
-function updCk(){
+function upCk(){
     const ed=document.getElementById('eCode');if(!ed||S.screen!=='practice')return;
     const c=ed.value,body=gBody(c),tmp=document.createElement('div');tmp.innerHTML=body;
-    const cks=L[S.curL].prac.cks;let allOk=true;
-    cks.forEach((ck,i)=>{
-        const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(!el)return;
-        const ok=ck.ck(tmp,c);if(!ok)allOk=false;
-        el.className=`ci ${ok?'pass':'pend'}`;
-        el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle'}" style="font-size:${ok?'.85rem':'.6rem'};"></i>`;
-        if(ht&&!S.pSubmitted)ht.style.display='none';
-    });
-    const w=document.getElementById('eWrap');if(w){w.classList.toggle('ok',allOk&&!S.pSubmitted);w.classList.remove('err');}
-    S.pAllPass=allOk;
+    const cks=LS[S.curL].prac.cks;let allOk=true;
+    cks.forEach((ck,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(!el)return;
+    const ok=ck.ck(tmp,c);if(!ok)allOk=false;
+    el.className=`ci ${ok?'pass':'pend'}`;el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle'}" style="font-size:${ok?'.85rem':'.6rem'};"></i>`;
+    if(ht&&!S.pSubmitted)ht.style.display='none';});
+    const w=document.getElementById('eWrap');if(w){w.classList.toggle('ok',allOk&&!S.pSubmitted);w.classList.remove('err');}S.pAllPass=allOk;
 }
-function submitPrac(){
+function subPrac(){
     const ed=document.getElementById('eCode');if(!ed)return;
     const c=ed.value,body=gBody(c),tmp=document.createElement('div');tmp.innerHTML=body;
-    const cks=L[S.curL].prac.cks;let pc=0;
-    cks.forEach((ck,i)=>{
-        const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);
-        const ok=ck.ck(tmp,c);if(ok)pc++;
-        el.className=`ci ${ok?'pass':'fail'}`;
-        el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle-xmark'}" style="font-size:.85rem;"></i>`;
-        if(ht&&!ok)ht.style.display='block';if(ht&&ok)ht.style.display='none';
-    });
-    const w=document.getElementById('eWrap'),allOk=pc===cks.length;
-    const rd=document.getElementById('pResult');rd.style.display='block';
-    if(allOk){
-        w.classList.add('ok');w.classList.remove('err');AX.p('win');
-        let xg=0;if(!S.pDone[L[S.curL].id]){S.pDone[L[S.curL].id]=true;xg=L[S.curL].prac.xp;S.xp+=xg;AX.p('co');chkLv();saveCurUser();upTb();}
-        rd.innerHTML=`<div class="suc-b"><i class="fa-solid fa-circle-check text-2xl" style="color:var(--accent);"></i><div><div class="font-bold" style="color:var(--accent);">ผ่านทุกข้อ!</div><div class="text-sm" style="color:var(--muted);">${xg>0?`+${xg} XP`:'ได้รับ XP แล้ว'}</div></div></div><div class="text-center mt-4"><button class="bp" data-action="goTestIntro"><i class="fa-solid fa-pen-to-square mr-2"></i>ไปทดสอบ</button></div>`;
-        if(xg>0){conf(25);toast(`+${xg} XP จากการฝึกพิมพ์!`,'s');}
-        const btn=document.getElementById('pChkBtn');if(btn)btn.style.display='none';
-    } else {
-        w.classList.add('err');w.classList.remove('ok');AX.p('no');
-        rd.innerHTML=`<div class="err-b"><i class="fa-solid fa-circle-xmark text-2xl" style="color:var(--danger);"></i><div><div class="font-bold" style="color:var(--danger);">ยังไม่ครบ (${pc}/${cks.length})</div><div class="text-sm" style="color:var(--muted);">ดูเคล็ดลับแล้วแก้ไข</div></div></div>`;
-        toast(`ผ่าน ${pc}/${cks.length}`,'e');
-    }
-    S.pSubmitted=true;
+    const cks=LS[S.curL].prac.cks;let pc=0;
+    cks.forEach((ck,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);
+    const ok=ck.ck(tmp,c);if(ok)pc++;
+    el.className=`ci ${ok?'pass':'fail'}`;el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle-xmark'}" style="font-size:.85rem;"></i>`;
+    if(ht&&!ok)ht.style.display='block';if(ht&&ok)ht.style.display='none';});
+    const w=document.getElementById('eWrap'),allOk=pc===cks.length;const rd=document.getElementById('pResult');rd.style.display='block';
+    if(allOk){w.classList.add('ok');w.classList.remove('err');AX.p('win');
+    let xg=0;if(!S.pDone[LS[S.curL].id]){S.pDone[LS[S.curL].id]=true;xg=LS[S.curL].prac.xp;S.xp+=xg;AX.p('co');chkLv();saveCur();upTb();}
+    rd.innerHTML=`<div class="suc-b"><i class="fa-solid fa-circle-check text-2xl" style="color:var(--accent);"></i><div><div class="font-bold" style="color:var(--accent);">ผ่านทุกข้อ!</div><div class="text-sm" style="color:var(--muted);">${xg>0?`+${xg} XP`:'ได้รับ XP แล้ว'}</div></div></div><div class="text-center mt-4"><button class="bp" data-action="goTI"><i class="fa-solid fa-pen-to-square mr-2"></i>ไปทดสอบ</button></div>`;
+    if(xg>0){conf(25);toast(`+${xg} XP จากการฝึกพิมพ์!`,'s');}
+    const btn=document.getElementById('pChkBtn');if(btn)btn.style.display='none';
+    } else {w.classList.add('err');w.classList.remove('ok');AX.p('no');
+    rd.innerHTML=`<div class="err-b"><i class="fa-solid fa-circle-xmark text-2xl" style="color:var(--danger);"></i><div><div class="font-bold" style="color:var(--danger);">ยังไม่ครบ (${pc}/${cks.length})</div><div class="text-sm" style="color:var(--muted);">ดูเคล็ดลับแล้วแก้ไข</div></div></div>`;
+    toast(`ผ่าน ${pc}/${cks.length}`,'e');}S.pSubmitted=true;
 }
 
 /* ================================================================
-   อัปเดตแถบด้านบน Real-time
+   Top Bar & Level Up
    ================================================================ */
 function upTb(){
     const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);
@@ -705,109 +640,82 @@ function showLv(li){
 }
 
 /* ================================================================
-   จัดการ Event
+   Event Handler
    ================================================================ */
 app.addEventListener('click',e=>{
     const b=e.target.closest('[data-action]');if(!b)return;
-    const a=b.dataset.action;AX.p('cl');
-    const cl=()=>L[S.curL];
-
+    const a=b.dataset.action;AX.p('cl');const cl=()=>LS[S.curL];
     switch(a){
     case 'authTab':S.authTab=b.dataset.tab;S.authErr='';R();break;
-    case 'setRole':S._role=b.dataset.role;R();break;
+    case 'toggleAdmin':S.adminOpen=!S.adminOpen;R();break;
     case 'doLogin':{
-        const u=document.getElementById('authUser').value.trim();
-        const p=document.getElementById('authPw').value;
-        const r=loginUser(u,p);
-        if(r==='ok'){}else if(typeof r==='string'){S.authErr=r;R();}
-        else{S.user={username:r.username,role:r.role};loadUserData(r);S.screen=r.role==='admin'?'admin':'map';R();}
+        const sid=document.getElementById('aSid').value.trim();
+        const pw=document.getElementById('aPw').value;
+        const r=loginU(sid,pw);
+        if(typeof r==='string'){S.authErr=r;R();}
+        else{S.user={name:r.name,sid:r.sid,room:r.room,role:'student'};loadU(r);S.screen='map';R();}
         break;}
-    case 'doRegister':{
-        const u=document.getElementById('authUser').value.trim();
-        const p=document.getElementById('authPw').value;
-        const p2=document.getElementById('authPw2').value;
-        if(p!==p2){S.authErr='รหัสผ่านไม่ตรงกัน';R();break;}
-        const r=regUser(u,p,S._role||'student');
-        if(r==='ok'){S.authErr='';S.authTab='login';toast('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ','s');R();}
+    case 'doReg':{
+        const name=document.getElementById('rName').value;
+        const sid=document.getElementById('rSid').value;
+        const room=document.getElementById('rRoom').value;
+        const pw=document.getElementById('rPw').value;
+        const pw2=document.getElementById('rPw2').value;
+        if(pw!==pw2){S.authErr='รหัสผ่านไม่ตรงกัน';R();break;}
+        const r=regU(name,sid,room,pw);
+        if(r==='ok'){S.authErr='';S.authTab='login';toast('สมัครสำเร็จ! กรุณาเข้าสู่ระบบ','s');R();}
         else{S.authErr=r;R();}
         break;}
-    case 'logout':saveCurUser();S.user=null;S.screen='auth';S._role='student';R();break;
+    case 'doAdmin':{
+        const code=document.getElementById('aAdmin').value.trim();
+        if(code===ADMIN_CODE){S.user={name:'Admin',sid:'',room:'',role:'admin'};S.xp=0;S.coins=0;S.lScores={};S.pDone={};S.tDone={};S.maxStreak=0;S.prevLvl=0;S.screen='admin';R();}
+        else{S.authErr='รหัสแอดมินไม่ถูกต้อง';R();}
+        break;}
+    case 'logout':saveCur();S.user=null;S.screen='auth';S.adminOpen=false;R();break;
     case 'toMap':S.screen=allDone()?'complete':'map';R();break;
     case 'toLesson':S.screen='lesson';R();break;
     case 'selL':{const id=parseInt(b.dataset.id);if(gSt(id)==='locked')return;S.curL=id-1;S.screen='lesson';R();break;}
     case 'goPrac':S.screen='practice';R();break;
-    case 'skipTest':case 'goTestIntro':S.screen='testIntro';R();break;
+    case 'skipTest':case 'goTI':S.screen='testIntro';R();break;
     case 'pHint':{
         const ch=cl().prac;const rd=document.getElementById('pResult');rd.style.display='block';
         rd.innerHTML=`<div class="gc p-4 afi" style="border-color:rgba(227,179,65,.3);"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i><span class="font-semibold text-sm" style="color:var(--gold);">เคล็ดลับ</span></div><p class="text-sm" style="color:var(--muted);">${ch.gh}</p></div>`;
-        ch.cks.forEach((c,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(el&&!el.classList.contains('pass')&&ht)ht.style.display='block';});
+        ch.cks.forEach((_,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(el&&!el.classList.contains('pass')&&ht)ht.style.display='block';});
         break;}
     case 'pReset':{
-        const ed=document.getElementById('eCode');if(ed){ed.value=cl().prac.start;onEdIn();clearTimeout(eTimer);eTimer=setTimeout(updCk,200);}
+        const ed=document.getElementById('eCode');if(ed){ed.value=cl().prac.start;onEI();clearTimeout(eT);eT=setTimeout(upCk,200);}
         cl().prac.cks.forEach((_,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(el){el.className='ci pend';el.querySelector('span:first-child').innerHTML='<i class="fa-solid fa-circle" style="font-size:.6rem;"></i>';}if(ht)ht.style.display='none';});
         const w=document.getElementById('eWrap');if(w)w.classList.remove('ok','err');
         const rd=document.getElementById('pResult');if(rd)rd.style.display='none';
         const cb=document.getElementById('pChkBtn');if(cb)cb.style.display='';
         S.pSubmitted=false;S.pAllPass=false;break;}
-    case 'pCheck':submitPrac();break;
-    case 'startTest':
-        S.curQ=0;S.streak=0;
-        S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};
-        S.screen='test';R();break;
-    case 'submitTestQ':{
+    case 'pCheck':subPrac();break;
+    case 'startTest':S.curQ=0;S.streak=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};S.screen='test';R();break;
+    case 'submitTQ':{
         const ed=document.getElementById('eCode');if(!ed)break;
         const code=ed.value,body=gBody(code),tmp=document.createElement('div');tmp.innerHTML=body;
-        const t=cl().tests[S.curQ];
-        let passed=0;const details=[];
+        const t=cl().tests[S.curQ];let passed=0;const details=[];
         t.cks.forEach(ck=>{const ok=ck.ck(tmp,code);if(ok)passed++;details.push({label:ck.lb,ok});});
-        S.tSession.results.push({passed,total:t.cks.length,details});
-        S.tSession.totalChecks+=t.cks.length;
-        S.tSession.passedChecks+=passed;
-
-        if(S.curQ<cl().tests.length-1){
-            S.curQ++;S.screen='test';R();
-        } else {
-            // คำนวณคะแนนรวม
-            const ts=S.tSession;
-            const pct=ts.totalChecks>0?(ts.passedChecks/ts.totalChecks)*100:0;
-            const passedOverall=pct>=60;
-            let xg=0,cg=0;
-            if(passedOverall){
-                xg=ts.passedChecks*5;cg=ts.passedChecks;
-                if(!S.tDone[cl().id]){
-                    S.tDone[cl().id]=true;S.xp+=xg;S.coins+=cg;AX.p('co');
-                    S.streak++;if(S.streak>S.maxStreak)S.maxStreak=S.streak;
-                    chkLv();
-                    // บันทึกคะแนนบท
-                    const ex=S.lScores[cl().id];
-                    if(!ex||ts.passedChecks>ex.score)S.lScores[cl().id]={score:ts.passedChecks,total:ts.totalChecks};
-                }
-                ts.xpEarned=xg;ts.coinsEarned=cg;
-            } else {
-                S.streak=0;
-            }
-            saveCurUser();upTb();S.screen='testResult';R();
-        }
+        S.tSession.results.push({passed,total:t.cks.length,details});S.tSession.totalChecks+=t.cks.length;S.tSession.passedChecks+=passed;
+        if(S.curQ<cl().tests.length-1){S.curQ++;S.screen='test';R();}
+        else{const ts=S.tSession;const pct=ts.totalChecks>0?(ts.passedChecks/ts.totalChecks)*100:0;const passedO=pct>=60;let xg=0,cg=0;
+        if(passedO){xg=ts.passedChecks*5;cg=ts.passedChecks;
+        if(!S.tDone[cl().id]){S.tDone[cl().id]=true;S.xp+=xg;S.coins+=cg;AX.p('co');S.streak++;if(S.streak>S.maxStreak)S.maxStreak=S.streak;chkLv();
+        const ex=S.lScores[cl().id];if(!ex||ts.passedChecks>ex.score)S.lScores[cl().id]={score:ts.passedChecks,total:ts.totalChecks};}
+        ts.xpEarned=xg;ts.coinsEarned=cg;}else{S.streak=0;}
+        saveCur();upTb();S.screen='testResult';R();}
         break;}
-    case 'retryTest':
-        S.curQ=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};
-        S.screen='test';R();break;
+    case 'retryT':S.curQ=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};S.screen='test';R();break;
     }
 });
 
-// กด Enter ในฟอร์ม Auth
 app.addEventListener('keydown',e=>{
     if(e.key==='Enter'&&S.screen==='auth'){
-        const pw2=document.getElementById('authPw2');
-        if(pw2)document.querySelector('[data-action="doRegister"]')?.click();
-        else document.querySelector('[data-action="doLogin"]')?.click();
+        if(S.authTab==='login')document.querySelector('[data-action="doLogin"]')?.click();
+        else document.querySelector('[data-action="doReg"]')?.click();
     }
 });
 
-/* ================================================================
-   เริ่มต้น
-   ================================================================ */
-S._role='student';
 initBg();aBg();R();
 </script>
 </body>
