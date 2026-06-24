@@ -17,49 +17,46 @@
         .xp-outer{background:var(--border);border-radius:999px;height:10px;overflow:hidden;}
         .xp-inner{height:100%;background:linear-gradient(90deg,var(--accent-dim),var(--accent));border-radius:999px;transition:width .8s cubic-bezier(.25,1,.5,1);box-shadow:0 0 10px rgba(0,255,136,.4);}
         .gc{background:var(--card);border:1px solid var(--border);border-radius:16px;transition:all .3s ease;}
-        .bp{background:linear-gradient(135deg,var(--accent-dim),var(--accent));color:#0d1117;font-weight:700;padding:12px 28px;border-radius:12px;border:none;cursor:pointer;font-size:.95rem;font-family:'Kanit',sans-serif;transition:all .3s ease;box-shadow:0 4px 20px rgba(0,255,136,.3);display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+        .gc:hover{border-color:rgba(0,255,136,.25);}
+        .bp{background:linear-gradient(135deg,var(--accent-dim),var(--accent));color:#0d1117;font-weight:700;padding:13px 32px;border-radius:12px;border:none;cursor:pointer;font-size:1rem;font-family:'Kanit',sans-serif;transition:all .3s ease;box-shadow:0 4px 20px rgba(0,255,136,.3);display:inline-flex;align-items:center;justify-content:center;gap:8px;}
         .bp:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(0,255,136,.5);}.bp:active{transform:translateY(0);}.bp:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
-        .bs{background:var(--card2);color:var(--text);font-weight:600;padding:10px 22px;border-radius:12px;border:1px solid var(--border);cursor:pointer;font-size:.88rem;font-family:'Kanit',sans-serif;transition:all .3s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+        .bs{background:var(--card2);color:var(--text);font-weight:600;padding:11px 24px;border-radius:12px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;font-family:'Kanit',sans-serif;transition:all .3s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
         .bs:hover{border-color:var(--accent);color:var(--accent);}
-        .bsm{padding:7px 16px;font-size:.8rem;border-radius:10px;}
-        .code-block{background:#0a0e14;border:1px solid var(--border);border-radius:12px;padding:16px;overflow-x:auto;font-family:'Fira Code',monospace;font-size:.78rem;line-height:1.8;tab-size:2;white-space:pre;}
+        .bsm{padding:8px 18px;font-size:.82rem;border-radius:10px;}
+        .code-block{background:#0a0e14;border:1px solid var(--border);border-radius:12px;padding:18px;overflow-x:auto;font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.8;tab-size:2;white-space:pre;}
         .code-block .tag{color:#7ee787;}.code-block .attr{color:#79c0ff;}.code-block .val{color:#ffa657;}.code-block .cmt{color:#8b949e;font-style:italic;}.code-block .doctype{color:#8b949e;}
         .pf{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;}
         .pf iframe{width:100%;height:180px;border:none;display:block;}
         .pb{background:var(--card);padding:7px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);}
         .pd{width:10px;height:10px;border-radius:50%;}
-        .ew{display:flex;background:#0a0e14;border:2px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .4s,box-shadow .4s;min-height:220px;}
+        .ew{display:flex;background:#0a0e14;border:2px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .4s,box-shadow .4s;min-height:240px;}
         .ew.ok{border-color:var(--accent);box-shadow:0 0 20px rgba(0,255,136,.15);}
         .ew.err{border-color:var(--danger);box-shadow:0 0 15px rgba(255,107,107,.15);}
-        .ln{padding:12px 0;min-width:38px;text-align:right;padding-right:8px;color:#484f58;font-family:'Fira Code',monospace;font-size:.78rem;line-height:1.8;user-select:none;border-right:1px solid var(--border);overflow:hidden;background:#0a0e14;flex-shrink:0;}
-        .ce{flex:1;padding:12px;background:transparent;color:var(--text);font-family:'Fira Code',monospace;font-size:.78rem;line-height:1.8;border:none;outline:none;resize:none;tab-size:2;white-space:pre;overflow:auto;min-height:220px;}
+        .ln{padding:14px 0;min-width:40px;text-align:right;padding-right:10px;color:#484f58;font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.8;user-select:none;border-right:1px solid var(--border);overflow:hidden;background:#0a0e14;flex-shrink:0;}
+        .ce{flex:1;padding:14px;background:transparent;color:var(--text);font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.8;border:none;outline:none;resize:none;tab-size:2;white-space:pre;overflow:auto;min-height:240px;}
         .ce::selection{background:rgba(0,255,136,.2);}
-        .ci{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;transition:all .3s;font-size:.85rem;}
+        .ci{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;transition:all .3s;font-size:.88rem;}
         .ci.pass{background:rgba(0,255,136,.08);color:var(--accent);}.ci.fail{background:rgba(255,107,107,.08);color:var(--danger);}.ci.pend{background:var(--card2);color:var(--muted);}
-        .ch{font-size:.74rem;color:var(--muted);margin-top:3px;margin-left:28px;padding:5px 9px;background:rgba(227,179,65,.08);border-radius:8px;border-left:3px solid var(--gold);display:none;}.ci.fail .ch{display:block;}
+        .ch{font-size:.76rem;color:var(--muted);margin-top:4px;margin-left:30px;padding:6px 10px;background:rgba(227,179,65,.08);border-radius:8px;border-left:3px solid var(--gold);display:none;}.ci.fail .ch{display:block;}
         .mn{position:relative;cursor:pointer;transition:all .3s;}.mn.locked{opacity:.4;cursor:not-allowed;}.mn.locked:hover{opacity:.5;}
         .mn.done .nc{background:var(--accent);border-color:var(--accent);}.mn.cur .nc{border-color:var(--accent);animation:np 2s ease-in-out infinite;}
-        .nc{width:46px;height:46px;border-radius:50%;border:3px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .3s;}
-        .mc{width:3px;height:30px;margin:0 auto;border-radius:2px;}.mc.d{background:var(--accent);}.mc.p{background:var(--border);}
+        .nc{width:50px;height:50px;border-radius:50%;border:3px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s;}
+        .mc{width:3px;height:36px;margin:0 auto;border-radius:2px;}.mc.d{background:var(--accent);}.mc.p{background:var(--border);}
         .coin-i{color:var(--gold);filter:drop-shadow(0 0 4px rgba(227,179,65,.5));}
         .auth-card{max-width:440px;width:100%;}
         .tab-btn{padding:10px 0;flex:1;text-align:center;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;color:var(--muted);}
         .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
-        .input-field{width:100%;padding:11px 14px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Kanit',sans-serif;font-size:.92rem;outline:none;transition:border-color .3s;}
-        .input-field:focus{border-color:var(--accent);}.input-field::placeholder{color:var(--muted);}
+        .input-field{width:100%;padding:12px 16px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Kanit',sans-serif;font-size:.95rem;outline:none;transition:border-color .3s;}
+        .input-field:focus{border-color:var(--accent);}
+        .input-field::placeholder{color:var(--muted);}
         .admin-toggle{cursor:pointer;transition:color .3s;}.admin-toggle:hover{color:var(--gold);}
         .admin-box{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s ease;opacity:0;}
         .admin-box.open{max-height:200px;opacity:1;}
-        .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:95;display:flex;align-items:center;justify-content:center;animation:fi .2s ease;padding:16px;}
-        .modal-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;max-width:440px;width:100%;animation:sc .3s ease;max-height:90vh;overflow-y:auto;}
-        .del-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:.8rem;}
-        .del-btn:hover{border-color:var(--danger);color:var(--danger);background:rgba(255,107,107,.1);}
-        .diff-easy{color:var(--accent);}.diff-medium{color:#f0883e;}.diff-hard{color:var(--danger);}
         .sb{animation:si .4s ease forwards;border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:10px;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.4);pointer-events:auto;}
         .sb.lv{animation:so .3s ease forwards;}
         .sb-s{background:rgba(0,255,136,.15);border:1px solid rgba(0,255,136,.3);color:var(--accent);}.sb-e{background:rgba(255,107,107,.15);border:1px solid rgba(255,107,107,.3);color:var(--danger);}.sb-i{background:rgba(227,179,65,.15);border:1px solid rgba(227,179,65,.3);color:var(--gold);}
-        .suc-b{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;}
-        .err-b{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;}
+        .suc-b{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+        .err-b{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
         .confetti{position:fixed;width:10px;height:10px;z-index:100;animation:cfa linear forwards;pointer-events:none;}
         .lu-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:90;display:flex;align-items:center;justify-content:center;animation:fi .3s ease;}.lu-c{text-align:center;animation:sc .5s ease;}
         @keyframes np{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.4);}50%{box-shadow:0 0 0 12px rgba(0,255,136,0);}}
@@ -73,13 +70,9 @@
         @keyframes si{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
         @keyframes so{from{transform:translateX(0);opacity:1;}to{transform:translateX(100%);opacity:0;}}
         .afiu{animation:fiu .6s ease forwards;}.afi{animation:fi .5s ease forwards;}.asd{animation:sd .4s ease forwards;}.afl{animation:fl 3s ease-in-out infinite;}.agl{animation:gl 3s ease-in-out infinite;}
-        .s1{animation-delay:.1s;opacity:0;}.s2{animation-delay:.2s;opacity:0;}.s3{animation-delay:.3s;opacity:0;}.s4{animation-delay:.4s;opacity:0;}
-        .rev-point{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:12px;background:var(--card2);border-left:3px solid var(--accent);transition:all .3s;}
-        .rev-point:hover{background:rgba(0,255,136,.05);}
-        .rev-tip{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-radius:12px;background:rgba(227,179,65,.06);border-left:3px solid var(--gold);}
-        .rev-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;flex-shrink:0;}
+        .s1{animation-delay:.1s;opacity:0;}.s2{animation-delay:.2s;opacity:0;}.s3{animation-delay:.3s;opacity:0;}.s4{animation-delay:.4s;opacity:0;}.s5{animation-delay:.5s;opacity:0;}
         ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-        @media(max-width:768px){.code-block,.ce,.ln{font-size:.68rem;}.nc{width:40px;height:40px;font-size:.9rem;}.mc{height:24px;}.ew,.ce{min-height:170px;}.atw{font-size:.72rem;}}
+        @media(max-width:768px){.code-block,.ce,.ln{font-size:.7rem;}.nc{width:42px;height:42px;font-size:.95rem;}.mc{height:28px;}.ew,.ce{min-height:180px;}.admin-table-wrap{font-size:.78rem;}}
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
     </style>
 </head>
@@ -89,155 +82,131 @@
     <div id="tc" style="position:fixed;top:20px;right:20px;z-index:80;display:flex;flex-direction:column;gap:10px;pointer-events:none;"></div>
     <div id="oc"></div>
 <script>
-const ADMIN_CODE='admin1234';
-const DEFAULT_PW='123456';
-const LL=[
-{id:1,d:'ง่าย',title:'โครงสร้างพื้นฐาน HTML',icon:'fa-solid fa-house-chimney',desc:'เรียนรู้โครงสร้างหลักของเอกสาร HTML',
-pts:['ทุกเอกสารเริ่มด้วย <!DOCTYPE html>','<html> เป็นภาชนะหลักครอบทุกอย่าง','<head> ใส่ข้อมูลเมตา เช่น <title>','<body> ใส่เนื้อหาที่แสดงบนจอนจริง'],
-code:'<!DOCTYPE html>\n<html>\n  <head><title>หน้าเว็บ</title></head>\n  <body>\n    <h1>สวัสดี</h1>\n    <p>เว็บแรก</p>\n  </body>\n</html>',
-prac:{t:'สร้างหน้าเว็บพื้นฐาน',d:'เติม h1 และ p ใน body',s:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึก</title></head>\n  <body>\n    \n  </body>\n</html>',c:[{l:'มี <h1>',k:d=>!!d.querySelector('h1'),h:'เขียน <h1>หัวข้อ</h1>'},{l:'มี <p>',k:d=>!!d.querySelector('p'),h:'เขียน <p>ข้อความ</p>'}],xp:10,gh:'เนื้อหาอยู่ใน <body>'},
-tips:['อย่าลืม <!DOCTYPE html> เป็นบรรทัดแรกเสมอ','<html>, <head>, <body> ต้องเปิด-ปิดให้ครบ','<title> ต้องอยู่ใน <head> เท่านั้น','ข้อความทุกอย่างต้องอยู่ใน <body>'],
-tests:[{t:'สร้างเว็บมีชื่อ',d:'title เป็น "เว็บของฉัน" และมี h1',s:'<!DOCTYPE html>\n<html>\n  <head><title></title></head>\n  <body>\n    \n  </body>\n</html>',c:[{l:'title เป็น "เว็บของฉัน"',k:(d,c)=>/<title>\s*เว็บของฉัน\s*<\/title>/i.test(c)},{l:'มี <h1>',k:d=>!!d.querySelector('h1')}]},
-{t:'เพิ่มย่อหน้า',d:'สร้าง p พร้อมข้อความ',s:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',c:[{l:'มี <p> มีข้อความ',k:d=>{const p=d.querySelector('p');return p&&p.textContent.trim().length>0;}}]},
-{t:'สร้างเว็บครบ',d:'มี DOCTYPE, h1, p',s:'',c:[{l:'มี DOCTYPE',k:(d,c)=>/<!DOCTYPE\s+html>/i.test(c)},{l:'มี <h1>',k:d=>!!d.querySelector('h1')},{l:'มี <p>',k:d=>!!d.querySelector('p')}]}]},
+const ADMIN_CODE = 'admin1234';
+const DEFAULT_PW = '123456';
 
-{id:2,d:'ง่าย',title:'หัวข้อและย่อหน้า',icon:'fa-solid fa-heading',desc:'เรียนรู้ h1-h6 และ p, hr, br',
-pts:['<h1> ถึง <h6> สร้างหัวข้อ h1 ใหญ่สุด','<p> สร้างย่อหน้า','<hr> สร้างเส้นแบ่ง','<br> ขึ้นบรรทัดใหม่'],
-code:'<h1>หัวข้อ h1</h1>\n<h2>หัวข้อ h2</h2>\n<p>ย่อหน้า</p>\n<hr>\n<p>อีกย่อหน้า</p>',
-prac:{t:'สร้างหัวข้อ 2 ระดับ',d:'สร้าง h1, h2 และ p',s:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึก</title></head>\n  <body>\n    \n  </body>\n</html>',c:[{l:'มี <h1>',k:d=>!!d.querySelector('h1')},{l:'มี <h2>',k:d=>!!d.querySelector('h2')},{l:'มี <p>',k:d=>!!d.querySelector('p')}],xp:12,gh:'h1 ใหญ่สุด h2 รองลงมา'},
-tips:['h1 = ใหญ่ที่สุด, h6 = เล็กที่สุด','<p> = ย่อหน้าข้อความ ไม่ใช่หัวข้อ','<hr> = เส้นแนวนแบ่ง, <br> = ขึ้นบรรทัดใหม่','แต่ละ h จะขึ้นบรรทัดใหม่อัตโนัว'],
-tests:[{t:'สร้าง h1 และ h3',d:'สร้าง h1 และ h3',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <h1>',k:d=>!!d.querySelector('h1')},{l:'มี <h3>',k:d=>!!d.querySelector('h3')}]},
-{t:'ใช้เส้นแบ่ง',d:'มี p อย่างน้อย 2 และ hr',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <p> อย่างน้อย 2',k:d=>d.querySelectorAll('p').length>=2},{l:'มี <hr>',k:d=>!!d.querySelector('hr')}]},
-{t:'สร้างลำดับหัวข้อ',d:'สร้าง h1, h2, h3',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <h1>',k:d=>!!d.querySelector('h1')},{l:'มี <h2>',k:d=>!!d.querySelector('h2')},{l:'มี <h3>',k:d=>!!d.querySelector('h3')}]}]},
-
-{id:3,d:'ง่าย',title:'จัดรูปแบบข้อความ',icon:'fa-solid fa-font',desc:'เรียนรู้ strong, em, u, mark',
-pts:['<strong> ตัวหนา มีนัยสำคัญ','<em> ตัวเอียง เน้นย้ำ','<u> ขีดเส้นใต้','<mark> ไฮไลท์'],
-code:'<p><strong>ตัวหนา</strong></p>\n<p><em>ตัวเอียง</em></p>\n<p><u>ขีดเส้นใต้</u></p>\n<p><mark>ไฮไลท์</mark></p>',
-prac:{t:'จัดรูปแบบข้อความ',d:'ใช้ strong, em, mark',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    <p>ข้อความ</p>\n  </body></html>',c:[{l:'มี <strong>',k:d=>!!d.querySelector('strong')},{l:'มี <em>',k:d=>!!d.querySelector('em')},{l:'มี <mark>',k:d=>!!d.querySelector('mark')}],xp:14,gh:'ครอบข้อความด้วยแท็ก'},
-tips:['strong = ตัวหนา, ใช้เมื่อข้อความสำคัญ','em = เอียง, ใช้เมื่อต้องการเน้น','u = ขีดเส้นใต้, mark = ไฮไลท์','ทั้ง 4 แท็กนี้เป็น inline elements ครอบข้อความ'],
-tests:[{t:'ใช้ตัวหนาและเอียง',d:'p ที่มี strong และ em',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <strong>',k:d=>!!d.querySelector('strong')},{l:'มี <em>',k:d=>!!d.querySelector('em')},{l:'อยู่ p เดียวกัน',k:d=>{const p=d.querySelector('p');return p&&p.querySelector('strong')&&p.querySelector('em');}}]},
-{t:'ใช้ขีดเส้นใต้และไฮไลท์',d:'มี u และ mark',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <u>',k:d=>!!d.querySelector('u')},{l:'มี <mark>',k:d=>!!d.querySelector('mark')}]},
-{t:'ใช้ครบ 4 แท็ก',d:'strong, em, u, mark ครบ',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <strong>',k:d=>!!d.querySelector('strong')},{l:'มี <em>',k:d=>!!d.querySelector('em')},{l:'มี <u>',k:d=>!!d.querySelector('u')},{l:'มี <mark>',k:d=>!!d.querySelector('mark')}]}]},
-
-{id:4,d:'ง่าย',title:'ลิงก์และรูปภาพ',icon:'fa-solid fa-link',desc:'เรียนรู้ a href และ img src',
-pts:['<a href="URL"> สร้างลิงก์','<img src="URL" alt="..."> รูปภาพ','alt สำคัญต่อการเข้าถึง','target="_blank" เปิดแท็บใหม่'],
-code:'<a href="https://example.com">คลิก</a>\n<br><br>\n<img src="https://picsum.photos/seed/hq/300/150" alt="รูป">',
-prac:{t:'สร้างลิงก์และรูป',d:'สร้าง a พร้อม href และ img พร้อม src',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <a> พร้อม href',k:(d,c)=>/<a\s+[^>]*href\s*=/i.test(c)},{l:'มี <img> พร้อม src',k:(d,c)=>/<img\s+[^>]*src\s*=/i.test(c)}],xp:14,gh:'a ใช้ href, img ใช้ src'},
-tips:['ลิงก์ใช้แท็ก <a> ไม่ใช่ <link>','img เป็น self-closing tag ไม่มี </img>','alt สำคัญมากสำหรับผู้ใช้จองภาพ','href="" คือลิงกงว่าง ไม่ใช่ลิงก์ไปหน้าอื่น'],
-tests:[{t:'สร้างลิงก์',d:'สร้าง a ที่เชื่อม google.com',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <a>',k:d=>!!d.querySelector('a')},{l:'href ไป google.com',k:(d,c)=>/href\s*=\s*["']?https?:\/\/(www\.)?google\.com/i.test(c)}]},
-{t:'สร้างรูปพร้อม alt',d:'img มี src และ alt',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <img> พร้อม src',k:(d,c)=>/<img\s+[^>]*src\s*=/i.test(c)},{l:'มี alt',k:(d,c)=>/<img\s+[^>]*alt\s*=/i.test(c)}]},
-{t:'ลิงก์เปิดแท็บใหม่',d:'a มี target="_blank" และ img',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'<a> มี target="_blank"',k:(d,c)=>/<a\s+[^>]*target\s*=\s*["']_blank["']/i.test(c)},{l:'มี <img>',k:d=>!!d.querySelector('img')}]}]},
-
-{id:5,d:'ง่าย',title:'ลิสต์รายการ',icon:'fa-solid fa-list',desc:'เรียนรู้ ul, ol, li',
-pts:['<ul> ลิสต์ไม่มีลำดับ (สัญลักษณ์)','<ol> ลิสต์มีลำดับ (ตัวเลข)','<li> แต่ละรายการ','สามารถซ้อนลิสต์ได้'],
-code:'<ul>\n  <li>แอปเปิล</li>\n  <li>กล้วย</li>\n</ul>\n<ol>\n  <li>ต้มน้ำ</li>\n  <li>เสิร์ฟ</li>\n</ol>',
-prac:{t:'สร้างลิสต์',d:'สร้าง ul/ol ที่มี li อย่างน้อย 3',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <ul> หรือ <ol>',k:d=>!!(d.querySelector('ul')||d.querySelector('ol'))},{l:'มี <li> อย่างน้อย 3',k:d=>d.querySelectorAll('li').length>=3}],xp:12,gh:'ul=สัญลักษณ์, ol=ตัวเลข'},
-tips:['ul ใช้เมื่อลำดับไม่สำคัญ เช่น ส่วนประกอบ','ol ใช้เมื่อลำดับสำคัญ เช่น ขั้นตอน','li อยู่ภายใต้อง ul หรือ ol เท่านั้น','ซ้อน ul ใน ul ได้ สร้าง sub-list'],
-tests:[{t:'สร้าง ul 3 รายการ',d:'ul ที่มี li อย่างน้อย 3',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <ul>',k:d=>!!d.querySelector('ul')},{l:'li อย่างน้อย 3',k:d=>d.querySelectorAll('ul li').length>=3}]},
-{t:'สร้าง ol 4 รายการ',d:'ol ที่มี li อย่างน้อย 4',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <ol>',k:d=>!!d.querySelector('ol')},{l:'li อย่างน้อย 4',k:d=>d.querySelectorAll('ol li').length>=4}]},
-{t:'สร้างลิสต์ซ้อน',d:'ul ที่มี ul ซ้อนอยู่ข้างใน',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี ul ชั้นนอก',k:d=>!!d.querySelector('ul')},{l:'มี ul ชั้นใน',k:d=>!!d.querySelector('ul ul')}]}]},
-
-{id:6,d:'ปานกลาง',title:'ตาราง',icon:'fa-solid fa-table',desc:'เรียนรู้ table, tr, th, td, colspan',
-pts:['<table> สร้างตาราง','<tr> แถว','<th> หัวตาราง (ตัวหนา), <td> ข้อมูล','colspan รวมคอลัมน์'],
-code:'<table border="1" cellpadding="6" style="border-collapse:collapse;text-align:center;">\n  <tr><th>ชื่อ</th><th>อายุ</th></tr>\n  <tr><td>สมชาย</td><td>25</td></tr>\n</table>',
-prac:{t:'สร้างตาราง',d:'สร้างตารางที่มี th และ td',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <table>',k:d=>!!d.querySelector('table')},{l:'มี <th>',k:d=>!!d.querySelector('th')},{l:'มี <td>',k:d=>!!d.querySelector('td')}],xp:18,gh:'table > tr > th/td'},
-tips:['table ครอบทุกอย่างด้วย tr','th ใช้ในแถววแรก (มักจะอยู่แถววแรก)','td ใช้ในแถววอื่น','colspan="2" รวม 2 คอลัมน์เป็น 1'],
-tests:[{t:'ตารางพื้นฐาน',d:'มี table, th, td',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <table>',k:d=>!!d.querySelector('table')},{l:'มี <th>',k:d=>!!d.querySelector('th')},{l:'มี <td>',k:d=>!!d.querySelector('td')}]},
-{t:'ตารางหลายแถว',d:'มี tr อย่างน้อย 3',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <table>',k:d=>!!d.querySelector('table')},{l:'<tr> อย่างน้อย 3',k:d=>d.querySelectorAll('tr').length>=3}]},
-{t:'ใช้ colspan',d:'ตารางที่มี colspan',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <table>',k:d=>!!d.querySelector('table')},{l:'มี colspan',k:(d,c)=>/colspan\s*=\s*["']?\d+/i.test(c)}]}]},
-
-{id:7,d:'ปานกลาง',title:'ฟอร์มและ input',icon:'fa-solid fa-keyboard',desc:'เรียนรู้ form, input, label, button',
-pts:['<form> สร้างฟอร์ม','<input> ช่องรับข้อมูล','<label> ป้ายชื่อฟิลด์','<button> ปุ่มกด'],
-code:'<form>\n  <label>ชื่อ:</label><br>\n  <input type="text" name="name"><br><br>\n  <label>อีเมล:</label><br>\n  <input type="email" name="email"><br><br>\n  <button type="submit">ส่ง</button>\n</form>',
-prac:{t:'สร้างฟอร์ม',d:'สร้าง form ที่มี input อย่างน้อย 2 ช่อง',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <form>',k:d=>!!d.querySelector('form')},{l:'มี <input> อย่างน้อย 2',k:d=>d.querySelectorAll('input').length>=2},{l:'มี <button>',k:d=>!!d.querySelector('button')}],xp:18,gh:'form ครอบ input และ button'},
-tips:['input type="text/email/password/number" กำหนัวประเภทที่ต่างกัน','name attribute ใช้ระบุชื่อของ input','button type="submit" ส่งฟอร์ม','label ใช้ for="" เชื่อมึก input และ label เชื่อเดียวกัน'],
-tests:[{t:'สร้างฟอร์มล็อกอิน',d:'มี form, input text, input password, button',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <form>',k:d=>!!d.querySelector('form')},{l:'มี input type="password"',k:(d,c)=>/type\s*=\s*["']?password["']/i.test(c)},{l:'มี <button>',k:d=>!!d.querySelector('button')}]},
-{t:'ใช้ label',d:'มี label และ input',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <label>',k:d=>!!d.querySelector('label')},{l:'มี <input>',k:d=>!!d.querySelector('input')}]},
-{t:'ฟอร์ม dropdown',d:'มี select และ option',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <select>',k:d=>!!d.querySelector('select')},{l:'มี <option> อย่างน้อย 2',k:d=>d.querySelectorAll('option').length>=2}]}]},
-
-{id:8,d:'ปานกลาง',title:'id และ class',icon:'fa-solid fa-hashtag',desc:'เรียนรู้ id และ class',
-pts:['id ระบุ element เฉพาะ (ไม่ซ้ำ)','class ระบุกลุ่ม element (ซ้ำได้)','id ใช้กับ CSS หรือ JavaScript','class ใช้กับ CSS เพื่อจัดรูปหลายหลาย'],
-code:'<h1 id="main-title">หัวข้อหลัก</h1>\n<p class="highlight">ย่อหน้าแรก</p>\n<p class="highlight">ย่อหน้าที่สอง</p>',
-prac:{t:'ใช้ id และ class',d:'สร้าง element ที่มี id และ class',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี element ที่มี id',k:(d,c)=>/id\s*=\s*["'][^"']+["']/i.test(c)},{l:'มี element ที่มี class',k:(d,c)=>/class\s*=\s*["'][^"']+["']/i.test(c)}],xp:16,gh:'id="ชื่อเฉพาะ" class="ชื่อกลุ่ม"'},
-tips:['id ต้องไม่ซ้ำกันในหน้าเดียวกัน','class สามารถมีหลายค่าได้ ใน element เดียวกัน','เขียน id="main" ไม่ใช่ id ="main"'],
-tests:[{t:'กำหนด id',d:'สร้าง h1 ที่มี id="title"',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี h1 ที่มี id="title"',k:(d,c)=>/<h1[^>]*id\s*=\s*["']title["']/i.test(c)}]},
-{t:'กำหนด class หลายตัว',d:'มี element 2 ตัวที่มี class เดียวกัน',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี class="box" อย่างน้อย 2 ตัว',k:(d,c)=>(c.match(/class\s*=\s*["']box["']/gi)||[]).length>=2}]},
-{t:'ใช้ id และ class รวมกัน',d:'มีทั้ง id และ class',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี id',k:(d,c)=>/id\s*=\s*["'][^"']+["']/i.test(c)},{l:'มี class',k:(d,c)=>/class\s*=\s*["'][^"']+["']/i.test(c)}]}]},
-
-{id:9,d:'ปานกลาง',title:'แบบเลย์เอาต์พื้นฐาน',icon:'fa-solid fa-layer-group',desc:'เรียนรู้ div, span, header, footer, nav, main',
-pts:['<div> กล่องบล็อก (block)','<span> กล่องอินไลน์ (inline)','<header> ส่วนหัว','<main> เนื้อหาหลัก','<footer> ส่วนท้าย'],
-code:'<header><h1>เว็บของฉัน</h1><nav>เมนู</nav></header>\n<main><div>เนื้อหา</div></main>\n<footer>ท้ายเว็บ</footer>',
-prac:{t:'สร้างเลย์เอาต์',d:'สร้าง header, main, footer',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <header>',k:d=>!!d.querySelector('header')},{l:'มี <main>',k:d=>!!d.querySelector('main')},{l:'มี <footer>',k:d=>!!d.querySelector('footer')}],xp:18,gh:'div=บล็อก, span=อินไลน์'},
-tips:['div ขึ้นบรรทัดใหม่อัตโนวัว','span อยู่บรรทัวเดียวกับข้อความ','header/footer อยู่นอกเนื้นหา ไม่ใช่ใน main','nav อยู่ใน header ปกตัว'],
-tests:[{t:'โครงเลย์เอาต์',d:'มี header, main, footer',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <header>',k:d=>!!d.querySelector('header')},{l:'มี <main>',k:d=>!!d.querySelector('main')},{l:'มี <footer>',k:d=>!!d.querySelector('footer')}]},
-{t:'ใช้ div และ span',d:'มีทั้ง div และ span',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <div>',k:d=>!!d.querySelector('div')},{l:'มี <span>',k:d=>!!d.querySelector('span')}]},
-{t:'ใช้ nav',d:'มี nav และ div อย่างน้อย 2',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <nav>',k:d=>!!d.querySelector('nav')},{l:'มี <div> อย่างน้อย 2',k:d=>d.querySelectorAll('div').length>=2}]}]},
-
-{id:10,d:'ปานกลาง',title:'เซมานติก HTML5',icon:'fa-solid fa-sitemap',desc:'เรียนรู้ article, section, aside, figure, figcaption',
-pts:['<article> บทความอิสระ','<section> ส่วนย่อยของหน้า','<aside> ส่วนข้างเคียง','<figure> รูปพร้อมคำอธิบาย'],
-code:'<article>\n  <h2>บทความ</h2>\n  <p>เนื้อหาบทความ</p>\n</article>\n<aside>ส่วนข้าง</aside>\n<figure>\n  <img src="https://picsum.photos/seed/s5/200/100" alt="รูป">\n  <figcaption>คำอธิบายรูป</figcaption>\n</figure>',
-prac:{t:'ใช้เซมานติก',d:'สร้าง article และ figure พร้อม figcaption',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <article>',k:d=>!!d.querySelector('article')},{l:'มี <figure>',k:d=>!!d.querySelector('figure')},{l:'มี <figcaption>',k:d=>!!d.querySelector('figcaption')}],xp:20,gh:'article=บทความ, figure=รูป+คำอธิบาย'},
-tips:['article = เนื้นหาที่สมบูรณอิสระ','figure ต้องมี figcaption อยู่ข้างใน','section = ส่วนย่อยของหน้า','aside = เนื้อเสริมเพิ่มเติม'],
-tests:[{t:'สร้าง article',d:'article ที่มี h2 และ p',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <article>',k:d=>!!d.querySelector('article')},{l:'article มี <h2>',k:d=>{const a=d.querySelector('article');return a&&a.querySelector('h2');}}]},
-{t:'ใช้ section',d:'มี section และ aside',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <section>',k:d=>!!d.querySelector('section')},{l:'มี <aside>',k:d=>!!d.querySelector('aside')}]},
-{t:'figure พร้อม figcaption',d:'มี figure, img และ figcaption',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <figure>',k:d=>!!d.querySelector('figure')},{l:'figure มี <img>',k:d=>{const f=d.querySelector('figure');return f&&f.querySelector('img');}},{l:'มี <figcaption>',k:d=>!!d.querySelector('figcaption')}]}]},
-
-{id:11,d:'ยาก',title:'รูปภาพและแผนที่',icon:'fa-solid fa-image',desc:'เรียนรู้ picture, source, map, area',
-pts:['<picture> รูปหลายขนาด','<source> กำหนดแหล่งรูป','<map> แผนที่รูปภาพ','<area> พื้นที่คลิกได้บนรูป'],
-code:'<picture>\n  <source media="(min-width:800px)" srcset="https://picsum.photos/seed/big/800/400">\n  <img src="https://picsum.photos/seed/small/400/200" alt="รูปตอบสนอบ">\n</picture>',
-prac:{t:'ใช้ picture',d:'สร้าง picture ที่มี source และ img',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <picture>',k:d=>!!d.querySelector('picture')},{l:'มี <source>',k:d=>!!d.querySelector('source')},{l:'มี <img> ใน picture',k:d=>{const p=d.querySelector('picture');return p&&p.querySelector('img');}}],xp:22,gh:'picture > source + img'},
-tips:['picture ใช้สำหรับ responsive images','source ใช้ media เงื่อนเงื่อไปขนาดจอง','img ใน picture เป็น fallback','media="(min-width:800px)" หมายถึงหน้าจอกว้าก 800px ขึ้นไป'],
-tests:[{t:'สร้าง picture',d:'มี picture พร้อม source',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <picture>',k:d=>!!d.querySelector('picture')},{l:'มี <source>',k:d=>!!d.querySelector('source')}]},
-{t:'ใช้ srcset',d:'img ที่มี srcset',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <img> พร้อม srcset',k:(d,c)=>/<img\s+[^>]*srcset\s*=/i.test(c)}]},
-{t:'สร้าง map',d:'มี map และ area',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <map>',k:d=>!!d.querySelector('map')},{l:'มี <area>',k:d=>!!d.querySelector('area')}]}]},
-
-{id:12,d:'ยาก',title:'iframe และเฟรม',icon:'fa-solid fa-window-restore',desc:'เรียนรู้การฝังเนื้นหาจากแหล่งอื่น',
-pts:['<iframe> ฝังหน้าเว็บ','src ระบุ URL','width/height กำหนานขนาด','sandbox จำกัดสิทธิ์เพื่อความปลอดภัย'],
-code:'<iframe src="https://example.com" width="600" height="300" style="border:1px solid #ccc;"></iframe>',
-prac:{t:'สร้าง iframe',d:'สร้าง iframe ที่มี src',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <iframe>',k:d=>!!d.querySelector('iframe')},{l:'iframe มี src',k:(d,c)=>/<iframe\s+[^>]*src\s*=/i.test(c)}],xp:22,gh:'iframe src="URL" width="..." height="..."'},
-tips:['iframe ใช้ฝังหน้าเว็บอื่นในหน้าเว็บของคุณ','width/height กำหนดขนาด iframe','sandbox="" จำกัดสิทธิ์เพื่อความปลอดภัย'],
-tests:[{t:'สร้าง iframe',d:'มี iframe พร้อม src',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <iframe>',k:d=>!!d.querySelector('iframe')},{l:'มี src',k:(d,c)=>/<iframe\s+[^>]*src\s*=/i.test(c)}]},
-{t:'กำหนดขนาด iframe',d:'iframe ที่มี width และ height',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <iframe>',k:d=>!!d.querySelector('iframe')},{l:'มี width',k:(d,c)=>/<iframe\s+[^>]*width\s*=/i.test(c)},{l:'มี height',k:(d,c)=>/<iframe\s+[^>]*height\s*=/i.test(c)}]},
-{t:'ใช้ sandbox',d:'iframe ที่มี sandbox',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <iframe>',k:d=>!!d.querySelector('iframe')},{l:'มี sandbox',k:(d,c)=>/<iframe\s+[^>]*sandbox\s*=/i.test(c)}]}]},
-
-{id:13,d:'ยาก',title:'ออดิโอและวิดีโอ',icon:'fa-solid fa-video',desc:'เรียนรู้ audio และ video tags',
-pts:['<audio> เล่นเสียง','<video> เล่นวิดีโอ','<source> กำหนำแหล่งไฟล์์','controls แสดงตัวควบคุม'],
-code:'<audio controls>\n  <source src="audio.mp3" type="audio/mpeg">\n  เบราว์เซอร์ไม่รองรับ\n</audio>\n<video controls width="400">\n  <source src="video.mp4" type="video/mp4">\n</video>',
-prac:{t:'สร้าง audio หรือ video',d:'สร้าง audio หรือ video ที่มี controls',s:'<!DOCTYPE html>\n<html><head><title>ฝึก</title></head><body>\n    \n  </body></html>',c:[{l:'มี <audio> หรือ <video>',k:d=>!!(d.querySelector('audio')||d.querySelector('video'))},{l:'มี attribute controls',k:(d,c)=>/(audio|video)\s+[^>]*controls/i.test(c)}],xp:22,gh:'audio/video controls src="file" type="mime"'},
-tips:['audio/video ใส่งใน body ได้เลย','source อยู่ใน audio/video ไม่ใช่แยกเป็น tag','controls แสดงปุ่ม เล่น/หยุด/ปรับเสียง','type="audio/mpeg" และ type="video/mp4" เป็น MIME type'],
-tests:[{t:'สร้าง video',d:'มี video พร้อม controls',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <video>',k:d=>!!d.querySelector('video')},{l:'มี controls',k:(d,c)=>/<video\s+[^>]*controls/i.test(c)}]},
-{t:'สร้าง audio',d:'มี audio พร้อม controls และ source',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <audio>',k:d=>!!d.querySelector('audio')},{l:'มี <source> ใน audio',k:d=>{const a=d.querySelector('audio');return a&&a.querySelector('source');}}]},
-{t:'กำหนดขนาด video',d:'video ที่มี width',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <video>',k:d=>!!d.querySelector('video')},{l:'มี width',k:(d,c)=>/<video\s+[^>]*width\s*=/i.test(c)}]}]},
-
-{id:14,d:'ยาก',title:'เมตาแท็กขั้นสูง',icon:'fa-solid fa-tags',desc:'เรียนรู้ meta, link, style, script',
-pts:['meta charset กำหนด encoding','meta description คำอธิบายเว็บ','<link> เชื่อม CSS ภายนออก','<style> CSS ฝังในหน้า'],
-code:'<meta charset="UTF-8">\n<meta name="description" content="เว็บของฉัน">\n<meta name="viewport" content="width=device-width,initial-scale=1.0">\n<link rel="stylesheet" href="style.css">\n<style>\n  h1 { color: green; }\n</style>',
-prac:{t:'ใส่งเมตาแท็ก',d:'สร้าง meta charset, viewport, และ style',s:'<!DOCTYPE html>\n<html>\n<head>\n    <title>ฝึก</title></head>\n<body>\n    <h1>ทดสอบ</h1>\n  </body>\n</html>',c:[{l:'มี meta charset',k:(d,c)=>/<meta\s+[^>]*charset/i.test(c)},{l:'มี meta viewport',k:(d,c)=>/<meta\s+[^>]*viewport/i.test(c)},{l:'มี <style>',k:d=>!!d.querySelector('style')}],xp:25,gh:'meta อยู่ใน head, style อยู่ใน head เท่านั้น body'},
-tips:['meta charset="UTF-8" ใส่่ทุกหน้าเว็บ','meta viewport ทำให้ responsive','<style> ใช้ฝัง CSS ใน <head>','link rel="stylesheet" เชื่อมา CSS ภายนออก'],
-tests:[{t:'ใส่ meta tags',d:'มี meta charset และ meta viewport',s:'<!DOCTYPE html>\n<html>\n<head><title>ทดสอบ</title></head>\n<body>\n    <h1>ทดสอบ</h1>\n</body></html>',c:[{l:'มี meta charset',k:(d,c)=>/<meta\s+[^>]*charset/i.test(c)},{l:'มี meta viewport',k:(d,c)=>/<meta\s+[^>]*viewport/i.test(c)}]},
-{t:'ใช้ style ฝัง',d:'มี style tag ที่มี CSS',s:'<!DOCTYPE html>\n<html>\n<head><title>ทดสอบ</title></head><body>\n    <h1>ทดสอบ</h1>\n</body></html>',c:[{l:'มี <style>',k:d=>!!d.querySelector('style')},{l:'style มี CSS',k:d=>{const s=d.querySelector('style');return s&&s.textContent.includes('{');}}]},
-{t:'ใช้ link CSS',d:'มี link rel="stylesheet"',s:'<!DOCTYPE html>\n<html>\n<head><title>ทดสอบ</title></head><body>\n    <h1>ทดสอบ</h1>\n</body></html>',c:[{l:'มี <link> rel="stylesheet"',k:(d,c)=>/<link\s+[^>]*rel\s*=\s*["']stylesheet["']/i.test(c)}]}]},
-
-{id:15,d:'ยาก',title:'โครงสร้างเว็บสมบูรณ์',icon:'fa-solid fa-globe',desc:'รวมทุกอย่างที่เรียนมาทั้งหมดร่วมกัน',
-pts:['ใช้ทุกแท็กที่เรียนมา','โครงสร้างที่ดีชัจนจะ SEO และการเข้าถึง','ใช้เซมานติก HTML5 อย่างถูกต้อง','แยกเนื้อหา (content) จากโครงสร้าง (structure) ชัดจน'],
-code:'<!DOCTYPE html>\n<html lang="th">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width,initial-scale=1">\n  <title>เว็บสมบูรณ์</title>\n</head>\n<body>\n  <header><h1>เว็บของฉัน</h1>\n  <nav><a href="#">หน้าแรก</a></nav></header>\n  <main>\n    <article><h2>บทความ</h2><p>เนื้อหา</p></article>\n    <aside>ข้อมูลเพิ่ม</aside>\n  </main>\n  <footer><p>ท้ายเว็บ</p></footer>\n</body>\n</html>',
-prac:{t:'สร้างเว็บสมบูรณ์',d:'สร้าง header, nav, main, article, footer',s:'<!DOCTYPE html>\n<html>\n<head><title>ฝึก</title></head>\n<body>\n    \n  </body></html>',c:[{l:'มี <header>',k:d=>!!d.querySelector('header')},{l:'มี <nav> ใน header',k:d=>{const h=d.querySelector('header');return h&&h.querySelector('nav');}},{l:'มี <main>',k:d=>!!d.querySelector('main')},{l:'มี <article>',k:d=>!!d.querySelector('article')},{l:'มี <footer>',k:d=>!!d.querySelector('footer')}],xp:30,gh:'ใช้ทุกอย่างที่เรียนมาร่วมกัน'},
-tips:['header ครอบ nav, main ครอบเนื้นหา','article = เนื้นหาอิสระอิสระ','aside = เนื้นเพิ่มเติม','footer = ข้อมูลท้านเว็บ'],
-tests:[{t:'โครงสร้างเว็บ',d:'มี header, nav, main, footer',s:'<!DOCTYPE html>\n<html>\n<head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <header>+<nav>',k:d=>{const h=d.querySelector('header');return h&&h.querySelector('nav');}},{l:'มี <main>+<article>',k:d=>{const m=d.querySelector('main');return m&&m.querySelector('article');}},{l:'มี <footer>',k:d=>!!d.querySelector('footer')}]},
-{t:'เว็บพร้อมเนื้นหา',d:'มี article ที่มี h2 และ p',s:'<!DOCTYPE html>\n<html><head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี <article>',k:d=>!!d.querySelector('article')},{l:'article มี h2 และ p',k:d=>{const a=d.querySelector('article');return a&&a.querySelector('h2')&&a.querySelector('p');}}]},
-{t:'เว็บสมบูรณ์ขั้นสุด',d:'มี meta charset, header, nav, main, article, aside, footer',s:'<!DOCTYPE html>\n<html>\n<head><title>ทดสอบ</title></head><body>\n    \n  </body></html>',c:[{l:'มี meta charset',k:(d,c)=>/<meta\s+[^>]*charset/i.test(c)},{l:'มี <header>+<nav>',k:d=>{const h=d.querySelector('header');return h&&h.querySelector('nav');}},{l:'มี <main>+<article>',k:d=>{const m=d.querySelector('main');return m&&m.querySelector('article');}},{l:'มี <footer>',k:d=>!!d.querySelector('footer')}]}]}
+const LS=[
+{id:1,title:'โครงสร้างพื้นฐาน HTML',icon:'fa-solid fa-house-chimney',
+desc:'เรียนรู้โครงสร้างหลักของเอกสาร HTML',
+pts:['ทุกเอกสาร HTML เริ่มด้วย <code class="cf" style="color:#7ee787;">&lt;!DOCTYPE html&gt;</code>','<code class="cf" style="color:#7ee787;">&lt;html&gt;</code> เป็นภาชนะหลักครอบทุกอย่าง','<code class="cf" style="color:#7ee787;">&lt;head&gt;</code> ใส่ข้อมูลเมตา เช่น <code class="cf" style="color:#7ee787;">&lt;title&gt;</code>','<code class="cf" style="color:#7ee787;">&lt;body&gt;</code> ใส่เนื้อหาที่แสดงบนหน้าจอ'],
+code:'<!DOCTYPE html>\n<html>\n  <head>\n    <title>หน้าเว็บแรก</title>\n  </head>\n  <body>\n    <h1>สวัสดีชาวโลก!</h1>\n    <p>นี่คือเว็บแรกของฉัน</p>\n  </body>\n</html>',
+prac:{title:'สร้างหน้าเว็บพื้นฐาน',desc:'เติมโค้ดใน body ให้มี h1 และ p',
+start:'<!DOCTYPE html>\n<html>\n  <head>\n    <title>แบบฝึกหัด</title>\n  </head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มีแท็ก <h1>',ck:d=>!!d.querySelector('h1'),ht:'เขียน <h1>หัวข้อ</h1>'},{lb:'มีแท็ก <p>',ck:d=>!!d.querySelector('p'),ht:'เขียน <p>ข้อความ</p>'}],
+xp:15,gh:'เนื้อหาที่แสดงบนหน้าเว็บต้องอยู่ภายใต้ <body>'},
+tests:[
+{title:'สร้างหน้าเว็บมีชื่อ',desc:'สร้างหน้าเว็บที่มี title เป็น "เว็บของฉัน" และมี h1 ข้างใน body',
+start:'<!DOCTYPE html>\n<html>\n  <head>\n    <title></title>\n  </head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'title เป็น "เว็บของฉัน"',ck:(d,c)=>/<title>\s*เว็บของฉัน\s*<\/title>/i.test(c)},{lb:'มีแท็ก <h1>',ck:d=>!!d.querySelector('h1')}]},
+{title:'เพิ่มย่อหน้าข้อความ',desc:'สร้างหน้าเว็บที่มีแท็ก p พร้อมข้อความอะไรก็ได้',
+start:'<!DOCTYPE html>\n<html>\n  <head>\n    <title>ทดสอบ</title>\n  </head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มีแท็ก <p>',ck:d=>!!d.querySelector('p')},{lb:'<p> มีข้อความ',ck:d=>{const p=d.querySelector('p');return p&&p.textContent.trim().length>0;}}]},
+{title:'สร้างหน้าเว็บครบถ้วน',desc:'สร้างหน้าเว็บที่มีทั้ง h1, p และ DOCTYPE ถูกต้อง',
+start:'',
+cks:[{lb:'มี DOCTYPE html',ck:(d,c)=>/<!DOCTYPE\s+html>/i.test(c)},{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <p>',ck:d=>!!d.querySelector('p')}]}
 ]},
-
-const LVLS=[
-{m:0,n:'เด็กใหม่',i:'fa-solid fa-seedling'},{m:40,n:'ผู้ฝึกหัด',i:'fa-solid fa-user-graduate'},{m:100,n:'นักเรียน',i:'fa-solid fa-book-open'},{m:180,n:'นักเขียนโค้ด',i:'fa-solid fa-code'},{m:280,n:'โปรแกรมเมอร์',i:'fa-solid fa-laptop-code'},{m:400,n:'นักพัฒนา',i:'fa-solid fa-wand-magic-sparkles'},{m:540,n:'ผู้เชี่ยวชาญ',i:'fa-solid fa-star'},{m:700,n:'วิศวกร HTML',i:'fa-solid fa-gear'},{m:880,n:'นักออกแบบ',i:'fa-solid fa-palette'},{m:1080,n:'เทพ HTML',i:'fa-solid fa-crown'},{m:1320,n:'ปรมาจารย์',i:'fa-solid fa-gem'},{m:1600,n:'ตำนาน',i:'fa-solid fa-dragon'},{m:1920,n:'เจ้าแห่งเว็บ',i:'fa-solid fa-chess-king'},{m:2280,n:'มหาเทพ',i:'fa-solid fa-bolt'},{m:2700,n:'HTML Supreme',i:'fa-solid fa-infinity'}
+{id:2,title:'หัวข้อและย่อหน้า',icon:'fa-solid fa-heading',
+desc:'เรียนรู้การสร้างหัวข้อ h1-h6 และย่อหน้า',
+pts:['<code class="cf" style="color:#7ee787;">&lt;h1&gt;</code> ถึง <code class="cf" style="color:#7ee787;">&lt;h6&gt;</code> สร้างหัวข้อ h1 ใหญ่สุด','<code class="cf" style="color:#7ee787;">&lt;p&gt;</code> สร้างย่อหน้า','<code class="cf" style="color:#7ee787;">&lt;hr&gt;</code> สร้างเส้นแบ่ง','<code class="cf" style="color:#7ee787;">&lt;br&gt;</code> ขึ้นบรรทัดใหม่'],
+code:'<h1>หัวข้อ h1</h1>\n<h2>หัวข้อ h2</h2>\n<h3>หัวข้อ h3</h3>\n<p>นี่คือย่อหน้า</p>\n<hr>\n<p>อีกย่อหน้าหนึ่ง</p>',
+prac:{title:'สร้างหัวข้อและย่อหน้า',desc:'สร้าง h1, h2 และ p',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <h2>',ck:d=>!!d.querySelector('h2')},{lb:'มี <p>',ck:d=>!!d.querySelector('p')}],xp:20,gh:'h1 ใหญ่สุด, h2 รองลงมา, p คือย่อหน้า'},
+tests:[
+{title:'สร้างหัวข้อ 2 ระดับ',desc:'สร้างหน้าเว็บที่มีทั้ง h1 และ h3',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <h3>',ck:d=>!!d.querySelector('h3')}]},
+{title:'ใช้เส้นแบ่ง',desc:'สร้างหน้าเว็บที่มี p อย่างน้อย 2 อัน คั่นด้วย hr',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <p> อย่างน้อย 2 อัน',ck:d=>d.querySelectorAll('p').length>=2},{lb:'มี <hr>',ck:d=>!!d.querySelector('hr')}]},
+{title:'สร้างลำดับหัวข้อ',desc:'สร้าง h1, h2, h3 เรียงกันในหน้าเดียว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <h2>',ck:d=>!!d.querySelector('h2')},{lb:'มี <h3>',ck:d=>!!d.querySelector('h3')}]}
+]},
+{id:3,title:'จัดรูปแบบข้อความ',icon:'fa-solid fa-font',
+desc:'เรียนรู้แท็ก strong, em, u, mark',
+pts:['<code class="cf" style="color:#7ee787;">&lt;strong&gt;</code> ตัวหนา (สำคัญ)','<code class="cf" style="color:#7ee787;">&lt;em&gt;</code> ตัวเอียง (เน้น)','<code class="cf" style="color:#7ee787;">&lt;u&gt;</code> ขีดเส้นใต้','<code class="cf" style="color:#7ee787;">&lt;mark&gt;</code> ไฮไลท์'],
+code:'<p>ข้อความ <strong>ตัวหนา</strong></p>\n<p>ข้อความ <em>ตัวเอียง</em></p>\n<p>ข้อความ <u>ขีดเส้นใต้</u></p>\n<p>ข้อความ <mark>ไฮไลท์</mark></p>',
+prac:{title:'จัดรูปแบบข้อความ',desc:'ใช้ strong, em, mark ในย่อหน้า',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    <p>ข้อความที่ยังไม่จัดรูปแบบ</p>\n  </body>\n</html>',
+cks:[{lb:'มี <strong>',ck:d=>!!d.querySelector('strong')},{lb:'มี <em>',ck:d=>!!d.querySelector('em')},{lb:'มี <mark>',ck:d=>!!d.querySelector('mark')}],xp:25,gh:'ครอบข้อความด้วยแท็ก เช่น <strong>ตัวหนา</strong>'},
+tests:[
+{title:'ใช้ตัวหนาและเอียง',desc:'สร้าง p ที่มีทั้ง strong และ em',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <strong>',ck:d=>!!d.querySelector('strong')},{lb:'มี <em>',ck:d=>!!d.querySelector('em')},{lb:'อยู่ใน <p> เดียวกัน',ck:d=>{const p=d.querySelector('p');return p&&p.querySelector('strong')&&p.querySelector('em');}}]},
+{title:'ใช้ขีดเส้นใต้และไฮไลท์',desc:'สร้างข้อความที่มีทั้ง u และ mark',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <u>',ck:d=>!!d.querySelector('u')},{lb:'มี <mark>',ck:d=>!!d.querySelector('mark')}]},
+{title:'ใช้ครบทั้ง 4 แท็ก',desc:'สร้างข้อความที่ใช้ strong, em, u และ mark ครบทุกตัว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <strong>',ck:d=>!!d.querySelector('strong')},{lb:'มี <em>',ck:d=>!!d.querySelector('em')},{lb:'มี <u>',ck:d=>!!d.querySelector('u')},{lb:'มี <mark>',ck:d=>!!d.querySelector('mark')}]}
+]},
+{id:4,title:'ลิงก์และรูปภาพ',icon:'fa-solid fa-link',
+desc:'เรียนรู้การสร้างลิงก์และแสดงรูปภาพ',
+pts:['<code class="cf" style="color:#7ee787;">&lt;a href="URL"&gt;</code> สร้างลิงก์','<code class="cf" style="color:#7ee787;">&lt;img src="URL" alt="..."&gt;</code> แสดงรูป','attribute <code class="cf" style="color:#ffa657;">alt</code> สำคัญต่อการเข้าถึง','<code class="cf" style="color:#ffa657;">target="_blank"</code> เปิดแท็บใหม่'],
+code:'<a href="https://example.com">คลิกที่นี่</a>\n<br><br>\n<img src="https://picsum.photos/seed/hq/300/150" alt="รูปตัวอย่าง">',
+prac:{title:'สร้างลิงก์และรูปภาพ',desc:'สร้าง a พร้อม href และ img พร้อม src',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <a> พร้อม href',ck:(d,c)=>/<a\s+[^>]*href\s*=/i.test(c)},{lb:'มี <img> พร้อม src',ck:(d,c)=>/<img\s+[^>]*src\s*=/i.test(c)}],xp:25,gh:'a ใช้ href ระบุ URL, img ใช้ src ระบุที่อยู่รูป'},
+tests:[
+{title:'สร้างลิงก์ไป Google',desc:'สร้างลิงก์ที่เชื่อมไปยัง https://google.com',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มีแท็ก <a>',ck:d=>!!d.querySelector('a')},{lb:'href ไป google.com',ck:(d,c)=>/href\s*=\s*["']?https?:\/\/(www\.)?google\.com/i.test(c)}]},
+{title:'สร้างรูปภาพพร้อม alt',desc:'สร้างรูปภาพที่มีทั้ง src และ alt',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <img> พร้อม src',ck:(d,c)=>/<img\s+[^>]*src\s*=/i.test(c)},{lb:'มี attribute alt',ck:(d,c)=>/<img\s+[^>]*alt\s*=/i.test(c)}]},
+{title:'สร้างลิงก์เปิดแท็บใหม่',desc:'สร้างลิงก์ที่มี target="_blank" และรูปภาพในหน้าเดียว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <a> พร้อม target="_blank"',ck:(d,c)=>/<a\s+[^>]*target\s*=\s*["']_blank["']/i.test(c)},{lb:'มี <img>',ck:d=>!!d.querySelector('img')}]}
+]},
+{id:5,title:'ลิสต์รายการ',icon:'fa-solid fa-list',
+desc:'เรียนรู้ ul, ol และ li',
+pts:['<code class="cf" style="color:#7ee787;">&lt;ul&gt;</code> ลิสต์ไม่มีลำดับ (สัญลักษณ์)','<code class="cf" style="color:#7ee787;">&lt;ol&gt;</code> ลิสต์มีลำดับ (ตัวเลข)','<code class="cf" style="color:#7ee787;">&lt;li&gt;</code> แต่ละรายการ','สามารถซ้อนลิสต์ได้'],
+code:'<ul>\n  <li>แอปเปิล</li>\n  <li>กล้วย</li>\n  <li>ส้ม</li>\n</ul>\n<ol>\n  <li>ต้มน้ำ</li>\n  <li>ใส่บะหมี่</li>\n  <li>เสิร์ฟ</li>\n</ol>',
+prac:{title:'สร้างลิสต์รายการ',desc:'สร้าง ul หรือ ol ที่มี li อย่างน้อย 3 ตัว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <ul> หรือ <ol>',ck:d=>!!(d.querySelector('ul')||d.querySelector('ol'))},{lb:'มี <li> อย่างน้อย 3 ตัว',ck:d=>d.querySelectorAll('li').length>=3}],xp:20,gh:'ul=สัญลักษณ์, ol=ตัวเลข แต่ละรายการใช้ <li>'},
+tests:[
+{title:'สร้างลิสต์ไม่มีลำดับ',desc:'สร้าง ul ที่มี li อย่างน้อย 3 รายการ',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <ul>',ck:d=>!!d.querySelector('ul')},{lb:'มี <li> อย่างน้อย 3',ck:d=>d.querySelectorAll('ul li').length>=3}]},
+{title:'สร้างลิสต์มีลำดับ',desc:'สร้าง ol ที่มี li อย่างน้อย 4 รายการ',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <ol>',ck:d=>!!d.querySelector('ol')},{lb:'มี <li> อย่างน้อย 4',ck:d=>d.querySelectorAll('ol li').length>=4}]},
+{title:'สร้างลิสต์ซ้อน',desc:'สร้าง ul ที่มี li ซ้อน ul อยู่ข้างในอีกชั้น',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี ul ชั้นนอก',ck:d=>!!d.querySelector('ul')},{lb:'มี ul ชั้นใน (ซ้อนกัน)',ck:d=>!!d.querySelector('ul ul')}]}
+]},
+{id:6,title:'ตาราง',icon:'fa-solid fa-table',
+desc:'เรียนรู้การสร้างตาราง',
+pts:['<code class="cf" style="color:#7ee787;">&lt;table&gt;</code> สร้างตาราง','<code class="cf" style="color:#7ee787;">&lt;tr&gt;</code> สร้างแถว','<code class="cf" style="color:#7ee787;">&lt;th&gt;</code> หัวตาราง, <code class="cf" style="color:#7ee787;">&lt;td&gt;</code> เซลล์ข้อมูล','<code class="cf" style="color:#ffa657;">colspan</code> รวมคอลัมน์'],
+code:'<table border="1" cellpadding="8" style="border-collapse:collapse;text-align:center;">\n  <tr><th>ชื่อ</th><th>อายุ</th></tr>\n  <tr><td>สมชาย</td><td>25</td></tr>\n  <tr><td>สมหญิง</td><td>30</td></tr>\n</table>',
+prac:{title:'สร้างตาราง',desc:'สร้างตารางที่มี th และ td',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <tr>',ck:d=>!!d.querySelector('tr')},{lb:'มี <th>',ck:d=>!!d.querySelector('th')},{lb:'มี <td>',ck:d=>!!d.querySelector('td')}],xp:30,gh:'โครง: table > tr > th/td'},
+tests:[
+{title:'สร้างตารางพื้นฐาน',desc:'สร้างตารางที่มี th และ td',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <th>',ck:d=>!!d.querySelector('th')},{lb:'มี <td>',ck:d=>!!d.querySelector('td')}]},
+{title:'สร้างตารางหลายแถว',desc:'สร้างตารางที่มี tr อย่างน้อย 3 แถว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <tr> อย่างน้อย 3',ck:d=>d.querySelectorAll('tr').length>=3}]},
+{title:'สร้างตาราง colspan',desc:'สร้างตารางที่ใช้ colspan รวมคอลัมน์',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี colspan',ck:(d,c)=>/colspan\s*=\s*["']?\d+/i.test(c)}]}
+]}
 ];
 
-const S={screen:'auth',user:null,curL:0,curQ:0,xp:0,coins:0,streak:0,maxStreak:0,lScores:{},pDone:{},tDone:{},prevLvl:0,
-authTab:'login',authErr:'',adminOpen:false,modal:null,
+const LVLS=[{m:0,n:'เด็กใหม่',i:'fa-solid fa-seedling'},{m:70,n:'ผู้ฝึกหัด',i:'fa-solid fa-user-graduate'},{m:170,n:'นักเขียนโค้ด',i:'fa-solid fa-code'},{m:300,n:'โปรแกรมเมอร์',i:'fa-solid fa-laptop-code'},{m:450,n:'มาสเตอร์ HTML',i:'fa-solid fa-crown'}];
+
+const S={screen:'auth',user:null,curL:0,curQ:0,xp:0,coins:0,streak:0,maxStreak:0,
+lScores:{},pDone:{},tDone:{},prevLvl:0,
+authTab:'login',authErr:'',adminOpen:false,
 tSession:{results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0},
 pSubmitted:false,pAllPass:false};
 
-const AX={c:null,init(){if(!this.c)this.c=new(window.AudioContext||window.webkitAudioContext)();},
+const AX={c:null,
+init(){if(!this.c)this.c=new(window.AudioContext||window.webkitAudioContext)();},
 p(t){try{this.init();const o=this.c.createOscillator(),g=this.c.createGain();o.connect(g);g.connect(this.c.destination);g.gain.value=.06;const n=this.c.currentTime;
 if(t==='ok'){o.frequency.setValueAtTime(523,n);o.frequency.setValueAtTime(659,n+.1);o.frequency.setValueAtTime(784,n+.2);g.gain.exponentialRampToValueAtTime(.001,n+.4);o.start(n);o.stop(n+.4);}
 else if(t==='no'){o.type='sawtooth';o.frequency.setValueAtTime(300,n);o.frequency.exponentialRampToValueAtTime(150,n+.3);g.gain.exponentialRampToValueAtTime(.001,n+.3);o.start(n);o.stop(n+.3);}
@@ -248,7 +217,10 @@ else if(t==='win'){o.frequency.setValueAtTime(523,n);o.frequency.setValueAtTime(
 }catch(e){}}};
 
 const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');let bgS=[];
-function initBg(){bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];const sy=['<','>','/','=','"','}','{','}',';','#','</>','<div>','<p>','<h1>','<img>','<table>','<form>','<video>','<style>'];const cn=Math.floor((bgC.width*bgC.height)/32000);for(let i=0;i<cn;i++)bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,s:sy[Math.floor(Math.random()*sy.length)],sz:10+Math.random()*12,sp:.08+Math.random()*.2,op:.025+Math.random()*.05,dr:(Math.random()-.5)*.15});}
+function initBg(){bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];
+const sy=['<','>','/','=','"','}','{',';','#','</>','<div>','<p>','<h1>'];
+const cn=Math.floor((bgC.width*bgC.height)/30000);
+for(let i=0;i<cn;i++)bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,s:sy[Math.floor(Math.random()*sy.length)],sz:10+Math.random()*13,sp:.1+Math.random()*.25,op:.03+Math.random()*.06,dr:(Math.random()-.5)*.2});}
 function aBg(){bgX.clearRect(0,0,bgC.width,bgC.height);bgS.forEach(s=>{s.y-=s.sp;s.x+=s.dr;if(s.y<-30){s.y=bgC.height+30;s.x=Math.random()*bgC.width;}if(s.x<-30)s.x=bgC.width+30;if(s.x>bgC.width+30)s.x=-30;bgX.font=`${s.sz}px "Fira Code",monospace`;bgX.fillStyle=`rgba(0,255,136,${s.op})`;bgX.fillText(s.s,s.x,s.y);});requestAnimationFrame(aBg);}
 addEventListener('resize',()=>{bgC.width=innerWidth;bgC.height=innerHeight;});
 
@@ -259,404 +231,492 @@ function gLi(xp){let i=0;for(let j=0;j<LVLS.length;j++)if(xp>=LVLS[j].m)i=j;retu
 function gNx(xp){const i=gLi(xp);return i>=LVLS.length-1?LVLS[i].m:LVLS[i+1].m;}
 function gCx(xp){return LVLS[gLi(xp)].m;}
 function gSt(id){return S.lScores[id]?'done':(id===1||S.lScores[id-1]?'cur':'locked');}
-function allDone(){return LL.every(l=>S.lScores[l.id]);}
+function allDone(){return LS.every(l=>S.lScores[l.id]);}
 function gBody(c){const m=c.match(/<body[^>]*>([\s\S]*?)<\/body>/i);return m?m[1]:c;}
-function toast(m,t='s'){const c=document.getElementById('tc');const d=document.createElement('div');d.className=`sb sb-${t}`;const ic={s:'fa-circle-check',e:'fa-circle-xmark',i:'fa-circle-info'};d.innerHTML=`<i class="fa-solid ${{s:'fa-circle-check',e:'fa-circle-xmark',i:'fa-circle-info'}[t]||'fa-circle-info'}"></i><span>${m}</span>`;c.appendChild(d);setTimeout(()=>d.classList.add('lv'),2500);setTimeout(()=>d.remove(),2900);}
+function toast(m,t='s'){const c=document.getElementById('tc');const d=document.createElement('div');d.className=`sb sb-${t}`;const ic={s:'fa-circle-check',e:'fa-circle-xmark',i:'fa-circle-info'};d.innerHTML=`<i class="fa-solid ${ic[t]||ic.i}"></i><span>${m}</span>`;c.appendChild(d);setTimeout(()=>d.classList.add('lv'),2500);setTimeout(()=>d.remove(),2900);}
 function conf(n=40){const cs=['#00ff88','#e3b341','#ff6b6b','#79c0ff','#ffa657','#d2a8ff'];for(let i=0;i<n;i++){const p=document.createElement('div');p.className='confetti';p.style.left=Math.random()*100+'vw';p.style.background=cs[Math.floor(Math.random()*cs.length)];p.style.width=(6+Math.random()*8)+'px';p.style.height=(6+Math.random()*8)+'px';p.style.borderRadius=Math.random()>.5?'50%':'2px';p.style.animationDuration=(2+Math.random()*3)+'s';p.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),5500);}}
-function last3(id){return id.length>=3?id.slice(-3):id;}
-function getU(){try{return JSON.parse(localStorage.getItem('hq_u'))||[];}catch(e){return[];}}
-function saveU(u){localStorage.setItem('hq_u',JSON.stringify(u));}
-function findU(sid){return getU().find(u=>u.sid===sid);}
-function regU(name,sid,room,pw){
-    if(!name.trim())return'กรุณากรอกชื่อ';if(!sid.trim())return'กรุณากรอกรหัสนักศึกษา';
-    if(sid.trim().length<3)return'รหัสนักศึกษาต้องมีอย่างน้อย 3 ตัว';if(!room.trim())return'กรุณากรอกห้องเรียน';if(pw.length<3)return'รหัสผ่านต้องมีอย่างน้อย 3 ตัวอักษร';if(findU(sid.trim()))return'รหัสนักศึกษานี้มีอยู่แล้ว';
-    const u=getU();u.push({name:name.trim(),sid:sid.trim(),room:room.trim(),password:pw,xp:0,coins:0,lScores:{},pDone:{},tDone:{},maxStreak:0});saveU(u);return'ok';
-}
-function loginU(sid,pw){const u=findU(sid.trim());if(!u)return'ไม่พบรหัสนักศึกษานี้';if(u.password!==pw)return'รหัสผ่านไม่ถูกต้อง';return u;}
-function delU(sid){const u=getU();const i=u.findIndex(x=>x.sid===sid);if(i>=0){u.splice(i,1);saveU(u);}}
-function saveCur(){if(!S.user||S.user.role==='admin')return;const u=getU();const i=u.findIndex(x=>x.sid===S.user.sid);if(i>=0){u[i]={...u[i],xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak};saveU(u);}}
-function loadU(u){S.xp=u.xp||0;S.coins=u.coins||0;S.lScores=u.lScores||{};S.pDone=u.pDone||{};S.tDone=u.tDone||{};S.maxStreak=u.maxStreak||0;S.prevLvl=gLi(S.xp);}
 function last3(id){return id.length>=3?id.slice(-3):id;}
 
 /* ================================================================
-   ข้อมูลเกรินนนำก่อนทดสอบของแต่ละละด่าน
+   Auth — ระบบผู้ใช้
    ================================================================ */
-const RV={1:[
-{l:'<strong>ทุกเอกสารต้องมี <!DOCTYPE html>',k:'ยังไม่ลืม ใส่นใหนแรก',h:'เขาลืม ต้องเขียนก่อนทุกครั้ง'},
-{l:'<strong>ใส่ <title> ทุกหน้าเว็บ',k:'อยู่ใน <head> ไม่ใช่ <body>',h:'<title>...</title></title> อยู่ใน <head>'},
-{l:'<strong><body> ครอบทุกเนื้อหาที่แสดงบนจอนจริง',k:'ข้อความทุกอย่างต้องอยู่ภายใน <body>',h:'<body>...</body>'}
-],2:[
-{l:'<strong>h1 ใหญ่ที่สุด h6 เล็กที่สุด',k:'ห้าวข้อข้อความใช้ h1 ไม่ใช่ h6',h:'h1=ใหญ่สุด → h6=เล็กที่สุด'},
-{l:'<p> คือย่อหน้าข้อความ ไม่ใช่หัวข้อข้อความ',k:'<p> ใช้ <p> ไม่ใช่ <h2> หรือ <h3>',h:'<p>...</p> คือย่อหน้าไม่ใช่หัวข้อ'},
-{l:'<hr> คือเส้นแบ่ง ไม่ใช่ตัวอย่าง',k:'<hr> สร้างเส้นแบ่ง ไม่ใช่ข้อความ',h:'<hr> เป็น self-closing tag'},
-{l:'<br> ขึ้นบรรทัดใหม้ ไม่ใช่ขึ้นย่อหน้า',k:'<br> ขึ้นบรรทัดใหม้ ไม่ใช่ขึ้นย่อหน้า',h:'<br> ใช้เมื่อต้องการขึ้นบรรทัดใหม้'}
-],3:[
-{l:'<strong>ครอบข้อความด้วย strong, em, u, mark',k:'แท็กเหล่างครอบข้อความให้',h:'<strong>ตัวหนา</strong> = มีนัยสำคัญ, <em>ตัวเอียง</em> = เน้นย้ำ, <u>ขีดเส้นใต้</u>, <mark>ไฮไลท์</mark>'},
-{l:'ทั้ง 4 แท็กเป็น inline elements',k:'ครอบข้อความด้วยแท็ก ไม่ใช่ block elements',h:'ใช้ครอบข้อความด้วยแท็ก'},
-{l:'ใช้แท็กครอบข้อความใน p เดียวกันได้',k:'<p><strong>ตัวหนา</strong> และ <em>เอียง</em> อยู่ใน p เดียวกันได้',h:'<p><strong>ตัวหนา</strong> และ <em>เอียง</em> ใน p เดียวกันได้'},
-{l:'mark ใช้ไฮไลท์ข้อความ',k:'<mark>ไฮไลท์</mark> ไฮไลท์ข้อความ ไม่ใช่ตัวหนา',h:'<mark>ไฮไลท์</mark> ใช้เน้นย้ำเพิ่มความ'}
-],4:[
-{l:'<a> ใช้ href ไม่ใช <link>',k:'ลิงก์ใช้แท็ก <a> ไม่ใช <link>',h:'<a href="...">คลิกที่นี่</a> เชื่อแท็กลิงก ไม่ใช่ stylesheet'},
-{l:'<img> เป็น self-closing tag',k:'<img> ไม่มี </img> ใน HTML',h:'<img src="..." alt="..."> ไม่มี </img>'},
-{l:'alt สำคัญต่อการเข้าถึง',k:'alt ใส่งเพื่อผู้ใช้จองภาพ',h:'alt="" สำคัญอธิบายรูปสำหรับจองภาพ'},
-{l:'target="_blank" เปิดแท็บใหม่',k:'เพิ่ม target="_blank" เพื่อเปิดแท็บใหม่',h:'target="_blank" ใส่ใน <a> เพิ่มแท็บใหม่'}
-],5:[
-{l:'<ul> ใช้ li ใน ul/ol อย่างน้อยกัน',k:'li ต้องอยู่ใต้อง ul หรือ ol',h:'<ul><li>...</li>...</li>...</ul>'},
-{l:'li อย่างน้อย 3 = จำนวนตัวของ',k:'ใส่ li อย่างน้อย 3 รายการ',h:'ใส li อย่างน้อย 3 รายการ'},
-{l:'ul สัญลักษณ์ ol ต่างกับ ul',k:'ul=สัญลัษณ์ ol=ตัวเลข',h:'ul ใช้ bullet point, ol ใช้ตัวเลข'},
-{l:'สามารถซ้อน ul ได้',k:'ใส ul ใส ul ได้สร้าง sub-list',h:'<ul><li>...<ul><li>ซ้อน</li></ul></li></ul>'}
-],6:[
-{l:'<table> ครอบด้วย tr, th, td',k:'ตารางต้องมี tr ครอบดวย',h:'<table><tr><th>...</th><th>...</th></tr><tr><td>...</td><td>...</td></tr></table>'},
-{l:'th อยู่ในแถววแรก ไม่ใน td',k:'<th> อยู่ใน <tr> ไม่ใน <td>',h:'<tr><th>...</th></tr></tr> หัวตาราง'},
-{l:'td อยู่ใน tr ไม่ใน table',k:'<td> อยู่ใน <tr> ไม่ใน <table>',h:'<tr><td>...</td></td></tr> ภายใตาราง'},
-{l:'colspan รวมคอลัมน์',k:'colspan="2" รวม 2 คอลัมนนเป็น 1',h:'<td colspan="2">...</td>'}
-],7:[
-{l:'<form> ครอบ input ด้วย <input>',k:'input อยู่ใน form',h:'<form><input ...></form>'},
-{l:'input type กำหนัวประเภทที่ต่างกัน',k:'type="text" ต่างกัน type="email" ต่างกัน type="password"',h:'type="text" ข้อความ, type="email", type="password"'},
-{l:'button type="submit" ส่งฟอร์ม',k:'button type="submit" ใน form',h:'<button type="submit">ส่ง</button>'},
-{l:'label ใช้ for เชื่อมึก input',k:'<label for="name">ชื่อ:</label><input id="name">',h:'for="" ชื่อ:" id="name"'},
-{l:'select ใช้สำหรับ dropdown',k:'<select> ครอบ <option> ใน select',h:'<select><option>...</option></select>'}
-],8:[
-{l:'id="ชื่อเฉพาะไม่ซ้ำในหน้าเดียวกัน',k:'id="title" แต่ละ id="title" ไม่ซ้ำกัน',h:'id="title" ไม่ซ้ำในหน้าเดียวกัน'},
-{l:'class ใช้หลายตัวได้ในหลาย element',k:'class="box" ซ้ำได้ในหลาย element',h:'<p class="box">...</p> อยู่ class="box"' },
-{l:'ใช้ id และ class รวมกัน',k:'id="main" class="box" ได้',h:'<div id="main" class="box">...</div>'},
-{l:'div เป็น block, span เป็น inline',k:'div=บล็อก, span=อินไลน์',h:'<div>...</div><span>...</span>'}
-],9:[
-{l:'article สำหรับบทคความอิสระ',k:'article ใช้เนื้นหาที่เป็นหนึ่งที่สมบูรณ',h:'<article>...</article>'},
-{l:'section สำหรับส่วนย่อยของหน้า',k:'section แบ่งส่วนย่อยของหน้า',h:'<section>...</section>'},
-{l:'aside สำหรับส่วนข้างเคียง',k:'aside ข้อมูลเพิ่มเนื้นอยู่ข้าง',h:'<aside>...</aside>'},
-{l:'figure ต้องมี figcaption',k:'figure ต้องมี figcaption อยู่ข้างใน',h:'<figure>...<figcaption>...</figcaption></figure>'}
-],10:[
-{l:'picture สำหรับ responsive',k:'picture ใช้สำหรับ responsive images',h:'<picture><source media="..." srcset="..."><img ...></picture>'},
-{l:'srcset กำหนดขนาดรูป',k:'srcset="600w,1200w" กำหนด 2 ขนาดรูป',h:'srcset="600w 1200w" เปิด 2 ขนาดรูป'},
-{l:'map และ area',k:'map สร้างแผนที่รูป ที่คลิกได้',h:'<map name="m1"><area ...></map></map>'},
-{l:'iframe ฝังหน้าเว็บ',k:'iframe ใช้ src ฝังหน้าเว็บอื่น',h:'<iframe src="..." width="..." height="..."></iframe>'},
-{l:'sandbox จำกัดสิทธิ์ความปลอดภัย',k:'sandbox="" จำกัดสิทธิ์ iframe',h:'<iframe sandbox="">...</iframe>'}
-],11:[
-{l:'meta charset ต้องอยู่ใน head',k:'<meta charset> อยู่ใน <head> ไม่ใน body',h:'<meta charset="..." ใน <head>'},
-{l:'meta viewport สำคัญ responsive',k:'<meta viewport ...> อยู่ใน head',h:'<meta name="viewport" ...> ใน <head>'},
-{l:'<style> ใส่ใน head ไม่ใน body',k:'<style> อยู่ใน <head> ไม่ใน body',h:'<style>...</style> ใน <head>'},
-{l:'link เชื่อ CSS ภายนอก',k:'<link rel="stylesheet" href="..." > ใน <head>',h:'<link rel="stylesheet" href="...">'}
-],12:[
-{l:'audio ใช้ controls แสดงตัวควบควบุม',k:'audio ต้องมี controls',h:'<audio controls>...</audio>'},
-{l:'video ใช้ controls แสดงวิดีโอ',k:'video ต้องมี controls',h:'<video controls>...</video>'},
-{l:'source อยู่ใน audio แยกตัว',k:'source อยู่ใน audio ไม่ใน body',h:'<audio><source ...></source></audio>'},
-{l:'type แยก type ของไฟล์',k:'type="audio/mpeg" ต่างกัน type="video/mp4"',h:'type="audio/mpeg" แยก type="video/mp4"'}
-],13:[
-{l:'มี meta charset และ header, nav, main, footer ครบถ้น',k:'meta charset + header + nav + main + footer',h:'ทั้งหมดล้องบน + nav + main + footer'},
-{l:'article ต้องมี h2 และ p',k:'article ที่มี h2 และ p',h:'<article><h2>...</h2><p>...</p></article>'},
-{l:'aside สำหรับข้อมเพิ่ม',k:'aside อยู่ใน main ไม่ใน article',h:'<main>...<aside>...</aside></main>'},
-{l:'footer อยู่ใน main ไม่ใน body',k:'<footer> อยู่ใน <main> ไม่ใน <body>',h:'<main>...</main><footer>...</footer></main>'}
-],14:[
-{l:'meta charset + header + nav + main + article + aside + footer',k:'ทั้งหมดล้องบนพร้อมเพิ่ม',h:'meta + header+nav + main+article+aside+footer'},
-{l:'article ที่มี h2 และ p',k:'article ที่มี h2 และ p',h:'<article><h2>...</h2><p>...</p></article>'},
-{l:'เว็บสมบูรณ์ต้องมี DOCTYPE',k:'มี DOCTYPE ที่บน',h:'<!DOCTYPE html> อยู่บนบนทุกหน้า'},
-{l:'main ครอบเนื้นหาไม่ครบ',k:'<main> ไม่มีเนื้นหา',h:'<main>...</main> ต้องมีเนื้นหา'},
-{l:'footer อยู่ใน main ไม่ใน body',k:'<footer> อยู่ใน <main> ไม่ใน <body>',h:'<main><footer>...</footer></main>'}
-]};
-
-/* สถิตะ กรอบเพิ่มเก็ต้น */
-const DFS=(id)=>{const l=LL.find(x=>x.id===id);return l?{c:l.c,tips:l.tips,tests:l.tests}:null;};
-
-/* สถานะบอกเปิดตัว */
-const DX={submit:5,Coins:3};
-const DL=()=>DFS(1);
-function DFS(id){const l=DFS(id);
-if(l){l.c.forEach(ck=>{ck.visited=false;DFS(ck.lk);});}return l;}
-function DX(id){const l=DFS(id);
-if(!l)return null;const r={l.t.map(t=>({t:t.t,l:t.l,k:Math.max(0,...t.c.map(ck=>DFS(ck.l)?1:0))})).filter(r=>r.k>0);
-return r.length>0?r:null;}
-function getUndone(){const u=getU();return u.filter(u=>LL.every(l=>u.lScores[l.id])).length>0?u:null:u[0];}
-
-/* สถานะบอกเพิ่ม */
 function getU(){try{return JSON.parse(localStorage.getItem('hq_u'))||[];}catch(e){return[];}}
 function saveU(u){localStorage.setItem('hq_u',JSON.stringify(u));}
 function findU(sid){return getU().find(u=>u.sid===sid);}
 function regU(name,sid,room,pw){
-    if(!name.trim())return'กรุณากรอกชื่อ';if(!sid.trim())return'กรุณากรอกรหัสนักศึกษา';if(sid.trim().length<3)return'รหัสนักศึกษาต้องมีอย่างน้อย 3 ตัวอักษร';if(!room.trim())return'กรุณากรอกห้องเรียน';if(pw.length<3)return'รหัสผ่านต้องมีอย่างน้อย ด่านักอัษร';if(findU(sid.trim()))return'รหัสนักศึกษานี้มีอยู่แล้ว';const u=getU();u.push({name:name.trim(),sid:sid.trim(),room:room.trim(),password:pw,xp:0,coins:0,lScores:{},pDone:{},tDone:{},maxStreak:0});saveU(u);return'ok';
+    if(!name.trim())return'กรุณากรอกชื่อ';
+    if(!sid.trim())return'กรุณากรอกรหัสนักศึกษา';
+    if(sid.trim().length<3)return'รหัสนักศึกษาต้องมีอย่างน้อย 3 ตัว';
+    if(!room.trim())return'กรุณากรอกห้องเรียน';
+    if(pw.length<3)return'รหัสผ่านต้องมีอย่างน้อย 3 ตัวอักษร';
+    if(findU(sid.trim()))return'รหัสนักศึกษานี้มีอยู่แล้ว';
+    const u=getU();u.push({name:name.trim(),sid:sid.trim(),room:room.trim(),password:pw,xp:0,coins:0,lScores:{},pDone:{},tDone:{},maxStreak:0});saveU(u);return'ok';
 }
-function loginU(sid,pw){const u=findU(sid.trim());if(!u)return'ไม่พบรหัสนักศึกษานี้';if(u.password!==pw)return'รหัสผ่านไม่ถูกต้อง';return u;}
-function delU(sid){const u=getU();const i=u.findIndex(x=>x.sid===sid);if(i>=0){u.splice(i,1);saveU(u);}}
-function saveCur(){if(!S.user||S.user.role==='admin')return;const u=getU();const i=u.findIndex(x=>x.sid===S.user.sid);if(i>=0){u[i]={...u[i],xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak};saveU(u);}}
+function loginU(sid,pw){
+    const u=findU(sid.trim());if(!u)return'ไม่พบรหัสนักศึกษานี้';
+    if(u.password!==pw)return'รหัสผ่านไม่ถูกต้อง';return u;
+}
+function saveCur(){if(!S.user||S.user.role==='admin')return;const u=getU();const i=u.findIndex(x=>x.sid===S.user.sid);
+if(i>=0){u[i]={...u[i],xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak};saveU(u);}}
 function loadU(u){S.xp=u.xp||0;S.coins=u.coins||0;S.lScores=u.lScores||{};S.pDone=u.pDone||{};S.tDone=u.tDone||{};S.maxStreak=u.maxStreak||0;S.prevLvl=gLi(S.xp);}
-function getSt(id){return S.lScores[id]?'done':(id===1||S.lScores[id-1]?'cur':'locked');}
-function allDone(){return LL.every(l=>S.lScores[l.id]);}
-function gBody(c){const m=c.match(/<body[^>]*>([\s\S]*?)<\/body>/i);return m?m[1]:c;}
-function toast(m,t='s'){const c=document.getElementById('tc');const d=document.createElement('div');d.className=`sb sb-${t}`;d.innerHTML=`<i class="fa-solid ${{s:'fa-circle-check',e:'fa-circle-xmark',i:'fa-circle-info'}[t]||'fa-circle-info'}"></i><span>${m}</span>`;c.appendChild(d);setTimeout(()=>d.classList.add('lv'),2500);setTimeout(()=>d.remove(),2900);}
-function conf(n=40){const cs=['#00ff88','#e3b341','#ff6b6b','#79c0ff','#ffa657','#d2a8ff'];for(let i=0;i<n;i++){const p=document.createElement('div');p.className='confetti';p.style.left=Math.random()*100+'vw';p.style.background=cs[Math.floor(Math.random()*cs.length)];p.style.width=(6+Math.random()*8)+'px';p.style.height=(6+Math.random()*8)+'px';p.style.borderRadius=Math.random()>.5?'50%':'2px';p.style.animationDuration=(2+Math.random()*3)+'s';p.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),5500);}}
 
-/* เรนเดอร์ */
+/* ================================================================
+   เรนเดอร์
+   ================================================================ */
 const app=document.getElementById('app');
-function R(){switch(S.screen){case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;case 'lesson':rLesson();break;case 'review':rReview();break;case 'practice':rPractice();break;case 'testIntro':rTI();break;case 'test':rTest();break;function rTest(){return;}}
-function rTR(){const l=LL[S.curL],ts=S.tSession;const pct=ts.totalChecks>0?Math.round((ts.passedChecks/ts.totalChecks)*100):0;const passed=pct>=60;
-app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8"><div class="afiu text-center"><div class="text-6xl mb-4">${passed?'<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>':'<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div><h1 class="text-2xl font-bold mb-2">${passed?'สำเร็จ!':'ยังไม่ผ่านเกณฑ์'}</h1><p class="mb-8" style="color:var(--muted);">${l.title}</p></div><div class="gc p-8 mb-6 afiu s1" style="animation:sc .5s ease;"><div class="text-5xl font-black mb-2" style="color:${passed?'var(--accent)':'var(--danger)'};">${pct}%</div><div class="text-lg mb-1" style="color:var(--div);">${ts.passedChecks} / ${ts.totalChecks} เงื่อนผ่าน</div><div class="space-y-4 mb-6 text-left">${ts.results.map((r,qi)=>{const t=l.tests[qi];const qOk=r.passed===r.total;return `<div class="p-4 rounded-xl" style="background:var(--div);"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><i class="fa-solid ${qOk?'fa-circle-check':'fa-circle-xmark'}" style="color:${qOk?'var(--accent)':'var(--danger)';};"></i><span class="font-semibold text-sm">ข้อ ${qi+1}: ${t.t}</span></div><span class="text-sm font-bold" style="color:${qOk?'var(--accent)':'var(--danger)';}">${r.passed}/${r.total}</span></div><div class="space-y-1 ml-7">${r.details.map(d=>`<div class="flex items-center gap-2 text-xs"><i class="fa-solid ${d.ok?'fa-check':'fa-xmark'}" style="color:${d.ok?'var(--accent)':'var(--danger)';};width:14px;text-align:center;"></i><span style="color:${d.ok?'var(--muted)':'var(--danger)';">${d.l}</span></div>`).join('')}</div></div>`;}).join('')}</div><div class="grid grid-cols-2 gap-4 text-center"><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold" style="color:var(--accent);">+${ts.xpEarned}</div><div class="text-xs" style="color:var(--muted);">XP</div></div><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold coin-i">+${ts.coinsEarned}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div></div></div></div><div class="flex flex-col sm:flex-row gap-3 justify-center afiu s2">${!passed?`<button class="bs" data-action="retryT"><i class="fa-solid fa-rotate-right mr-2"></i>ลองอีกครั้ง</button>`:''}<button class="bp" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>${allDone()?'ดูผลสุดท้าย':'กลับแผนที่'}</button></div></div></main>`;if(passed)conf(40);},
+function R(){switch(S.screen){
+    case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;
+    case 'lesson':rLesson();break;case 'practice':rPractice();break;
+    case 'testIntro':rTI();break;case 'test':rTest();break;
+    case 'testResult':rTR();break;case 'complete':rComp();break;
+}}
 
-/* ทบเกรินนนำเเต็นด่าน — แสดงเนื้อ่าหน้าจรูปรายการที่ผ่านแต่ละที่ยังผิดล้อย่าง */
-function rReview(){
-    const l=LL[S.curL];
-    const rev=DFS(S.curL);
-    if(!rev){return S.screen='map';R();}
-    const dc=l.d==='ง่าย'?'diff-easy':l.d==='ปานกลาง':'diff-medium':l.d==='ยาก'?'diff-hard':'diff-hard';
-    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
-        <button class="bs bsm mb-6" data-action="backToLesson"><i class="fa-solid fa-arrow-left mr-2"></i>กลับเนื้นหน้าเนื้อหา</button>
-
-        <div class="afiu">
-            <div class="flex items-center gap-2 mb-6 afiu">
-                <span class="text-sm font-semibold px-3 py-1 rounded-full inline-block" style="background:rgba(227,179,65,.12);color:var(--gold);"><i class="fa-solid fa-book-open mr-2"></i>ด่าน ${l.id} · ${l.d}</span>
+function tBar(){
+    const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);
+    const pct=nx>cx?((S.xp-cx)/(nx-cx))*100:100;
+    const label=S.user?S.user.role==='admin'?'Admin':`${S.user.name} (${last3(S.user.sid)})`:'';
+    return `<header class="sticky top-0 z-50 asd" style="background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
+    <div class="max-w-4xl mx-auto px-4 py-3">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+                <button class="bs bsm" data-action="logout" title="ออกจากระบบ"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--accent);"><i class="${lv.i}"></i> Lv.${li+1} ${lv.n}</span>
+                <span class="text-xs px-2 py-1 rounded-full" style="background:var(--card2);color:var(--muted);">${label}</span>
             </div>
-            <h1 class="text-2xl font-bold mb-1">เกรินนนำก่อนทดสอบ</h1>
-            <p class="mb-6" style="สีเนื้อหาที่ต้องจำไว้ให้ ${l.t}</p>
-        </div>
-
-        <!-- จุดที่ต้องจำไปลอน -->
-        <div class="gc p-6 mb-6 afiu s1">
-            <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-list-check" style="color:${dc};"></i> จุดที่ต้องจำไปลอน</h2>
-            <div class="space-y-3">${rev.l.map((item,i)=>`<div class="rev-point afiu s${Math.min(i+1,5)}"><div class="rev-num">${i+1}</div><div class="flex-1"><span>${item.l}</span></div></div></div>`).join('')}</div>
-        </div>
-
-        <!-- โค้ดตัวอย่างอ้างอ้าง -->
-        <div class="afiu s2">
-            <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดตัวอย่างอ้างอ้าง</span></div>
-            <div class="code-block">${hlC(l.code)}</div>
-        </div>
-
-        <!-- พรีวิวแบบบบล็อก -->
-        <div class="afiu s3">
-            <div class="pf" style="height:200px;"><div class="pb"><div class="pd"><div class="pd" style="background:#ff5f57;"></div class="pd" style="background:#febc2e;"></div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div>
-                <iframe srcdoc="${esc(l.code)}" sandbox="allow-scripts" title="ตัวอย่างจริง"></iframe>
+            <div class="flex items-center gap-4 text-sm">
+                ${S.streak>1?`<span class="flex items-center gap-1" style="color:#ff6b6b;"><i class="fa-solid fa-fire"></i> ${S.streak}x</span>`:''}
+                <span class="flex items-center gap-1 coin-i"><i class="fa-solid fa-coins"></i> ${S.coins}</span>
+                <span class="flex items-center gap-1" style="color:var(--accent);"><i class="fa-solid fa-star"></i> ${S.xp}</span>
             </div>
         </div>
-
-        <!-- เคล็ดลับเกณฑ์ก่อนสอบได้ -->
-        <div class="gc p-6 afiu s4">
-            <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-exclamation-circle" style="color:#ff6b6b;"></i> เคล็ดลับเกณฑ์</h2>
-            <div class="space-y-3">${rev.tips.map((t,i)=>`<div class="rev-tip afiu s${Math.min(i+1,5)}"><i class="fa-solid fa-exclamation-circle" style="color:var(--gold);"></i><div class="flex-1"><span>${t}</span></div></div></div>`).join('')}</div>
-        </div>
-
-        <!-- จะเกณฑ์เลย์ออกเว็บแบบบบล็ก -->
-        <div class="gc p-6 afiu s5">
-            <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-check-circle" style="color:var(--l.${dc};"></i><span class="font-semibold" style="color:var(--l.${dc};">แบบบบล็กเลย์ออก</span></div>
-            <p class="text-sm mb-5" style="color:var(--muted);">สามารถึดสอบหมายอย่างละดัวกใน "ส่งคำตอบสอบ" จริงแต่ละด่าน</p>
-        </div>
-
-        <div class="text-center afiu s5">
-            <button class="bp text-lg" data-action="goTI"><i class="fa-solid fa-rocket mr-2"></i>ไปลอบทดสอบ (${l.tests.length} ข้อ)</button>
-        </div></main>`;
+        <div class="xp-outer"><div class="xp-inner" style="width:${Math.min(pct,100)}%"></div></div>
+        <div class="flex justify-between mt-1 text-xs" style="color:var(--muted);"><span>${S.xp} XP</span><span>${nx>cx?nx+' XP':'MAX'}</span></div>
+    </div></header>`;
 }
 
-/* แผนที่แผลเปลี่ของเกมทดสอบ */
-function rTI(){const l=LL[S.curL];app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8"><button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับแผนที่</button>
-        <div class="afiu"><div class="text-center"><div class="text-5xl mb-4"><i class="fa-solid fa-pen-to-square" style="color:#79c0ff;"></i></div>
-        <h1 class="text-2xl font-bold mb-2">แบบทดสอบ: ${l.title}</h1>
-        <p class="text-sm" style="color:span class="${'diff-'+l.d+'">[ ${l.d}]">${l.desc}</p>
-        </div>
-        <div class="gc p-6 mb-8 text-left afiu s1"><h3 class="font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-info-circle" style="color:#79c0ff;"></i> กฎการทดสอบ</h3>
-        <ul class="space-y-3 text-sm" style="color:var(--muted);"><li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i><span>มี ${l.tests.length} ข้อ เข้อ เขียนโค้ดจริง</li><li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i><span><strong style="color:var(--text);">ไม่แสดงผลถูก/ผิดผิดระหวละจะสรุข้อมจรูป จะสรุขัน</span></li><li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i><span style="color:var(--text);">สรุข้างเกณฑ์ 60% ถึงสำเร็จบทดสอบบทั้งหมลอย่างไปลอน</span></li></ul></div>
-        </div>
-        <div class="text-center afiu s2"><button class="bp text-lg" data-action="startTest"><i class="fa-solid fa-play mr-2"></i>เริ่มทดสอบ (${l.tests.length} ข้อ)</button></div>
-        </main>`;}
-
-/* แผลลัพธ์ทดสอบ */
-function rTest(){const l=LL[S.curL],t=l.tests[S.curQ];const total=l.tests.length;
-app.innerHTML=`${tBar()}<main class="max-w-4xl mx-auto px-4 py-8">
-        <div class="flex items-center gap-3 mb-4 asd"><span class="text-sm font-semibold" style="color:span class="${l.d};">ข้อ ${S.curQ+1}/${total}</span>
-        <div class="flex-1 h-2 rounded-full" style="background:var(--border);"><div class="h-full rounded-full transition-all duration-500" style="background:var(--accent);width:${(S.curQ/total)*100}%;"></div></div></div></div>
-        <div class="gc p-5 mb-4 afiu"><h2 class="text-lg font-bold mb-1">${t.t}</h2><p class="text-sm" style="color:var(--div);">${t.d}</p></div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 afiu s1"><div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">เข้อคำถาม</span></div><div class="ew" id="eWrap"><div class="ln" id="ln">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(t.s)}</textarea></div></div></div>
-        <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิวิว์</span></div>
-            <div class="pf" style="height:calc(220px + 32px);"><div class="pb"><div class="pd"><div class="pd" style="background:#ff5f57;"></div class="pd" style="background:#febc2e;"></div class="pd" style="background:#28c840;"></div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;display:block;" sandbox="allow-scripts" title="พรีวิวิว์"></iframe></div></div></div></div></div>
-        <div class="text-center afiu s2"><button class="bp" data-action="submitTQ"><i class="fa-solid fa-paper-plane mr-2"></i>${S.curQ<total-1?'ส่งคำตอบนี้':'ส่งคำตอบสุดท้าย'}</button></div></main>`;initEd();}
-
-/* ผลลัพธ์ทดสอบ */
-function rTR(){const l=LL[S.curL],ts=S.tSession;const pct=ts.totalChecks>0?Math.round((ts.passedChecks/ts.totalChecks)*100):0;const passed=pct>=60;
-app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8"><div class="afiu text-center"><div class="text-6xl mb-4">${passed?'<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>':'<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div><h1 class="text-2xl font-bold mb-2">${passed?'สำเร็จ!':'ยังไม่ผ่านเกณฑ์'}</h1><p class="mb-8" style="color:var(--muted);">${l.title}</p></div><div class="gc p-8 mb-6 afiu s1" style="animation:sc .5s ease;"><div class="text-5xl font-black mb-2" style="color:${passed?'var(--accent)':'var(--danger)'};">${pct}%</div><div class="text-lg mb-1" style="color:var(--muted);">${ts.passedChecks} / ${ts.totalChecks} เงื่อนผ่าน</div><div class="space-y-4 mb-6 text-left">${ts.results.map((r,qi)=>{const t=l.tests[qi];const qOk=r.passed===r.total;return `<div class="p-4 rounded-xl" style="background:var(--card2);"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><i class="fa-solid ${qOk?'fa-circle-check':'fa-circle-xmark'}" style="color:${qOk?'var(--accent)':'var(--danger)'};"></i><span class="font-semibold text-sm">ข้อ ${qi+1}: ${t.t}</span></div><span class="text-sm font-bold" style="color:${qOk?'var(--accent)':'var(--danger)';}">${r.passed}/${r.total}</span></div><div class="space-y-1 ml-7">${r.details.map(d=>`<div class="flex items-center gap-2 text-xs"><i class="fa-solid ${d.ok?'fa-check':'fa-xmark'}" style="color:${d.ok?'var(--accent)':'var(--danger)';};width:14px;text-align:center;"></i><span style="color:${d.ok?'var(--muted)':'var(--danger)';">${d.l}</span></div>`).join('')}</div></div></div>`;}).join('')}</div class="grid grid-cols-2 gap-4 text-center"><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold" style="color:var(--accent);">+${ts.xpEarned}</div><div class="text-xs" style="color:var(--muted);">XP</div></div><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold coin-i">+${ts.coinsEarned}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div></div></div></div></div>
-        <div class="flex flex-col sm:flex-row gap-3 justify-center afiu s2">${!passed?`<button class="bs" data-action="retryT"><i class="fa-solid fa-rotate-right mr-2"></i>ลองอีกครั้ง</button>':''}<button class="bp" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>${allDone()?'ดูผลสุดท้าย':'กลับแผนที่'}</button></div></main>`;if(passed)conf(40);}
-
-/* จบเกมเกมทดสอบ */
-function rComp(){const li=gLi(S.xp);
-app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8"><div class="afiu"><div class="afiu"><div class="text-7xl mb-4 afl"><i class="fa-solid fa-crown" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,.5);"></i></div><h1 class="text-3xl font-black mb-2 agl" style="color:var(--accent);">สำเร็จทั้งทั้ง ${LL.length} ด่าน!</h1><p class="text-lg mb-10" style="color:var(--muted);">เรียน HTML จากงง่ายถึงยาก</p></div></div><div class="gc p-8 mb-8 afiu s1" style="animation:sc .6s ease;"><div class="grid grid-cols-3 gap-4 mb-8"><div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-star text-xl mb-2" style="color:var(--accent);"></i><div class="text-2xl font-bold">${S.xp}</div><div class="text-xs" style="color:var(--muted);">XP</div></div></div><div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-coins text-xl mb-2" coin-i;"></i><div class="text-2xl font-bold">${S.coins}</div><div class="text-xs" style="color:var(--div);">เหรียญ</div></div></div><div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid ${LVLS[li].i} text-xl mb-2" style="color:var(--gold);"></i><div class="text-2xl font-bold">Lv.${li+1}</div><div class="text-xs" style="color:var(--div);">${LVLS[li].n}</div></div></div></div></div></div><div class="flex gap-3 justify-center afiu s2"><button class="bs" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>ดูแผลท้าย</button></div></div></main>`;conf(80);}
-
-/* เอดิเตอร์ดอร์ */
-const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');let bgS=[];
-function initBg(){bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];const sy=['<','>','/','=','"','}','}','{',';','#','</>','<div>','<p>','<h1>','<img>','<table>','<form>','<video>','<style>','<link>'];const cn=Math.floor((bgC.width*bgC.height)/32000);for(let i=0;i<cn;i++){bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,s:sy[Math.floor(Math.random()*sy.length)],sz:10+Math.random()*12,sp:.08+Math.random()*.2,op:.025+Math.random()*.05,dr:(Math.random()-.5)*.15});}}
-function aBg(){bgX.clearRect(0,0,bgC.width,bgC.height);bgS.forEach(s=>{s.y-=s.sp;s.x+=s.dr;if(s.y<-30){s.y=bgC.height+30;s.x=Math.random()*bgC.width;}if(s.x<-30)s.x=bgC.width+30;if(s.x>bgC.width+30)s.x=-30;}bgX.font=`${s.sz}px "Fira Code",monospace`;bgX.fillStyle=`rgba(0,255,136,${s.op})`;bgX.fillText(s.s,s.x,s.y);});requestAnimationFrame(aBg);}
-addEventListener('resize',()=>{bgC.width=innerWidth;bgC.height=innerHeight;});
-
-/* ฟังก์ช่อยการจำแบบบล็อก */
-const app=document.getElementById('app');function R(){switch(S.screen){case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;case 'lesson':rLesson();break;case 'review':rReview();break;case 'practice':rPractice();break;case 'testIntro':rTI();break;case 'test':rTest();break;case 'testResult':rTR();break;case 'complete':rComp();break;}}
-
-/* Top Bar */
-function tBar(){const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);const pct=nx>cx?((S.xp-cx)/(nx-cx)*100:100:100;
-    const label=S.user?S.user.role==='admin'?'Admin':`${S.user.name}(${last3(S.user.sid)})`:'';
-    return `<header class="sticky top-0 z-50 asd" style="background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);"><div class="max-w-4xl mx-auto px-4 py-3"><div class="flex items-center justify-between mb-2"><div class="flex items-center gap-3"><button class="bs bsm" data-action="logout" title="ออกจากจาก"><i class="fa-solid fa-right-from-bracket"></i></button><span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--accent);"><i class="${lv.i}"></i> Lv.${li+1}</span><span class="text-xs px-2 py-1 rounded-full" style="background:var(--card2);color:var(--muted);">${label}</span></div><div class="flex items-center gap-4 text-sm">${S.streak>1?`:`<span class="flex items-center gap-1" style="color:#ff6b6b;"><i class="fa-solid fa-fire"></i> ${S.streak}x</span>`:''}<span class="flex items-center gap-1 coin-i"><i class="fa-solid fa-coins"></i> ${S.coins}</span><span class="flex items-center gap-1" style="color:var(--accent);"><i class="fa-solid fa-star"></i> ${S.xp}</span></div></div></div></div><div class="xp-outer"><div class="xp-inner" style="width:${Math.min(pct,100)}%"></div></div><div class="flex justify-between mt-1 text-xs" style="color:var(--muted);"><span>${S.xp} XP</span><span>${nx>→${nx> XP}</span></div></div></div></header>`;}
-
-/* หน้าจ Auth */
+/* ================================================================
+   หน้า Auth — สมัคร: ชื่อ, รหัสนักศึกษา, ห้อง, รหัสผ่าน
+   ================================================================ */
 function rAuth(){
     const isL=S.authTab==='login';
-    app.innerHTML=`<div class="min-h-screen flex items-center justify-center px-4 py-8"><div class="auth-card afiu"><div class="text-4xl font-black agl mb-2" style="color:var(--accent);">HTML QUEST</div><p class="text-sm mb-8" style="color:var(--muted);">เรียนรู้ HTML ${LL.length} ด่าน จากงง่ายถึงยาก</div class="gc p-6">
-    <div class="flex mb-6" style="border-bottom:1px solid var(--border);"><div class="tab-btn ${isL?'active':''}" data-action="authTab" data-tab="login">เข้อมเข้านสู่ระบ</div><div class="tab-btn ${!isL?'active':''}" data-action="authTab" data-tab="register">สมัครับสมาชิก</div></div>
-    ${S.authErr?`<div class="err-b mb-4 text-sm"><i class="fa-solid fa-circle-xmark" style="color:var(--danger);"></i><span>${S.authErr}</span></div>`:''}
-    ${isL?`<div class="space-y-4"><div><label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-id-card mr-1"></i>รหัสนักศึกษานักศึกษาย</label><input type="text" id="aSid" class="input-field cf" placeholder="กรอกรอกรหัสนักศึกษานักศึกษาย" autocomplete="off"></div><div><label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-lock mr-1"></i>รหัสผ่าน</label><input type="password" id="aPw" class="application/soft" placeholder="รหัสผ่านเริ่มต้นต้น: 123456" value="123456"></div><button class="bp w-full" data-action="doLogin"><i class="fa-solid fa-right-to-bracket"></i> เข้านสู่ระบ</button></div></div>`:`
-    `<div class="mt-6 pt-5" style="border-top:1px solid var(--border);"><div class="admin-toggle flex items-center gap-2 text-sm" style="color:var(--muted);" data-action="toggleAdmin"><i class="fa-solid fa-shield-halved" style="color:var(--gold);"></i><span>เข้านแอดมิน</span><i class="fa-solid fa-chevron-down ml-auto text-xs transition-transform ${S.adminOpen?'rotate-180':''}" id="adminArrow"></i></div><div class="admin-box ${S.adminOpen?'open':''}" id="adminBox"><div class="space-y-3 pt-4"><div><label class="text-sm font-semibold mb-1 block" style="color:var(--gold);">รหัสแอดมิน</label><input type="password" id="aAdmin" class="input-field" placeholder="รหัสแอดมิน" style="border-color:rgba(227,179,65,.3);"><button class="bs w-full" style="border-color:rgba(227,179,65,.3);color:var(--gold);" data-action="doAdmin"><i class="fa-solid fa-shield-halved"></i> เข้านแอดมิน</button></div></div></div></div></div></div></div></div>`;S.authErr='';}
-function rAdmin(){const users=getU();
-    app.innerHTML=`${tBar()}<main class="max-w-6xl mx-auto px-4 py-8">
-        <div class="flex items-center justify-between mb-8 afiu flex-wrap gap-4">
-            <div><h1 class="text-2xl font-bold"><i class="fa-solid fa-shield-halved mr-2" style="color:var(--gold);"></i>แดชบอร์ดอาชี</h1 class="text-sm" style="color:var(--muted);">จัดการนักศึกษานทั้ง</h1 class="text-2xl font-black" style="color:var(--muted);">${users.length} คน</h1>ด่าน</h1></div>
-            <button class="bp" data-action="openAddModal"><i class="fa-solid fa-user-plus"></i> เพิ่มนักศึกษานา</button></div>
+    app.innerHTML=`<div class="min-h-screen flex items-center justify-center px-4 py-8">
+    <div class="auth-card afiu">
+        <div class="text-center mb-6">
+            <div class="text-4xl font-black agl mb-2" style="color:var(--accent);">HTML QUEST</div>
+            <p class="text-sm" style="color:var(--muted);">เรียนรู้ HTML ผ่านการเขียนโค้ดจริง</p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 afiu s1">
-            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--accent);">${users.length}</div><div class="text-xs mt-1" style="color:var(--muted);">ผู้เรียนทั้งหมลัดล้อบ</div>
-            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--gold);">${users.length?Math.round(users.reduce((s,u)=>s+gLi(u.xp),0)/users.length)+1)+1:0}</div><div class="text-xs mt-1" style="color:var(--muted);">เลเวลเลเลเลยเฉลือน</div></div>
-            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:#79c0ff;">${users.filter(u=>LL.every(l=>u.lScores[l.id])).length}</div><div class="text-xs mt-1" style="color:var(--m);">เรอบครบทุกที</div></div>
-            <div class="gc overflow-hidden atw"><div class="p-4" style="border-bottom:1px solid var(--border);"><div class="p-4" style="border-bottom:1px solid var(--border);"><h2 class="font-bold">รายชื่อ</h2 class="text-sm">ห้อง</h2><span class="text-xs" style="width:120px;display:inline-block;text-align:center;border-radius:6px;background:var(--card2);color:var(--muted);">${users.map(u=>`<span class="cf font-bold" style="color:var(--gold);">${last3(u.sid)}</span>`}</span></div></div></div><div class="overflow-x-auto atw"><table class="w-full text-sm"><thead><tr style="background:var(--card2);"><th class="text-left p-3 font-semibold">ชื่อ</th class="text-center p-3 font-semibold">ห้อง</th class="text-center p-3 font-semibold">ท้าย3 ตัว</th class="text-center p-3 font-semibold">คะแนนนำ</th class="text-center p-3 font-semibold">ผ่าน</th class="text-center p-3 font-semibold">จัดการจัดการ</th class="text-center p-3 font-semibold">จัดผล่าน</th></tr></thead><tbody>${users.length===0?`<tr><td colspan="6" class="p-6 text-center" style="color:var(--muted);">ยังไม่มีนักศึกษานายน</td></tr>${users.map(u=>{const li=gLi(u.xp);const ld=LL.filter(l=>u.lScores[l.id]).length;const ts=Object.values(u.lScores).reduce((s,v)=>s+v.score,0);const tp=Object.values(u.lScores).reduce((s,v)=>s+v.total,0);return `<tr style="border-top:1px solid var(--border);"><td class="p-3 font-semibold">${esc(u.name)}</td class="text-center">${esc(u.room)}</td class="cf font-bold" style="color:var(--gold);">${last3(u.sid)}</td class="font-bold" style="color:${tp>">${tp>/${tp>0?ts+'/'+tp:'-'}</td><td class="text-center">${ld}/${LL.length}</td class="text-center"><button class="del-btn" data-action="confirmDel" data-sid="${esc(u.sid)}" data-name="${esc(u.name)}"><i class="fa-solid fa-trash-can"></i></button></td></tr>`;}).join('')}</tbody></table></div></div></div></main>`;R();}
-function rAddModal(){return `<div class="modal-card"><div class="flex items-center justify-between mb-5"><h2 class="text-lg font-bold"><i class="fa-solid fa-user-plus mr-2" style="color:var(--accent);"></i>เพิ่มนักศึกษานา</h2></div><button class="del-btn" data-action="closeModal"><i class="fa-solid fa-xmark"></i></button></div></div><div class="space-y-4"><div><label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">ชื่อ-นามสกุข้อความ</label><input type="text" id="mName" class="input-field" placeholder="ชื่อ-นามสกุข้อม"></div><div><label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">รหัสนักศึกษานายนักศึกษาษาน</label><input type="text" id="mSid" class="input-field cf" placeholder="กรอกรหักนักศึกษานาน" autocomplete="off"></div><div><label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">ห้องเรียน</label><input type="text" id="mRoom" class="input-field" placeholder="เช่อนประเรียน"></div><div><label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">รหัสผ่านเริมตัวนปลายน</label><input type="text" id="mPw" class="input-field" placeholder="รหัสผ่านเริมต้นต้น: 123456" value="123456"></div><div id="mErr" style="display:none;"></div><div class="flex gap-3 pt-2"><button class="bs flex-1" data-action="closeModal">ยกเลิก</button><button class="bp flex-1" data-action="doAddStudent"><i class="fa-solid fa-check"></i> เพิ่มน</button></div></div></div></div></div></div></div></div>`;}
-function rDelModal(sid,name){return `<div class="modal-card text-center"><div class="text-4xl mb-3"><i class="fa-solid fa-triangle-exclamation" style="color:var(--danger);"></i></div><h2 class="text-lg font-bold mb-2">ยืนยันการลบ</h2 class="font-bold" style="color:var(--danger);">${esc(name)} (${last3(sid)})</h2><p class="mb-6" style="color:var(--muted);">คุณต้องการลบนใช่อีกัน?</p><div class="flex gap-3"><button class="bs flex-1" data-action="closeModal">ยกเลิก</button><button class="bp flex-1" style="background:linear-gradient(135deg,#cc3333,#ff6b6b);box-shadow:0 4px 20px rgba(255,107,107,.3);" data-action="doDelStudent" data-sid="${esc(sid)}"><i class="fa-solid fa-trash-can"></i> ลบ</button></button></div></div></div></div>`;}
-
-function rLesson(){const l=LL[S.curL];
-app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
-        <button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับเนื้นหน้า</button>
-        <div class="afiu"><span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(0,255,136,.1);color:var(--accent);">ด่าน ${l.id} · ${l.d}</span></div>
-        <h1 class="text-2xl font-bold mb-2">${l.title}</h1><p class="mb-6" style="color:var(--muted);">${l.desc}</p></div>
-        <div class="gc p-6 mb-6 afiu s1"><h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i> สิ่งที่ต้องรู้</h2><ul class="space-y-3">${l.pts.map(p=>`<li class="flex items-start gap-3 text-sm leading-relaxed"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.7rem;"></i><span>${p}</span></li>`).join('')}</ul></div></div>
-        <div class="afiu s2 mb-3"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">ตัวอย่างอ้างอ้าง</span></div><div class="code-block">${hlC(l.code)}</div>
-        <div class="afiu s3"><div class="pf" style="height:200px;"><div class="pb"><div class="pd" style="background:#ff5f57;"></div class="pd" style="background:#febc2e;"></div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe srcdoc="${esc(l.code)}" sandbox="allow-scripts" title="ตัวอย่างจริง"></iframe></div></div></div></div></div>
-        <div class="text-center afiu s4"><button class="bp text-lg" data-action="goReview"><i class="fa-solid fa-book-open mr-2"></i>เรียนรู้จริบใหน</button></div></div></main>`;R();}
-function rReview(){
-    const l=LL[S.curL];
-    const dc=l.d==='ง่ายาก'?'diff-easy':l.d==='ปานกลาง':'diff-medium':l.d==='ยาก':'diff-hard':'diff-hard';
-    const rv=DFS(S.curL);
-    if(!rv){return S.screen='map';R();}
-    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
-        <button class="bs bsm mb-4" data-action="backToLesson"><i class="fa-solid fa-arrow-left mr-2"></i>กลับเนื้นหน้า</button>
-        <div class="afiu"><div class="flex items-center gap-2 mb-6 afiu">
-            <div class="text-2xl font-bold mb-2">เกรินนนำกเกมทดสอบ</div class="diff-badge ${dc}" style="background:rgba(0,255,136,.12);color:${dc};border-radius:999px;font-size:.75%;display:inline-flex;align-items:center;gap:8px;"><i class="fa-solid fa-arrow-up-right" style="color:var(--dc);"></i><span>${dc}>เกรินนนำเกมทดสอบ</span></div>
-        </div>
-        <div class="flex items-center gap-2 mb-6 afiu s1">
-            <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-list-check" style="color:var(--accent);"></i><span class="font-semibold text-sm" style="color:var(--accent);">จุดที่ต้องจำไปลอน</span></div>
-            <div class="gc p-6 afiu s2">
-                <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-clipboard-check" style="color:var(--accent);"></i><span>สิ่งที่ต้องจำไปลอน</h2></h2>
-                <div class="space-y-3">${rv.l.map((item,i)=>`<div class="rev-point afiu s${Math.min(i+1,5)}"><div class="rev-num">${i+1}</div><div class="flex-1"><span>${item.l}</span></div></div></div>`).join('')}
+        <div class="gc p-6">
+            <div class="flex mb-6" style="border-bottom:1px solid var(--border);">
+                <div class="tab-btn ${isL?'active':''}" data-action="authTab" data-tab="login">เข้าสู่ระบบ</div>
+                <div class="tab-btn ${!isL?'active':''}" data-action="authTab" data-tab="register">สมัครสมาชิก</div>
             </div>
-            <div class="afiu s3"><div class="flex items-center gap-2 mb-5"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดตัวย่างอ้างอ้าง</span></div>
-            <div class="pf"><div class="pb"><div class="pd" style="background:#ff5f57;"></div class="pd" style="background:#febc2e;"></div class="pd" style="background:#28c840;"></div class="pd" style="background:#28c840;"></div class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe srcdoc="${esc(LL[S.curL].code)}" sandbox="allow-scripts" title="ตัวอย่างจริง"></iframe></div></div></div>
-            <div class="text-center afiu s4"><button class="bp text-lg" data-action="goTI"><i class="fa-solid fa-rocket mr-2"></i>เริมทดสอบ (${LL[S.curL].tests.length} ข้อ)</button></div>
-        </div></main>`;R();}
+            ${S.authErr?`<div class="err-b mb-4 text-sm"><i class="fa-solid fa-circle-xmark" style="color:var(--danger);"></i><span>${S.authErr}</span></div>`:''}
 
-/* เอดิเตรอร์ดอร์ */
-const app=document.getElementById('app');
-function R(){switch(S.screen){case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;case 'lesson':rLesson();break;case 'review':rReview();break;case 'practice':rPractice();break;case 'testIntro':rTI();break;case 'test':rTest();break;case 'testResult':rTR();break;case 'complete':rComp();break;}}
+            ${isL?`
+            <!-- ล็อกอิน: รหัสนักศึกษา + รหัสผ่าน -->
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-id-card mr-1"></i>รหัสนักศึกษา</label>
+                    <input type="text" id="aSid" class="input-field cf" placeholder="กรอกรหัสนักศึกษา" autocomplete="off">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-lock mr-1"></i>รหัสผ่าน</label>
+                    <input type="password" id="aPw" class="input-field" placeholder="กรอกรหัสผ่าน">
+                </div>
+                <button class="bp w-full" data-action="doLogin"><i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ</button>
+            </div>
+            `:`
+            <!-- สมัคร: ชื่อ + รหัสนักศึกษา + ห้อง + รหัสผ่าน -->
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-user mr-1"></i>ชื่อ-นามสกุล</label>
+                    <input type="text" id="rName" class="input-field" placeholder="กรอกชื่อ-นามสกุล">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-id-card mr-1"></i>รหัสนักศึกษา</label>
+                    <input type="text" id="rSid" class="input-field cf" placeholder="กรอกรหัสนักศึกษา" autocomplete="off">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-door-open mr-1"></i>ห้องเรียน</label>
+                    <input type="text" id="rRoom" class="input-field" placeholder="เช่น ม.1/1, ปวช.1/2">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-lock mr-1"></i>รหัสผ่าน</label>
+                    <input type="password" id="rPw" class="input-field" placeholder="รหัสผ่านเริ่มต้น: 123456" value="123456">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);"><i class="fa-solid fa-lock mr-1"></i>ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="rPw2" class="input-field" placeholder="กรอกรหัสผ่านอีกครั้ง" value="123456">
+                </div>
+                <button class="bp w-full" data-action="doReg"><i class="fa-solid fa-user-plus"></i> สมัครสมาชิก</button>
+            </div>
+            `}
 
-/* เอดิเตรอร์ดอร์ */
-const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');let bgS=[];
-function initBg(){bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];
-const sy=['<','>','/','=','"','"','}','{',';','#','</>','<div>','<p>','<h1>','<img>','<table>','<form>','<video>','<style>','<link>'];const cn=Math.floor((bgC.width*bgC.height)/32000);for(let i=0;i<cn;i<cn;i++){bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,s:sy[Math.floor(Math.random()*sy.length)],sz:10+Math.random()*12,sp:.08+Math.random()*.05,dr:(Math.random()-.5)*.15);}}
-function aBg(){bgX.clearRect(0,0,bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];}
-function aBg(){bgX.clearRect(0,0,bgC.width=innerHeight;bgS.forEach(s=>{s.y-=s.sp;s.x+=s.dr;if(s.y<-30){s.y=bgC.height+30;s.x=Math.random()*bgC.width;}if(s.x<-30)s.x=bgC.width+30;if(s.x>bgC.width+30)s.x=-30;})
-function rDF(id){const l=DFS(id);return l?{c:l.c,tips:l.tips,tests:l.tests}:null;}}
-function getUndone(){const u=getU();return u.filter(u=>LL.every(l=>u.lScores[l.id]);}
-function last3(id){return id.length>=3?id.slice(-3):id;}
-function getU(){try{return JSON.parse(localStorage.getItem('hq_u'))||[];}catch(e){return[];}}
-function saveU(u){localStorage.setItem('hq_u',JSON.stringify(u));}
-function findU(sid){return getU().find(u=>u.sid===sid);}
-function regU(name,sid,room,pw){
-    if(!name.trim())return'กรุณากรอกชื่อ';if(!sid.trim())return'กรุณากรอกรหัสนักศึกษานายนักศึกษาะต้องมีอย่างน้อยน 3 ตัวอัวัษระบัน';if(!room.trim())return'กรุณากรอกห้องเรียน';if(pw.length<3)return'รหัสผ่านต้องมีอย่างน้อย 3 ตัวอัวัษรับที่แท็บในไปลอน';if(findU(sid.trim()))return'รหัสนักศึกษานี้มีอยู่แล้ว';const u=getU();u.push({name:name.trim(),sid:sid:sid.trim(),room:room.trim(),password:pw,xp:0,coins:0,lScores:{},pDone:{},tDone:{},maxStreak:0});saveU(u);return'ok';}
-function loginU(sid,pw){const u=findU(sid.trim());if(!u)return'ไม่พบรหัสนักศึกษานี้ี้';if(u.password!==pw)return'รหัสผ่านไม่ถูกต้อง';return u;}
-function delU(sid){const u=getU();const i=u.findIndex(x=>x.sid===sid);if(i>=0){u.splice(i,1);saveU(u);}}
-function saveCur(){if(!S.user||S.user.role==='admin')return;const u=getU();const i=u.findIndex(x=>x.sid===S.user.sid);if(i>=0){u[i]={...u[i],xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak};saveU(u);}}
-function loadU(u){S.xp=u.xp||0;S.coins=u.coins||0;S.lScores=u.lScores||{};S.pDone=u.pDone||{};S.tDone=u.tDone||{};S.maxStreak=u.maxStreak||0;S.prevLvl=gLi(S.xp);}
-function last3(id){return id.length>=3?id.slice(-3):id;}
-function toast(m,t='s'){const c=document.getElementById('tc');const d=document.createElement('div');d.className=`sb sb-${t}`;const ic={s:'fa-circle-check',e:'fa-circle-xmark',i:'fa-circle-info'}[t]||'fa-circle-info'}; d.innerHTML=`<i class="fa-solid ${ic[t]||'fa-circle-info'}"></i><span>${m}</span>`;${c.appendChild(d);c.appendChild(d);setTimeout(()=>d.classList.add('lv'),2500);setTimeout(()=>d.remove(),2900);}
-function conf(n=40){const cs=['#00ff88','#e3b341','#ff6b6b','#79c0ff','#ffa657','#d2a8ff'];for(let i=0;i<n;i++){const p=document.createElement('div');p.className='confetti';p.style.left=Math.random()*100+'vw';p.style.background=cs[Math.floor(Math.random()*cs.length)];p.style.width=(6+Math.random()*8)+'px';p.style.height=(6+Math.random()*8)+'px';p.style.borderRadius=Math.random()>.5?'50%':'2px';p.style.animationDuration=(2+Math.random()*3)+'s';p.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),5500);}
-function closeModal(){S.modal=null;R();}
-function upTb(){const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);const pct=nx>cx?((S.xp-cx)/(nx-cx)*100:100;
-    const h=document.querySelector('header');if(!h)return;
-    const bar=h.querySelector('.xp-inner');if(bar)bar.style.width=Math.min(pct,100)+'%';if(bar)bar.style.width=Math.min(pct,100)+'%';const sp=h.querySelectorAll('.text-xs');if(sp.length>=2){sp[0].textContent=S.xp+' XP';sp[1].textContent=nx>→'+nx+' XP';}
-    const ls=h.querySelectorAll('span.flex.items-center.gap-2.text-sm');if(ls){ls[0].innerHTML=`<i class="${lv.i}"></i> Lv.${li+1} ${LVLS[li].n}</span>`;}
-    let se=h.querySelector('[style*color:#ff6b6b]');if(se)se.style.color='var(--danger)';}
-    let se=h.querySelector('[style*color:#ff6b6b]');
-    if(se){const ss=h.querySelectorAll('[style*color:#ff6b6b;');ss.forEach(s=>s.style.color='var(--text)');}
-    let se2=h.querySelector('[style*color:#8b949e');if(se2)se2.style.color='var(--muted)';}
-    let se3=h.querySelector('[style*color:#79c0ff;');if(se3)se3.style.color='var(--accent);'}
-    const sb=h.querySelector('.xp-outer');if(sb){sb.style.width=Math.min(pct,100)+'%';}
-    const sp=h.querySelectorAll('.text-xs');if(sp.length>=2){sp[0].textContent=S.xp+' XP';sp[1].textContent=nx>→'+nx+' XP';}}
-function chkLv(){const n=gLi(S.xp);if(n>S.prevLvl){S.prevLvl=n;setTimeout(()=>showLv(n),600);}}
-function showLv(li){const lv=LVLS[li];AX.p('lv');const ov=document.getElementById('oc');ov.innerHTML=`<div class="lu-ov" id="lvOv"><div class="lu-c"><div class="text-5xl mb-4 afl"><div class="text-5xl mb-2 afl"><i class="${lv.i}" style="color:var(--gold);filter:drop-shadow:0 0 20px rgba(227,179,65,.6);"></i></div><div class="text-sm font-semibold mb-2" style="color:var(--gold);">LEVEL UP!</div><div class="text-xl font-black mb-2" style="color:var(--accent);">Level ${li+1}</div><div class="text-xl font-semibold mb-6" style="color:var(--gold);">${LVLS[li].n}</div><div class="text-sm" style="color:var(--muted);">คลิกเลเลเลยอนอย่าง</div></div></div></div></div></div></div></div>`;conf(40);document.getElementById('lvOv').addEventListener('click',()=>{document.getElementById('oc').innerHTML='';});}
+            <!-- รหัสแอดมิน -->
+            <div class="mt-6 pt-5" style="border-top:1px solid var(--border);">
+                <div class="admin-toggle flex items-center gap-2 text-sm" style="color:var(--muted);" data-action="toggleAdmin">
+                    <i class="fa-solid fa-shield-halved" style="color:var(--gold);"></i>
+                    <span>เข้าสู่ระบบแอดมิน</span>
+                    <i class="fa-solid fa-chevron-down ml-auto text-xs transition-transform ${S.adminOpen?'rotate-180':''}" id="adminArrow"></i>
+                </div>
+                <div class="admin-box ${S.adminOpen?'open':''}" id="adminBox">
+                    <div class="space-y-3 pt-4">
+                        <div>
+                            <label class="text-sm font-semibold mb-1 block" style="color:var(--gold);">รหัสแอดมิน</label>
+                            <input type="password" id="aAdmin" class="input-field" placeholder="กรอกรหัสแอดมิน" style="border-color:rgba(227,179,65,.3);">
+                        </div>
+                        <button class="bs w-full" style="border-color:rgba(227,179,65,.3);color:var(--gold);" data-action="doAdmin">
+                            <i class="fa-solid fa-shield-halved"></i> เข้าแอดมิน
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></div>`;
+    S.authErr='';
+}
 
-/* เอดิเตรอร์ดอร์ดอร์บล็อก และ check */
-const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');let bgS=[];
-function initBg(){bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];
-const sy=['<','>','/','=','"','"','}','{',';','#','</>','<div>','<p>','<h1>','<img>','<table>','<form>','<video>','<style>','<link>'];const cn=Math.floor((bgC.width*bgC.height)/32000);for(let i=0;i<cn;i++){bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,s:sy[Math.floor(Math.random()*sy.length)],sz:10+Math.random()*12,sp:.08+Math.random()*.05,dr:(Math.random()-.5)*.15);}}
-function aBg(){bgX.clearRect(0,0,bgC.height=innerHeight;bgS=[];const sy=['<','>','/','=','"','"','}','{',';','#','</>','<div>','<p>','<h1>','<img>','<table>','<form>','<video>','<style>','<link>'];const cn=Math.floor((bgC.width*bgC.height)/32000);for(let i=0;i<cn;i++){bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,s:sy[Math.floor(Math.random()*sy.length)],sz:10+Math.random()*12,sp:.08+Math.random()*.05,dr:(Math.random()-.5)*.15});}}
-function aBg(){bgX.clearRect(0,0,bgC.width=innerWidth;bgC.height=innerHeight;bgS.forEach(s=>{s.y-=s.sp;s.x+=s.dr;if(s.y<-30){s.y=bgC.height+30;s.x=Math.random()*bgC.width;s.x+=s.dr;if(s.x<-30)s.x=bgC.width+30;if(s.x>bgC.width+30)s.x=-30;}}
-addEventListener('resize',()=>{bgC.width=innerWidth;bgC.height=innerHeight;});}
-addEventListener('resize',()=>{bgC.width=innerWidth;bgC.height=innerHeight;});}
-function R(){switch(S.screen){case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;case 'lesson':rLesson();break;case 'review':rReview();break;case 'practice':rPractice();break;case 'testIntro':rTI();break;case 'test':rTest();break;case 'testResult':rTR();break;case 'complete':rComp();break;}}
+/* ================================================================
+   หน้า Admin — แสดง ชื่อ, ห้อง, ท้าย3ตัว, คะแนน, เลเวล
+   ================================================================ */
+function rAdmin(){
+    const users=getU();
+    const totalCk=LS.reduce((s,l)=>s+l.tests.reduce((s2,t)=>s2+t.cks.length,0),0);
+    app.innerHTML=`${tBar()}<main class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-2"><i class="fa-solid fa-shield-halved mr-2" style="color:var(--gold);"></i>แดชบอร์ดผู้ดูแล</h1>
+        <p class="mb-8" style="color:var(--muted);">ภาพรวมผู้เรียนทั้งหมด</p>
 
-/* เอดิเตร์เอร์ดอร์ดอร์ */
-const app=document.getElementById('app');function R(){switch(S.screen){case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;case 'lesson':rLesson();break;case 'review':rReview();break;case 'practice':rPractice();break;case 'testIntro':rTI();break;case 'test':rTest();break;case 'testResult':rTR();break;case 'complete':rComp();break;}}
+        <!-- สถิติรวม -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 afiu">
+            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--accent);">${users.length}</div><div class="text-xs mt-1" style="color:var(--muted);">ผู้เรียนทั้งหมด</div></div>
+            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--gold);">${users.length?Math.round(users.reduce((s,u)=>s+gLi(u.xp),0)/users.length)+1:0}</div><div class="text-xs mt-1" style="color:var(--muted);">เลเวลเฉลี่ย</div></div>
+            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:#79c0ff;">${users.filter(u=>LS.every(l=>u.lScores[l.id])).length}</div><div class="text-xs mt-1" style="color:var(--muted);">เรียนครบทุกบท</div></div>
+            <div class="gc p-5 text-center"><div class="text-3xl font-black coin-i">${users.reduce((s,u)=>s+u.coins,0)}</div><div class="text-xs mt-1" style="color:var(--muted);">เหรียญรวม</div></div>
+        </div>
 
-/* ออดิเตรอร์ดอร์ดอร์ */
-const app=document.getElementById('app');
-function R(){switch(S.screen){case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;case 'lesson':rLesson();break;case 'review':rReview();break;case 'practice':rPractice();break;case 'testIntro':rTI();break;case 'test':rTest();break;case 'testResult':rTR();break;case 'complete':rComp();break;}}
-app.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;AX.p('cl');const cl=()=>LL[S.curL];
-switch(a){
-case 'authTab':S.authTab=b.dataset.tab;S.authErr='';R();break;
-case 'toggleAdmin':S.adminOpen=!S.adminOpen;R();break;
-case 'doLogin':{const sid=document.getElementById('aSid').value.trim();const pw=document.getElementById('aPw').value;const r=loginU(sid,pw);if(typeof r==='string'){S.authErr=r;R();}else{S.user={name:r.name,sid:r.sid,room:r.room,role:'student'};loadU(r);S.screen='map';R();}break;}
-case 'doReg':{const name=document.getElementById('rName').value;const sid=document.getElementById('rSid').value;const room=document.getElementById('rRoom').value;const pw=document.getElementById('rPw').value;const pw2=document.getElementById('rPw2').value;
-    if(pw!==pw2){S.authErr='รหัสผ่านไม่ตรงกัน';R();break;}
-case 'doAdmin':{const code=document.getElementById('aAdmin').value.trim();if(code===ADMIN_CODE){S.user={name:'Admin',sid:'',room:'',role:'admin'};S.xp=0;S.coins=0;S.lScores={};S.pDone={};S.tDone={};S.maxStreak=0;S.prevLvl=0;S.screen='admin';R();}
-case 'closeModal':closeModal();break;
-case 'doAddStudent':{const name=document.getElementById('mName').value;const sid=document.getElementById('mSid').value.trim();const room=document.getElementById('mRoom').value;const pw=document.getElementById('mPw').value;const r=regU(name,sid,room,pw);
-    if(r==='ok'){closeModal();toast('เพิ่มนนักศึกษานาย่านักศึกษานักศึกษานะบันครอบอัวน';S.screen='admin';R();}
-    else{const err=document.getElementById('mErr');if(err){err.style.display='block';err.innerHTML=`<div class="err-b text-sm"><i class="fa-solid fa-circle-xmark" style="color:var(--danger);"></i><span>${r}</span></div>`;err.style.display='block';}}
-    break;}
-case 'confirmDel':{const sid=b.dataset.sid;const name=b.dataset.name;showModal(rDelModal(sid,name);renderModal();renderModal();break;}
-case 'doDelStudent':{delU(b.dataset.sid);closeModal();toast('ลบแลบนักศึกษานายานักศึกษานายานักศึกษานายนักศึกษานายักศึกษานี้มีอยู่แล้ว';toast('ลบแลบแล็อยู่เว็ย่าที้ไดี้ผู้เหริมเรียนแล้ว้ไป\'แบบบล็ก',i class="fa-solid fa-user-graduate" style="color:var(--accent);"></i> ${S.user?S.user?S.user.name} (${last3(S.user.sid)})`,'i class="fa-solid fa-circle-check" style="color:var(--accent);"></i></i> <span style="color:var(--muted);"> เรีครอบทั้ที</i class="fa-solid fa-circle-check" style="color:var(--accent);"></i></i> ${S.pDone[S.curL]?'<i class="fa-solid fa-keyboard" style="color:var(--gold);"></i> ฝึกพิมพิมพิมพิมผลอย่างไปลอน'</i> แล็อบล็อย่าย่างอย่างไปลอน i class="fa-solid fa-check" style="color:var(--accent);"></i> <span style="color:var(--muted);">ฝึกพิมพิมผลอย่างอย่างอย่านอย่างเริมเริมแล้ว์ที่ฝังอั้นอย่างพิมผลอย่าย้อยัวนแท็กน">',
-];if(S.pDone[S.curL]){S.pDone[S.curL]=true;}else{S.pDone[S.curL]=true;S.xp+=LL[S.curL].prac.xp;AX.p('co');AX.p('win');chkLv();saveCur();upTb();}
-else{S.pSubmitted=false;S.pAllPass=false;}
-case 'closeModal':closeModal();break;
-case 'skipTest':S.screen='testIntro';R();break;
-case 'goTI':S.screen='testIntro';R();break;
-case 'startTest':S.curL=0;S.streak=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};S.screen='test';R();break;
-case 'submitTQ':{
+        <!-- ตารางผู้เรียน -->
+        <div class="gc overflow-hidden afiu s1">
+            <div class="p-4" style="border-bottom:1px solid var(--border);"><h2 class="font-bold">รายชื่อผู้เรียน</h2></div>
+            <div class="overflow-x-auto admin-table-wrap">
+                <table class="w-full text-sm">
+                    <thead><tr style="background:var(--card2);">
+                        <th class="text-left p-3 font-semibold">ชื่อ</th>
+                        <th class="text-center p-3 font-semibold">ห้อง</th>
+                        <th class="text-center p-3 font-semibold">ท้าย 3 ตัว</th>
+                        <th class="text-center p-3 font-semibold">เลเวล</th>
+                        <th class="text-center p-3 font-semibold">XP</th>
+                        <th class="text-center p-3 font-semibold">เหรียญ</th>
+                        <th class="text-center p-3 font-semibold">คะแนน<br><span class="font-normal text-xs" style="color:var(--muted);">ทดสอบ</span></th>
+                        <th class="text-center p-3 font-semibold">บทที่<br><span class="font-normal text-xs" style="color:var(--muted);">ผ่าน</span></th>
+                    </tr></thead>
+                    <tbody>${users.length===0?`<tr><td colspan="8" class="p-6 text-center" style="color:var(--muted);">ยังไม่มีผู้เรียน</td></tr>`:users.map(u=>{
+                        const li=gLi(u.xp);const ld=LS.filter(l=>u.lScores[l.id]).length;
+                        const totalScored=Object.values(u.lScores).reduce((s,v)=>s+v.score,0);
+                        const totalPossible=Object.values(u.lScores).reduce((s,v)=>s+v.total,0);
+                        return `<tr style="border-top:1px solid var(--border);">
+                            <td class="p-3 font-semibold">${esc(u.name)}</td>
+                            <td class="p-3 text-center">${esc(u.room)}</td>
+                            <td class="p-3 text-center"><span class="cf font-bold" style="color:var(--gold);">${last3(u.sid)}</span></td>
+                            <td class="p-3 text-center"><span style="color:var(--accent);">Lv.${li+1}</span> <span class="text-xs" style="color:var(--muted);">${LVLS[li].n}</span></td>
+                            <td class="p-3 text-center">${u.xp}</td>
+                            <td class="p-3 text-center coin-i">${u.coins}</td>
+                            <td class="p-3 text-center"><span class="font-bold" style="color:${totalPossible>0?'var(--accent)':'var(--muted)'};">${totalPossible>0?totalScored+'/'+totalPossible:'-'}</span></td>
+                            <td class="p-3 text-center">${ld} / ${LS.length}</td>
+                        </tr>`;}).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>`;
+}
+
+/* --- แผนที่ --- */
+function rMap(){
+    let nodes='';
+    LS.forEach((l,i)=>{
+        const st=gSt(l.id),sc=S.lScores[l.id],pd=S.pDone[l.id],td=S.tDone[l.id];
+        if(i>0){const cd=gSt(LS[i-1].id)==='done';nodes+=`<div class="mc ${cd?'d':'p'}"></div>`;}
+        nodes+=`<div class="mn ${st} afiu s${Math.min(i+1,5)}" data-action="${st==='locked'?'':'selL'}" data-id="${l.id}">
+            <div class="gc p-4 flex items-center gap-4 max-w-md mx-auto" style="${st==='cur'?'border-color:var(--accent);box-shadow:0 0 20px rgba(0,255,136,.1);':''}">
+                <div class="nc flex-shrink-0">${st==='done'?'<i class="fa-solid fa-check" style="color:var(--bg);"></i>':st==='locked'?'<i class="fa-solid fa-lock" style="color:var(--muted);"></i>':`<i class="${l.icon}" style="color:var(--accent);"></i>`}</div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1 flex-wrap">
+                        <span class="text-xs font-semibold" style="color:var(--muted);">บทที่ ${l.id}</span>
+                        ${sc?`<span class="text-xs" style="color:var(--accent);">${sc.score}/${sc.total}</span>`:''}
+                        ${pd?'<span class="text-xs" style="color:var(--gold);"><i class="fa-solid fa-keyboard"></i></span>':''}
+                        ${td?'<span class="text-xs" style="color:#79c0ff;"><i class="fa-solid fa-pen-to-square"></i></span>':''}
+                    </div>
+                    <div class="font-semibold text-sm md:text-base truncate">${l.title}</div>
+                    ${st==='cur'?'<div class="text-xs mt-1" style="color:var(--accent);"><i class="fa-solid fa-arrow-right mr-1"></i>เลือกเพื่อเริ่มเรียน</div>':''}
+                    ${st==='done'?'<div class="text-xs mt-1" style="color:var(--muted);"><i class="fa-solid fa-circle-check mr-1"></i>เสร็จแล้ว</div>':''}
+                </div>
+                ${st!=='locked'?'<i class="fa-solid fa-chevron-right" style="color:var(--muted);"></i>':''}
+            </div></div>`;
+    });
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">แผนที่การเรียนรู้</h1>
+        <p class="text-center mb-10" style="color:var(--muted);">เรียนรู้ → ฝึกพิมพ์ → ทดสอบเขียนโค้ด</p>
+        <div class="flex flex-col items-center">${nodes}</div>
+    </main>`;
+}
+
+/* --- บทเรียน --- */
+function rLesson(){
+    const l=LS[S.curL];
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
+        <button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับ</button>
+        <div class="afiu"><span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(0,255,136,.1);color:var(--accent);">บทที่ ${l.id}</span>
+        <h1 class="text-2xl md:text-3xl font-bold mb-2">${l.title}</h1><p class="mb-6" style="color:var(--muted);">${l.desc}</p></div>
+        <div class="gc p-6 mb-6 afiu s1"><h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i> สิ่งที่ต้องรู้</h2>
+        <ul class="space-y-3">${l.pts.map(p=>`<li class="flex items-start gap-3 text-sm leading-relaxed"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.7rem;"></i><span>${p}</span></li>`).join('')}</ul></div>
+        <div class="afiu s2 mb-3"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดตัวอย่าง</span></div><div class="code-block">${hlC(l.code)}</div></div>
+        <div class="afiu s3 mb-8"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">ผลลัพธ์</span></div><div class="pf"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe srcdoc="${esc(l.code)}" sandbox="allow-scripts" title="ตัวอย่าง"></iframe></div></div>
+        <div class="text-center afiu s4"><button class="bp text-lg" data-action="goPrac"><i class="fa-solid fa-keyboard mr-2"></i>ลองพิมพ์โค้ด</button></div></main>`;
+}
+
+/* --- ฝึกพิมพ์ --- */
+function rPractice(){
+    const l=LS[S.curL],ch=l.prac;S.pSubmitted=false;S.pAllPass=false;
+    app.innerHTML=`${tBar()}<main class="max-w-4xl mx-auto px-4 py-8">
+        <button class="bs bsm mb-4" data-action="toLesson"><i class="fa-solid fa-arrow-left mr-2"></i>กลับเนื้อหา</button>
+        <div class="afiu mb-6"><span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(227,179,65,.12);color:var(--gold);"><i class="fa-solid fa-keyboard mr-1"></i>แบบฝึกพิมพ์</span>
+        <h1 class="text-xl md:text-2xl font-bold mb-1">${ch.title}</h1><p style="color:var(--muted);">${ch.desc}</p></div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 afiu s1">
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดของคุณ</span></div><div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(ch.start)}</textarea></div></div>
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิว</span></div><div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">live</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div></div>
+        </div>
+        <div class="gc p-5 mb-6 afiu s2"><h3 class="font-semibold text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-list-check" style="color:var(--accent);"></i> รายการตรวจสอบ</h3>
+        <div class="space-y-2" id="cList">${ch.cks.map((c,i)=>`<div class="ci pend" id="ck-${i}"><span style="width:20px;text-align:center;flex-shrink:0;"><i class="fa-solid fa-circle" style="font-size:.6rem;"></i></span><span>${c.lb}</span></div><div class="ch" id="ht-${i}"><i class="fa-solid fa-lightbulb mr-1" style="color:var(--gold);"></i>${c.ht}</div>`).join('')}</div></div>
+        <div id="pResult" style="display:none;" class="mb-6"></div>
+        <div class="flex flex-wrap gap-3 justify-center afiu s3">
+            <button class="bs bsm" data-action="pHint"><i class="fa-solid fa-lightbulb mr-2" style="color:var(--gold);"></i>เคล็ดลับ</button>
+            <button class="bs bsm" data-action="pReset"><i class="fa-solid fa-rotate-left mr-2"></i>โค้ดเริ่มต้น</button>
+            <button class="bp bsm" data-action="pCheck" id="pChkBtn"><i class="fa-solid fa-circle-check mr-2"></i>ตรวจสอบ</button>
+        </div>
+        <div class="text-center mt-4 afiu s4"><button class="bs bsm" data-action="skipTest"><i class="fa-solid fa-forward mr-2"></i>ข้ามไปทดสอบ</button></div>
+    </main>`;initEd();
+}
+
+/* --- แนะนำทดสอบ --- */
+function rTI(){
+    const l=LS[S.curL];
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8 text-center">
+        <button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับแผนที่</button>
+        <div class="afiu"><div class="text-5xl mb-4"><i class="fa-solid fa-pen-to-square" style="color:#79c0ff;"></i></div>
+        <h1 class="text-2xl font-bold mb-2">แบบทดสอบ: ${l.title}</h1><p class="mb-8" style="color:var(--muted);">ทดสอบความเข้าใจด้วยการเขียนโค้ดจริง</p></div>
+        <div class="gc p-6 mb-8 text-left afiu s1"><h3 class="font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-info-circle" style="color:#79c0ff;"></i> กฎการทดสอบ</h3>
+        <ul class="space-y-3 text-sm" style="color:var(--muted);">
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>มี ${l.tests.length} ข้อ ต้องเขียนโค้ด HTML เองทั้งหมด</li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ระหว่างทดสอบ <strong style="color:var(--text);">จะไม่แสดงผลถูก/ผิด</strong></li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>สามารถดูพรีวิวผลลัพธ์ได้ตลอดเวลา</li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผลคะแนนสรุป <strong style="color:var(--text);">หลังทำเสร็จทุกข้อ</strong></li>
+            <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผ่านเกณฑ์ 60% ถือว่าสำเร็จบทนี้</li>
+        </ul></div>
+        <div class="afiu s2"><button class="bp text-lg" data-action="startTest"><i class="fa-solid fa-play mr-2"></i>เริ่มทดสอบ (${l.tests.length} ข้อ)</button></div>
+    </main>`;
+}
+
+/* --- ทดสอบ (ไม่แสดงผล) --- */
+function rTest(){
+    const l=LS[S.curL],t=l.tests[S.curQ];const total=l.tests.length;
+    app.innerHTML=`${tBar()}<main class="max-w-4xl mx-auto px-4 py-8">
+        <div class="flex items-center gap-3 mb-4 asd"><span class="text-sm font-semibold" style="color:var(--accent);">ข้อที่ ${S.curQ+1}/${total}</span>
+        <div class="flex-1 h-2 rounded-full" style="background:var(--border);"><div class="h-full rounded-full transition-all duration-500" style="background:var(--accent);width:${(S.curQ/total)*100}%;"></div></div></div>
+        <div class="gc p-5 mb-4 afiu"><h2 class="text-lg font-bold mb-1">${t.title}</h2><p class="text-sm" style="color:var(--muted);">${t.desc}</p></div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 afiu s1">
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">เขียนโค้ดที่นี่</span></div><div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(t.start)}</textarea></div></div>
+            <div><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิว</span></div><div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div></div>
+        </div>
+        <div class="text-center afiu s2"><button class="bp" data-action="submitTQ"><i class="fa-solid fa-paper-plane mr-2"></i>${S.curQ<total-1?'ส่งคำตอบนี้':'ส่งคำตอบสุดท้าย'}</button></div>
+    </main>`;initEd();
+}
+
+/* --- ผลลัพธ์ทดสอบ --- */
+function rTR(){
+    const l=LS[S.curL],ts=S.tSession;const pct=ts.totalChecks>0?Math.round((ts.passedChecks/ts.totalChecks)*100):0;const passed=pct>=60;
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
+        <div class="afiu text-center"><div class="text-6xl mb-4">${passed?'<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>':'<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div>
+        <h1 class="text-2xl font-bold mb-2">${passed?'สำเร็จ!':'ยังไม่ผ่านเกณฑ์'}</h1><p class="mb-8" style="color:var(--muted);">${l.title}</p></div>
+        <div class="gc p-8 mb-6 afiu s1" style="animation:sc .5s ease;">
+            <div class="text-5xl font-black mb-2" style="color:${passed?'var(--accent)':'var(--danger)'};">${pct}%</div>
+            <div class="text-lg mb-1" style="color:var(--muted);">${ts.passedChecks} / ${ts.totalChecks} เงื่อนไขผ่าน</div>
+            <div class="text-sm mb-6" style="color:var(--muted);">เกณฑ์ผ่าน: 60%</div>
+            <div class="space-y-4 mb-6 text-left">${ts.results.map((r,qi)=>{const t=l.tests[qi];const qOk=r.passed===r.total;
+            return `<div class="p-4 rounded-xl" style="background:var(--card2);"><div class="flex items-center justify-between mb-3"><div class="flex items-center gap-2"><i class="fa-solid ${qOk?'fa-circle-check':'fa-circle-xmark'}" style="color:${qOk?'var(--accent)':'var(--danger)'};"></i><span class="font-semibold text-sm">ข้อ ${qi+1}: ${t.title}</span></div><span class="text-sm font-bold" style="color:${qOk?'var(--accent)':'var(--danger)'};">${r.passed}/${r.total}</span></div>
+            <div class="space-y-1 ml-7">${r.details.map(d=>`<div class="flex items-center gap-2 text-xs"><i class="fa-solid ${d.ok?'fa-check':'fa-xmark'}" style="color:${d.ok?'var(--accent)':'var(--danger)'};width:14px;text-align:center;"></i><span style="color:${d.ok?'var(--muted)':'var(--danger)'};">${d.label}</span></div>`).join('')}</div></div>`;}).join('')}</div>
+            <div class="grid grid-cols-2 gap-4 text-center"><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold" style="color:var(--accent);">+${ts.xpEarned}</div><div class="text-xs" style="color:var(--muted);">XP</div></div><div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold coin-i">+${ts.coinsEarned}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div></div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center afiu s2">
+            ${!passed?`<button class="bs" data-action="retryT"><i class="fa-solid fa-rotate-right mr-2"></i>ลองอีกครั้ง</button>`:''}
+            <button class="bp" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>${allDone()?'ดูผลสุดท้าย':'กลับแผนที่'}</button>
+        </div></main>`;if(passed)conf(40);
+}
+
+/* --- จบเกม --- */
+function rComp(){
+    const li=gLi(S.xp);
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8 text-center">
+        <div class="afiu"><div class="text-7xl mb-4 afl"><i class="fa-solid fa-crown" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,.5));"></i></div>
+        <h1 class="text-3xl font-black mb-2 agl" style="color:var(--accent);">สำเร็จการเรียนรู้!</h1><p class="text-lg mb-10" style="color:var(--muted);">เรียน HTML ครบทุกบทแล้ว</p></div>
+        <div class="gc p-8 mb-8 afiu s1" style="animation:sc .6s ease;">
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-star text-xl mb-2" style="color:var(--accent);"></i><div class="text-2xl font-bold">${S.xp}</div><div class="text-xs" style="color:var(--muted);">XP</div></div>
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-coins text-xl mb-2 coin-i"></i><div class="text-2xl font-bold">${S.coins}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div>
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid ${LVLS[li].i} text-xl mb-2" style="color:var(--gold);"></i><div class="text-2xl font-bold">Lv.${li+1}</div><div class="text-xs" style="color:var(--muted);">${LVLS[li].n}</div></div>
+            </div>
+            <div class="space-y-2 text-left">${LS.map(l=>{const sc=S.lScores[l.id];return `<div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--card2);"><i class="${l.icon}" style="color:var(--accent);width:20px;text-align:center;"></i><span class="flex-1 text-sm text-left">${l.title}</span><span class="text-sm font-bold" style="color:sc?'var(--accent)':'var(--danger)';">${sc?sc.score+'/'+sc.total:'-'}</span></div>`;}).join('')}</div>
+        </div>
+        <div class="flex gap-3 justify-center afiu s2"><button class="bs" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>ดูแผนที่</button></div>
+    </main>`;conf(80);
+}
+
+/* ================================================================
+   เอดิเตอร์
+   ================================================================ */
+let eT=null;
+function initEd(){
+    const ed=document.getElementById('eCode'),ln=document.getElementById('eLn'),pf=document.getElementById('pFrame');
+    if(!ed)return;
+    ed.addEventListener('keydown',e=>{
+        if(e.key==='Tab'){e.preventDefault();const s=ed.selectionStart,en=ed.selectionEnd;ed.value=ed.value.substring(0,s)+'  '+ed.value.substring(en);ed.selectionStart=ed.selectionEnd=s+2;onEI();}
+        if(e.key==='Enter'){e.preventDefault();const s=ed.selectionStart;const ls=ed.value.lastIndexOf('\n',s-1)+1;const ind=ed.value.substring(ls,s).match(/^\s*/)[0];const nl='\n'+ind;ed.value=ed.value.substring(0,s)+nl+ed.value.substring(ed.selectionEnd);ed.selectionStart=ed.selectionEnd=s+nl.length;onEI();}
+    });
+    ed.addEventListener('input',()=>{onEI();clearTimeout(eT);eT=setTimeout(upCk,300);});
+    ed.addEventListener('scroll',()=>{if(ln)ln.scrollTop=ed.scrollTop;});
+    upLn();upPf();setTimeout(upCk,100);
+}
+function onEI(){upLn();upPf();}
+function upLn(){const ed=document.getElementById('eCode'),ln=document.getElementById('eLn');if(!ed||!ln)return;ln.innerHTML=Array.from({length:ed.value.split('\n').length},(_,i)=>i+1).join('<br>');}
+function upPf(){const ed=document.getElementById('eCode'),pf=document.getElementById('pFrame');if(ed&&pf)pf.srcdoc=ed.value;}
+function upCk(){
+    const ed=document.getElementById('eCode');if(!ed||S.screen!=='practice')return;
+    const c=ed.value,body=gBody(c),tmp=document.createElement('div');tmp.innerHTML=body;
+    const cks=LS[S.curL].prac.cks;let allOk=true;
+    cks.forEach((ck,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(!el)return;
+    const ok=ck.ck(tmp,c);if(!ok)allOk=false;
+    el.className=`ci ${ok?'pass':'pend'}`;el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle'}" style="font-size:${ok?'.85rem':'.6rem'};"></i>`;
+    if(ht&&!S.pSubmitted)ht.style.display='none';});
+    const w=document.getElementById('eWrap');if(w){w.classList.toggle('ok',allOk&&!S.pSubmitted);w.classList.remove('err');}S.pAllPass=allOk;
+}
+function subPrac(){
     const ed=document.getElementById('eCode');if(!ed)return;
-    const c=ed.value,body=gBody(ed.value),tmp=document.createElement('div');tmp.innerHTML=c;const t=LL[S.curL].tests[S.curQ];let passed=0;const details=[];
-    t.c.forEach(ck=>{const ok=ck.k(tmp,c);if(ok)passed++;details.push({l:ck.l,ok});});
-    S.tSession.results.push({passed,total:t.c.length,details,details,dp:passedChecks:0,coinsEarned:0});S.tSession.totalChecks+=t.c.length;S.tSession.passedChecks+=passed;
-    if(S.curL<LL[S.curL-1]){S.curL++;S.screen='test';R();} else{
-        const ts=S.tSession;const pct=ts.totalChecks>0?Math.round((ts.passedChecks/ts.totalChecks)*100):0;const passedO=pct>=60;
-        if(passedO){S.tDone[S.curL.id]=true;S.xp+=ts.passedChecks*5;S.coins+=ts.passedChecks;AX.p('co');chkLv();saveCur();upTb();
+    const c=ed.value,body=gBody(c),tmp=document.createElement('div');tmp.innerHTML=body;
+    const cks=LS[S.curL].prac.cks;let pc=0;
+    cks.forEach((ck,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);
+    const ok=ck.ck(tmp,c);if(ok)pc++;
+    el.className=`ci ${ok?'pass':'fail'}`;el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle-xmark'}" style="font-size:.85rem;"></i>`;
+    if(ht&&!ok)ht.style.display='block';if(ht&&ok)ht.style.display='none';});
+    const w=document.getElementById('eWrap'),allOk=pc===cks.length;const rd=document.getElementById('pResult');rd.style.display='block';
+    if(allOk){w.classList.add('ok');w.classList.remove('err');AX.p('win');
+    let xg=0;if(!S.pDone[LS[S.curL].id]){S.pDone[LS[S.curL].id]=true;xg=LS[S.curL].prac.xp;S.xp+=xg;AX.p('co');chkLv();saveCur();upTb();}
+    rd.innerHTML=`<div class="suc-b"><i class="fa-solid fa-circle-check text-2xl" style="color:var(--accent);"></i><div><div class="font-bold" style="color:var(--accent);">ผ่านทุกข้อ!</div><div class="text-sm" style="color:var(--muted);">${xg>0?`+${xg} XP`:'ได้รับ XP แล้ว'}</div></div></div><div class="text-center mt-4"><button class="bp" data-action="goTI"><i class="fa-solid fa-pen-to-square mr-2"></i>ไปทดสอบ</button></div>`;
+    if(xg>0){conf(25);toast(`+${xg} XP จากการฝึกพิมพ์!`,'s');}
+    const btn=document.getElementById('pChkBtn');if(btn)btn.style.display='none';
+    } else {w.classList.add('err');w.classList.remove('ok');AX.p('no');
+    rd.innerHTML=`<div class="err-b"><i class="fa-solid fa-circle-xmark text-2xl" style="color:var(--danger);"></i><div><div class="font-bold" style="color:var(--danger);">ยังไม่ครบ (${pc}/${cks.length})</div><div class="text-sm" style="color:var(--muted);">ดูเคล็ดลับแล้วแก้ไข</div></div></div>`;
+    toast(`ผ่าน ${pc}/${cks.length}`,'e');}S.pSubmitted=true;
+}
+
+/* ================================================================
+   Top Bar & Level Up
+   ================================================================ */
+function upTb(){
+    const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);
+    const pct=nx>cx?((S.xp-cx)/(nx-cx))*100:100;
+    const h=document.querySelector('header');if(!h)return;
+    const bar=h.querySelector('.xp-inner');if(bar)bar.style.width=Math.min(pct,100)+'%';
+    const sp=h.querySelectorAll('.text-xs');if(sp.length>=2){sp[0].textContent=S.xp+' XP';sp[1].textContent=nx>cx?nx+' XP':'MAX';}
+    h.querySelectorAll('span').forEach(s=>{if(s.innerHTML.includes('fa-star'))s.innerHTML=`<i class="fa-solid fa-star"></i> ${S.xp}`;if(s.innerHTML.includes('fa-coins'))s.innerHTML=`<i class="fa-solid fa-coins"></i> ${S.coins}`;});
+    const ls=h.querySelector('span.flex.items-center.gap-2.text-sm');if(ls)ls.innerHTML=`<i class="${lv.i}"></i> Lv.${li+1} ${lv.n}`;
+    let se=h.querySelector('[style*="color:#ff6b6b"]');
+    if(S.streak>1&&!se){const sd=h.querySelector('.flex.items-center.gap-4');if(sd){const sp=document.createElement('span');sp.className='flex items-center gap-1';sp.style.color='#ff6b6b';sp.innerHTML=`<i class="fa-solid fa-fire"></i> ${S.streak}x`;sd.insertBefore(sp,sd.firstChild);}}
+    else if(se){if(S.streak>1)se.innerHTML=`<i class="fa-solid fa-fire"></i> ${S.streak}x`;else se.remove();}
+}
+function chkLv(){const n=gLi(S.xp);if(n>S.prevLvl){S.prevLvl=n;setTimeout(()=>showLv(n),600);}}
+function showLv(li){
+    const lv=LVLS[li];AX.p('lv');const ov=document.getElementById('oc');
+    ov.innerHTML=`<div class="lu-ov" id="lvOv"><div class="lu-c"><div class="text-5xl mb-4 afl"><i class="${lv.i}" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,.6));"></i></div><div class="text-sm font-semibold mb-2" style="color:var(--gold);">LEVEL UP!</div><div class="text-3xl font-black mb-2" style="color:var(--accent);">Level ${li+1}</div><div class="text-xl font-semibold mb-6">${lv.n}</div><div class="text-sm" style="color:var(--muted);">คลิกเพื่อดำเนินการต่อ</div></div></div>`;
+    conf(45);document.getElementById('lvOv').addEventListener('click',()=>{ov.innerHTML='';});
+}
+
+/* ================================================================
+   Event Handler
+   ================================================================ */
+app.addEventListener('click',e=>{
+    const b=e.target.closest('[data-action]');if(!b)return;
+    const a=b.dataset.action;AX.p('cl');const cl=()=>LS[S.curL];
+    switch(a){
+    case 'authTab':S.authTab=b.dataset.tab;S.authErr='';R();break;
+    case 'toggleAdmin':S.adminOpen=!S.adminOpen;R();break;
+    case 'doLogin':{
+        const sid=document.getElementById('aSid').value.trim();
+        const pw=document.getElementById('aPw').value;
+        const r=loginU(sid,pw);
+        if(typeof r==='string'){S.authErr=r;R();}
+        else{S.user={name:r.name,sid:r.sid,room:r.room,role:'student'};loadU(r);S.screen='map';R();}
+        break;}
+    case 'doReg':{
+        const name=document.getElementById('rName').value;
+        const sid=document.getElementById('rSid').value;
+        const room=document.getElementById('rRoom').value;
+        const pw=document.getElementById('rPw').value;
+        const pw2=document.getElementById('rPw2').value;
+        if(pw!==pw2){S.authErr='รหัสผ่านไม่ตรงกัน';R();break;}
+        const r=regU(name,sid,room,pw);
+        if(r==='ok'){S.authErr='';S.authTab='login';toast('สมัครสำเร็จ! กรุณาเข้าสู่ระบบ','s');R();}
+        else{S.authErr=r;R();}
+        break;}
+    case 'doAdmin':{
+        const code=document.getElementById('aAdmin').value.trim();
+        if(code===ADMIN_CODE){S.user={name:'Admin',sid:'',room:'',role:'admin'};S.xp=0;S.coins=0;S.lScores={};S.pDone={};S.tDone={};S.maxStreak=0;S.prevLvl=0;S.screen='admin';R();}
+        else{S.authErr='รหัสแอดมินไม่ถูกต้อง';R();}
+        break;}
+    case 'logout':saveCur();S.user=null;S.screen='auth';S.adminOpen=false;R();break;
+    case 'toMap':S.screen=allDone()?'complete':'map';R();break;
+    case 'toLesson':S.screen='lesson';R();break;
+    case 'selL':{const id=parseInt(b.dataset.id);if(gSt(id)==='locked')return;S.curL=id-1;S.screen='lesson';R();break;}
+    case 'goPrac':S.screen='practice';R();break;
+    case 'skipTest':case 'goTI':S.screen='testIntro';R();break;
+    case 'pHint':{
+        const ch=cl().prac;const rd=document.getElementById('pResult');rd.style.display='block';
+        rd.innerHTML=`<div class="gc p-4 afi" style="border-color:rgba(227,179,65,.3);"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i><span class="font-semibold text-sm" style="color:var(--gold);">เคล็ดลับ</span></div><p class="text-sm" style="color:var(--muted);">${ch.gh}</p></div>`;
+        ch.cks.forEach((_,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(el&&!el.classList.contains('pass')&&ht)ht.style.display='block';});
+        break;}
+    case 'pReset':{
+        const ed=document.getElementById('eCode');if(ed){ed.value=cl().prac.start;onEI();clearTimeout(eT);eT=setTimeout(upCk,200);}
+        cl().prac.cks.forEach((_,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(el){el.className='ci pend';el.querySelector('span:first-child').innerHTML='<i class="fa-solid fa-circle" style="font-size:.6rem;"></i>';}if(ht)ht.style.display='none';});
+        const w=document.getElementById('eWrap');if(w)w.classList.remove('ok','err');
+        const rd=document.getElementById('pResult');if(rd)rd.style.display='none';
+        const cb=document.getElementById('pChkBtn');if(cb)cb.style.display='';
+        S.pSubmitted=false;S.pAllPass=false;break;}
+    case 'pCheck':subPrac();break;
+    case 'startTest':S.curQ=0;S.streak=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};S.screen='test';R();break;
+    case 'submitTQ':{
+        const ed=document.getElementById('eCode');if(!ed)break;
+        const code=ed.value,body=gBody(code),tmp=document.createElement('div');tmp.innerHTML=body;
+        const t=cl().tests[S.curQ];let passed=0;const details=[];
+        t.cks.forEach(ck=>{const ok=ck.ck(tmp,code);if(ok)passed++;details.push({label:ck.lb,ok});});
+        S.tSession.results.push({passed,total:t.cks.length,details});S.tSession.totalChecks+=t.cks.length;S.tSession.passedChecks+=passed;
+        if(S.curQ<cl().tests.length-1){S.curQ++;S.screen='test';R();}
+        else{const ts=S.tSession;const pct=ts.totalChecks>0?(ts.passedChecks/ts.totalChecks)*100:0;const passedO=pct>=60;let xg=0,cg=0;
+        if(passedO){xg=ts.passedChecks*5;cg=ts.passedChecks;
+        if(!S.tDone[cl().id]){S.tDone[cl().id]=true;S.xp+=xg;S.coins+=cg;AX.p('co');S.streak++;if(S.streak>S.maxStreak)S.maxStreak=S.streak;chkLv();
+        const ex=S.lScores[cl().id];if(!ex||ts.passedChecks>ex.score)S.lScores[cl().id]={score:ts.passedChecks,total:ts.totalChecks};}
+        ts.xpEarned=xg;ts.coinsEarned=cg;}else{S.streak=0;}
         saveCur();upTb();S.screen='testResult';R();}
         break;}
-case 'retryT':S.curL=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};S.screen='test';R();break;
-case 'toMap':S.screen=allDone()?'complete':S.screen='complete':R();break;
-    case 'retryT':S.curL=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};S.screen='test';R();}
-    default:break;}
-    };
-    console.warn('Unknown action:',a);
-}
-    });
-});`;}
+    case 'retryT':S.curQ=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};S.screen='test';R();break;
+    }
+});
 
-/* โค่ายเก็ดอร์ดอร์ดอร์ดอร์จากบอั้อบอร์ขอัวน้นเเเเต็ดอร์ดอร์ขอร้าอรายัว์ไปลอัวโครเเเต็ดายงอกันท้ายอัวกัน และไม่ผ่านเกณฑ์ 5x ตอนจะบบล็อย่ายากันทุกัน',
-    const ed=document.getElementById('eCode');if(!ed)return;
-    ed.addEventListener('keydown',e=>{
-        if(e.key==='Tab'){e.preventDefault();const s=ed.selectionStart=ed.selectionStart;ed.end=ed.selectionEnd;
-        if(e.key==='Enter'&&S.screen==='practice'){e.preventDefault();const ls=ed.value.substring(0,s);ed.value=ed.value.substring(0,s.length)+'  '+ed.value.substring(ed.selectionEnd);ed.selectionStart=ed.selectionStart;ed.selectionEnd=ed.selectionEnd=ls+ed.value.length;onEI();upLn();upPf();}
-    });};
-    ed.addEventListener('input',()=>{onEI();clearTimeout(eT);eT=setTimeout(()=>upCk,300);});
-    ed.addEventListener('scroll',()=>{const ln=document.getElementById('ln');if(ln)ln.scrollTop=ed.scrollTop=ed.scrollTop;};
-    ed.addEventListener('scroll',()=>{const ed=document.getElementById('pFrame');if(ed&&pf)pf.srcdoc=ed.value;});
-};}
+app.addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&S.screen==='auth'){
+        if(S.authTab==='login')document.querySelector('[data-action="doLogin"]')?.click();
+        else document.querySelector('[data-action="doReg"]')?.click();
+    }
+});
 
-    saveCur();
-    R();
-    sessionStorage=()=>{try{localStorage.removeItem('hq_u');localStorage.setItem('hq_u',JSON.stringify({xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak});}
-    console.log('Loaded saved');}
-
-initBg();aBg();aBg();
-</script></body></html>`;
+initBg();aBg();R();
 </script>
-</body></html>
+</body>
 </html>
