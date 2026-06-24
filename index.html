@@ -8,1436 +8,807 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --card2: #1c2333;
-            --border: #30363d;
-            --text: #e6edf3;
-            --muted: #8b949e;
-            --accent: #00ff88;
-            --accent-dim: #00cc6a;
-            --gold: #e3b341;
-            --danger: #ff6b6b;
-            --easy: #00ff88;
-            --medium: #f0883e;
-            --hard: #ff6b6b;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Kanit', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        #bgCanvas {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0; pointer-events: none;
-        }
-        #app {
-            position: relative; z-index: 1;
-            min-height: 100vh;
-        }
-        .code-font { font-family: 'Fira Code', monospace; }
-
-        /* แถบ XP */
-        .xp-bar-outer {
-            background: var(--border);
-            border-radius: 999px;
-            height: 10px;
-            overflow: hidden;
-        }
-        .xp-bar-inner {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-dim), var(--accent));
-            border-radius: 999px;
-            transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-            box-shadow: 0 0 10px rgba(0,255,136,0.4);
-        }
-
-        /* การ์ด */
-        .game-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            transition: all 0.3s ease;
-        }
-        .game-card:hover { border-color: var(--accent); box-shadow: 0 0 20px rgba(0,255,136,0.1); }
-
-        /* ปุ่มหลัก */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-dim), var(--accent));
-            color: #0d1117;
-            font-weight: 700;
-            padding: 14px 36px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-family: 'Kanit', sans-serif;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,255,136,0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(0,255,136,0.5);
-        }
-        .btn-primary:active { transform: translateY(0); }
-
-        .btn-secondary {
-            background: var(--card2);
-            color: var(--text);
-            font-weight: 600;
-            padding: 12px 28px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            font-size: 1rem;
-            font-family: 'Kanit', sans-serif;
-            transition: all 0.3s ease;
-        }
-        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-        /* ตัวเลือกคำถาม */
-        .quiz-option {
-            background: var(--card2);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 16px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .quiz-option:hover { border-color: var(--accent); background: rgba(0,255,136,0.05); }
-        .quiz-option.correct {
-            border-color: var(--accent);
-            background: rgba(0,255,136,0.15);
-            animation: correctPulse 0.5s ease;
-        }
-        .quiz-option.wrong {
-            border-color: var(--danger);
-            background: rgba(255,107,107,0.15);
-            animation: shake 0.4s ease;
-        }
-        .quiz-option.disabled { pointer-events: none; opacity: 0.6; }
-        .quiz-option.disabled.correct { opacity: 1; }
-
-        .option-letter {
-            width: 36px; height: 36px;
-            border-radius: 10px;
-            background: var(--border);
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-        .quiz-option:hover .option-letter { background: var(--accent); color: var(--bg); }
-        .quiz-option.correct .option-letter { background: var(--accent); color: var(--bg); }
-        .quiz-option.wrong .option-letter { background: var(--danger); color: #fff; }
-
-        /* โค้ดบล็อก */
-        .code-block {
-            background: #0d1117;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            overflow-x: auto;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            line-height: 1.8;
-            tab-size: 2;
-        }
-        .code-block .tag { color: #7ee787; }
-        .code-block .attr { color: #79c0ff; }
-        .code-block .val { color: #ffa657; }
-        .code-block .txt { color: #e6edf3; }
-        .code-block .cmt { color: #8b949e; font-style: italic; }
-        .code-block .doctype { color: #8b949e; }
-
-        /* พรีวิว */
-        .preview-frame {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            background: #fff;
-        }
-        .preview-frame iframe {
-            width: 100%;
-            height: 200px;
-            border: none;
-            display: block;
-        }
-        .preview-bar {
-            background: var(--card);
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1px solid var(--border);
-        }
-        .preview-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-        }
-
-        /* แผนที่ */
-        .map-node {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .map-node.locked { opacity: 0.4; cursor: not-allowed; }
-        .map-node.locked:hover { opacity: 0.5; }
-        .map-node.completed .node-circle { background: var(--accent); border-color: var(--accent); }
-        .map-node.current .node-circle {
-            border-color: var(--accent);
-            animation: nodePulse 2s ease-in-out infinite;
-        }
-        .node-circle {
-            width: 56px; height: 56px;
-            border-radius: 50%;
-            border: 3px solid var(--border);
-            background: var(--card);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-        .map-connector {
-            width: 3px;
-            height: 40px;
-            margin: 0 auto;
-            border-radius: 2px;
-        }
-        .map-connector.done { background: var(--accent); }
-        .map-connector.pending { background: var(--border); }
-
-        /* แบนด์ความยาก */
-        .diff-badge {
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .diff-easy { background: rgba(0,255,136,0.15); color: var(--easy); }
-        .diff-medium { background: rgba(240,136,62,0.15); color: var(--medium); }
-        .diff-hard { background: rgba(255,107,107,0.15); color: var(--hard); }
-
-        /* แอนิเมชัน */
-        @keyframes correctPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-4px); }
-            80% { transform: translateX(4px); }
-        }
-        @keyframes nodePulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.4); }
-            50% { box-shadow: 0 0 0 12px rgba(0,255,136,0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 20px rgba(0,255,136,0.3); }
-            50% { text-shadow: 0 0 40px rgba(0,255,136,0.6), 0 0 80px rgba(0,255,136,0.2); }
-        }
-        @keyframes scoreCount {
-            from { transform: scale(0.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        @keyframes confettiFall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-        @keyframes toastIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes toastOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-
-        .animate-fadeInUp { animation: fadeInUp 0.6s ease forwards; }
-        .animate-fadeIn { animation: fadeIn 0.5s ease forwards; }
-        .animate-slideDown { animation: slideDown 0.4s ease forwards; }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-glow { animation: glow 3s ease-in-out infinite; }
-
-        .stagger-1 { animation-delay: 0.1s; opacity: 0; }
-        .stagger-2 { animation-delay: 0.2s; opacity: 0; }
-        .stagger-3 { animation-delay: 0.3s; opacity: 0; }
-        .stagger-4 { animation-delay: 0.4s; opacity: 0; }
-        .stagger-5 { animation-delay: 0.5s; opacity: 0; }
-        .stagger-6 { animation-delay: 0.6s; opacity: 0; }
-
-        /* โทสต์ */
-        .toast {
-            animation: toastIn 0.4s ease forwards;
-            border-radius: 12px;
-            padding: 12px 20px;
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 500;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-        }
-        .toast.leaving { animation: toastOut 0.3s ease forwards; }
-        .toast-success { background: rgba(0,255,136,0.15); border: 1px solid rgba(0,255,136,0.3); color: var(--accent); }
-        .toast-error { background: rgba(255,107,107,0.15); border: 1px solid rgba(255,107,107,0.3); color: var(--danger); }
-        .toast-info { background: rgba(227,179,65,0.15); border: 1px solid rgba(227,179,65,0.3); color: var(--gold); }
-
-        /* คอนเฟตตี */
-        .confetti-piece {
-            position: fixed;
-            width: 10px; height: 10px;
-            z-index: 100;
-            animation: confettiFall linear forwards;
-        }
-
-        /* ไอคอนเหรียญ */
-        .coin-icon {
-            color: var(--gold);
-            filter: drop-shadow(0 0 4px rgba(227,179,65,0.5));
-        }
-
-        /* เลเวลอัพ โอเวอร์เลย์ */
-        .levelup-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 90;
-            display: flex; align-items: center; justify-content: center;
-            animation: fadeIn 0.3s ease;
-        }
-        .levelup-card {
-            text-align: center;
-            animation: scoreCount 0.5s ease;
-        }
-
-        /* สครอลล์บาร์ */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-
-        /* รีสปอนซิฟ */
-        @media (max-width: 768px) {
-            .code-block { font-size: 0.75rem; padding: 14px; }
-            .node-circle { width: 44px; height: 44px; font-size: 1rem; }
-            .map-connector { height: 28px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
+        :root{--bg:#0d1117;--card:#161b22;--card2:#1c2333;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--accent:#00ff88;--accent-dim:#00cc6a;--gold:#e3b341;--danger:#ff6b6b;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+        #bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+        #app{position:relative;z-index:1;min-height:100vh;}
+        .cf{font-family:'Fira Code',monospace;}
+        .xp-outer{background:var(--border);border-radius:999px;height:10px;overflow:hidden;}
+        .xp-inner{height:100%;background:linear-gradient(90deg,var(--accent-dim),var(--accent));border-radius:999px;transition:width .8s cubic-bezier(.25,1,.5,1);box-shadow:0 0 10px rgba(0,255,136,.4);}
+        .gc{background:var(--card);border:1px solid var(--border);border-radius:16px;transition:all .3s ease;}
+        .gc:hover{border-color:rgba(0,255,136,.25);}
+        .bp{background:linear-gradient(135deg,var(--accent-dim),var(--accent));color:#0d1117;font-weight:700;padding:13px 32px;border-radius:12px;border:none;cursor:pointer;font-size:1rem;font-family:'Kanit',sans-serif;transition:all .3s ease;box-shadow:0 4px 20px rgba(0,255,136,.3);display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+        .bp:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(0,255,136,.5);}.bp:active{transform:translateY(0);}.bp:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+        .bs{background:var(--card2);color:var(--text);font-weight:600;padding:11px 24px;border-radius:12px;border:1px solid var(--border);cursor:pointer;font-size:.9rem;font-family:'Kanit',sans-serif;transition:all .3s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+        .bs:hover{border-color:var(--accent);color:var(--accent);}
+        .bsm{padding:8px 18px;font-size:.82rem;border-radius:10px;}
+        .code-block{background:#0a0e14;border:1px solid var(--border);border-radius:12px;padding:18px;overflow-x:auto;font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.8;tab-size:2;white-space:pre;}
+        .code-block .tag{color:#7ee787;}.code-block .attr{color:#79c0ff;}.code-block .val{color:#ffa657;}.code-block .cmt{color:#8b949e;font-style:italic;}.code-block .doctype{color:#8b949e;}
+        .pf{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;}
+        .pf iframe{width:100%;height:180px;border:none;display:block;}
+        .pb{background:var(--card);padding:7px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);}
+        .pd{width:10px;height:10px;border-radius:50%;}
+        .ew{display:flex;background:#0a0e14;border:2px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .4s,box-shadow .4s;min-height:240px;}
+        .ew.ok{border-color:var(--accent);box-shadow:0 0 20px rgba(0,255,136,.15);}
+        .ew.err{border-color:var(--danger);box-shadow:0 0 15px rgba(255,107,107,.15);}
+        .ln{padding:14px 0;min-width:40px;text-align:right;padding-right:10px;color:#484f58;font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.8;user-select:none;border-right:1px solid var(--border);overflow:hidden;background:#0a0e14;flex-shrink:0;}
+        .ce{flex:1;padding:14px;background:transparent;color:var(--text);font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.8;border:none;outline:none;resize:none;tab-size:2;white-space:pre;overflow:auto;min-height:240px;}
+        .ce::selection{background:rgba(0,255,136,.2);}
+        .ci{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;transition:all .3s;font-size:.88rem;}
+        .ci.pass{background:rgba(0,255,136,.08);color:var(--accent);}.ci.fail{background:rgba(255,107,107,.08);color:var(--danger);}.ci.pend{background:var(--card2);color:var(--muted);}
+        .ch{font-size:.76rem;color:var(--muted);margin-top:4px;margin-left:30px;padding:6px 10px;background:rgba(227,179,65,.08);border-radius:8px;border-left:3px solid var(--gold);display:none;}.ci.fail .ch{display:block;}
+        .mn{position:relative;cursor:pointer;transition:all .3s;}.mn.locked{opacity:.4;cursor:not-allowed;}.mn.locked:hover{opacity:.5;}
+        .mn.done .nc{background:var(--accent);border-color:var(--accent);}.mn.cur .nc{border-color:var(--accent);animation:np 2s ease-in-out infinite;}
+        .nc{width:50px;height:50px;border-radius:50%;border:3px solid var(--border);background:var(--card);display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:all .3s;}
+        .mc{width:3px;height:36px;margin:0 auto;border-radius:2px;}.mc.d{background:var(--accent);}.mc.p{background:var(--border);}
+        .coin-i{color:var(--gold);filter:drop-shadow(0 0 4px rgba(227,179,65,.5));}
+        .db{padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:600;}
+        .d-easy{background:rgba(0,255,136,.12);color:var(--accent);}.d-medium{background:rgba(240,136,62,.12);color:#f0883e;}.d-hard{background:rgba(255,107,107,.12);color:var(--danger);}
+        .auth-card{max-width:420px;width:100%;}
+        .tab-btn{padding:10px 0;flex:1;text-align:center;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;transition:all .3s;color:var(--muted);}
+        .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+        .input-field{width:100%;padding:12px 16px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Kanit',sans-serif;font-size:.95rem;outline:none;transition:border-color .3s;}
+        .input-field:focus{border-color:var(--accent);}
+        .input-field::placeholder{color:var(--muted);}
+        .role-opt{padding:12px 16px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .3s;flex:1;text-align:center;}
+        .role-opt.sel{border-color:var(--accent);background:rgba(0,255,136,.06);}
+        .role-opt:hover{border-color:rgba(0,255,136,.5);}
+        .sb{animation:si .4s ease forwards;border-radius:12px;padding:12px 20px;display:flex;align-items:center;gap:10px;font-weight:500;box-shadow:0 8px 30px rgba(0,0,0,.4);pointer-events:auto;}
+        .sb.lv{animation:so .3s ease forwards;}
+        .sb-s{background:rgba(0,255,136,.15);border:1px solid rgba(0,255,136,.3);color:var(--accent);}.sb-e{background:rgba(255,107,107,.15);border:1px solid rgba(255,107,107,.3);color:var(--danger);}.sb-i{background:rgba(227,179,65,.15);border:1px solid rgba(227,179,65,.3);color:var(--gold);}
+        .suc-b{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+        .err-b{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+        .confetti{position:fixed;width:10px;height:10px;z-index:100;animation:cf linear forwards;pointer-events:none;}
+        .lu-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:90;display:flex;align-items:center;justify-content:center;animation:fi .3s ease;}.lu-c{text-align:center;animation:sc .5s ease;}
+        @keyframes np{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.4);}50%{box-shadow:0 0 0 12px rgba(0,255,136,0);}}
+        @keyframes fiu{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes fi{from{opacity:0;}to{opacity:1;}}
+        @keyframes sd{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes fl{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+        @keyframes gl{0%,100%{text-shadow:0 0 20px rgba(0,255,136,.3);}50%{text-shadow:0 0 40px rgba(0,255,136,.6),0 0 80px rgba(0,255,136,.2);}}
+        @keyframes sc{from{transform:scale(.5);opacity:0;}to{transform:scale(1);opacity:1;}}
+        @keyframes cf{0%{transform:translateY(-100vh) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+        @keyframes si{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+        @keyframes so{from{transform:translateX(0);opacity:1;}to{transform:translateX(100%);opacity:0;}}
+        @keyframes sh{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-3px);}80%{transform:translateX(3px);}}
+        .afiu{animation:fiu .6s ease forwards;}.afi{animation:fi .5s ease forwards;}.asd{animation:sd .4s ease forwards;}.afl{animation:fl 3s ease-in-out infinite;}.agl{animation:gl 3s ease-in-out infinite;}
+        .s1{animation-delay:.1s;opacity:0;}.s2{animation-delay:.2s;opacity:0;}.s3{animation-delay:.3s;opacity:0;}.s4{animation-delay:.4s;opacity:0;}.s5{animation-delay:.5s;opacity:0;}
+        ::-webkit-scrollbar{width:5px;height:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+        @media(max-width:768px){.code-block,.ce,.ln{font-size:.7rem;}.nc{width:42px;height:42px;font-size:.95rem;}.mc{height:28px;}.ew,.ce{min-height:180px;}}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
     </style>
 </head>
 <body>
     <canvas id="bgCanvas" aria-hidden="true"></canvas>
     <div id="app" role="main"></div>
-    <div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:80;display:flex;flex-direction:column;gap:10px;"></div>
-    <div id="overlay-container"></div>
+    <div id="tc" style="position:fixed;top:20px;right:20px;z-index:80;display:flex;flex-direction:column;gap:10px;pointer-events:none;"></div>
+    <div id="oc"></div>
+<script>
+/* ================================================================
+   ข้อมูลบทเรียน แบบฝึกพิมพ์ และแบบทดสอบเขียนโค้ด
+   ================================================================ */
+const L=[
+{id:1,title:'โครงสร้างพื้นฐาน HTML',icon:'fa-solid fa-house-chimney',
+desc:'เรียนรู้โครงสร้างหลักของเอกสาร HTML',
+pts:['ทุกเอกสาร HTML เริ่มด้วย <code class="cf" style="color:#7ee787;">&lt;!DOCTYPE html&gt;</code>','<code class="cf" style="color:#7ee787;">&lt;html&gt;</code> เป็นภาชนะหลักครอบทุกอย่าง','<code class="cf" style="color:#7ee787;">&lt;head&gt;</code> ใส่ข้อมูลเมตา เช่น <code class="cf" style="color:#7ee787;">&lt;title&gt;</code>','<code class="cf" style="color:#7ee787;">&lt;body&gt;</code> ใส่เนื้อหาที่แสดงบนหน้าจอ'],
+code:'<!DOCTYPE html>\n<html>\n  <head>\n    <title>หน้าเว็บแรก</title>\n  </head>\n  <body>\n    <h1>สวัสดีชาวโลก!</h1>\n    <p>นี่คือเว็บแรกของฉัน</p>\n  </body>\n</html>',
+prac:{title:'สร้างหน้าเว็บพื้นฐาน',desc:'เติมโค้ดใน body ให้มี h1 และ p',
+start:'<!DOCTYPE html>\n<html>\n  <head>\n    <title>แบบฝึกหัด</title>\n  </head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มีแท็ก <h1>',ck:d=>!!d.querySelector('h1'),ht:'เขียน <h1>หัวข้อ</h1>'},{lb:'มีแท็ก <p>',ck:d=>!!d.querySelector('p'),ht:'เขียน <p>ข้อความ</p>'}],
+xp:15,gh:'เนื้อหาที่แสดงบนหน้าเว็บต้องอยู่ภายใต้ <body>'},
+tests:[
+{title:'สร้างหน้าเว็บมีชื่อ',desc:'สร้างหน้าเว็บที่มี title เป็น "เว็บของฉัน" และมี h1 ข้างใน body',
+start:'<!DOCTYPE html>\n<html>\n  <head>\n    <title></title>\n  </head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'title เป็น "เว็บของฉัน"',ck:(d,c)=>/<title>\s*เว็บของฉัน\s*<\/title>/i.test(c)},{lb:'มีแท็ก <h1>',ck:d=>!!d.querySelector('h1')}]},
+{title:'เพิ่มย่อหน้าข้อความ',desc:'สร้างหน้าเว็บที่มีแท็ก p พร้อมข้อความอะไรก็ได้',
+start:'<!DOCTYPE html>\n<html>\n  <head>\n    <title>ทดสอบ</title>\n  </head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มีแท็ก <p>',ck:d=>!!d.querySelector('p')},{lb:'<p> มีข้อความ',ck:d=>{const p=d.querySelector('p');return p&&p.textContent.trim().length>0;}}]},
+{title:'สร้างหน้าเว็บครบถ้วน',desc:'สร้างหน้าเว็บที่มีทั้ง h1, p และ DOCTYPE ถูกต้อง',
+start:'',
+cks:[{lb:'มี DOCTYPE html',ck:(d,c)=>/<!DOCTYPE\s+html>/i.test(c)},{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <p>',ck:d=>!!d.querySelector('p')}]}
+]},
+{id:2,title:'หัวข้อและย่อหน้า',icon:'fa-solid fa-heading',
+desc:'เรียนรู้การสร้างหัวข้อ h1-h6 และย่อหน้า',
+pts:['<code class="cf" style="color:#7ee787;">&lt;h1&gt;</code> ถึง <code class="cf" style="color:#7ee787;">&lt;h6&gt;</code> สร้างหัวข้อ h1 ใหญ่สุด','<code class="cf" style="color:#7ee787;">&lt;p&gt;</code> สร้างย่อหน้า','<code class="cf" style="color:#7ee787;">&lt;hr&gt;</code> สร้างเส้นแบ่ง','<code class="cf" style="color:#7ee787;">&lt;br&gt;</code> ขึ้นบรรทัดใหม่'],
+code:'<h1>หัวข้อ h1</h1>\n<h2>หัวข้อ h2</h2>\n<h3>หัวข้อ h3</h3>\n<p>นี่คือย่อหน้า</p>\n<hr>\n<p>อีกย่อหน้าหนึ่ง</p>',
+prac:{title:'สร้างหัวข้อและย่อหน้า',desc:'สร้าง h1, h2 และ p',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <h2>',ck:d=>!!d.querySelector('h2')},{lb:'มี <p>',ck:d=>!!d.querySelector('p')}],xp:20,gh:'h1 ใหญ่สุด, h2 รองลงมา, p คือย่อหน้า'},
+tests:[
+{title:'สร้างหัวข้อ 2 ระดับ',desc:'สร้างหน้าเว็บที่มีทั้ง h1 และ h3',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <h3>',ck:d=>!!d.querySelector('h3')}]},
+{title:'ใช้เส้นแบ่ง',desc:'สร้างหน้าเว็บที่มี p อย่างน้อย 2 อัน คั่นด้วย hr',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <p> อย่างน้อย 2 อัน',ck:d=>d.querySelectorAll('p').length>=2},{lb:'มี <hr>',ck:d=>!!d.querySelector('hr')}]},
+{title:'สร้างลำดับหัวข้อ',desc:'สร้าง h1, h2, h3 เรียงกันในหน้าเดียว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <h1>',ck:d=>!!d.querySelector('h1')},{lb:'มี <h2>',ck:d=>!!d.querySelector('h2')},{lb:'มี <h3>',ck:d=>!!d.querySelector('h3')}]}
+]},
+{id:3,title:'จัดรูปแบบข้อความ',icon:'fa-solid fa-font',
+desc:'เรียนรู้แท็ก strong, em, u, mark',
+pts:['<code class="cf" style="color:#7ee787;">&lt;strong&gt;</code> ตัวหนา (สำคัญ)','<code class="cf" style="color:#7ee787;">&lt;em&gt;</code> ตัวเอียง (เน้น)','<code class="cf" style="color:#7ee787;">&lt;u&gt;</code> ขีดเส้นใต้','<code class="cf" style="color:#7ee787;">&lt;mark&gt;</code> ไฮไลท์'],
+code:'<p>ข้อความ <strong>ตัวหนา</strong></p>\n<p>ข้อความ <em>ตัวเอียง</em></p>\n<p>ข้อความ <u>ขีดเส้นใต้</u></p>\n<p>ข้อความ <mark>ไฮไลท์</mark></p>',
+prac:{title:'จัดรูปแบบข้อความ',desc:'ใช้ strong, em, mark ในย่อหน้า',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    <p>ข้อความที่ยังไม่จัดรูปแบบ</p>\n  </body>\n</html>',
+cks:[{lb:'มี <strong>',ck:d=>!!d.querySelector('strong')},{lb:'มี <em>',ck:d=>!!d.querySelector('em')},{lb:'มี <mark>',ck:d=>!!d.querySelector('mark')}],xp:25,gh:'ครอบข้อความด้วยแท็ก เช่น <strong>ตัวหนา</strong>'},
+tests:[
+{title:'ใช้ตัวหนาและเอียง',desc:'สร้าง p ที่มีทั้ง strong และ em',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <strong>',ck:d=>!!d.querySelector('strong')},{lb:'มี <em>',ck:d=>!!d.querySelector('em')},{lb:'อยู่ใน <p> เดียวกัน',ck:d=>{const p=d.querySelector('p');return p&&p.querySelector('strong')&&p.querySelector('em');}}]},
+{title:'ใช้ขีดเส้นใต้และไฮไลท์',desc:'สร้างข้อความที่มีทั้ง u และ mark',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <u>',ck:d=>!!d.querySelector('u')},{lb:'มี <mark>',ck:d=>!!d.querySelector('mark')}]},
+{title:'ใช้ครบทั้ง 4 แท็ก',desc:'สร้างข้อความที่ใช้ strong, em, u และ mark ครบทุกตัว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <strong>',ck:d=>!!d.querySelector('strong')},{lb:'มี <em>',ck:d=>!!d.querySelector('em')},{lb:'มี <u>',ck:d=>!!d.querySelector('u')},{lb:'มี <mark>',ck:d=>!!d.querySelector('mark')}]}
+]},
+{id:4,title:'ลิงก์และรูปภาพ',icon:'fa-solid fa-link',
+desc:'เรียนรู้การสร้างลิงก์และแสดงรูปภาพ',
+pts:['<code class="cf" style="color:#7ee787;">&lt;a href="URL"&gt;</code> สร้างลิงก์','<code class="cf" style="color:#7ee787;">&lt;img src="URL" alt="..."&gt;</code> แสดงรูป','attribute <code class="cf" style="color:#ffa657;">alt</code> สำคัญต่อการเข้าถึง','<code class="cf" style="color:#ffa657;">target="_blank"</code> เปิดแท็บใหม่'],
+code:'<a href="https://example.com">คลิกที่นี่</a>\n<br><br>\n<img src="https://picsum.photos/seed/hq/300/150" alt="รูปตัวอย่าง">',
+prac:{title:'สร้างลิงก์และรูปภาพ',desc:'สร้าง a พร้อม href และ img พร้อม src',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <a> พร้อม href',ck:(d,c)=>/<a\s+[^>]*href\s*=/i.test(c)},{lb:'มี <img> พร้อม src',ck:(d,c)=>/<img\s+[^>]*src\s*=/i.test(c)}],xp:25,gh:'a ใช้ href ระบุ URL, img ใช้ src ระบุที่อยู่รูป'},
+tests:[
+{title:'สร้างลิงก์ไป Google',desc:'สร้างลิงก์ที่เชื่อมไปยัง https://google.com',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มีแท็ก <a>',ck:d=>!!d.querySelector('a')},{lb:'href ไป google.com',ck:(d,c)=>/href\s*=\s*["']?https?:\/\/(www\.)?google\.com/i.test(c)}]},
+{title:'สร้างรูปภาพพร้อม alt',desc:'สร้างรูปภาพที่มีทั้ง src และ alt',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <img> พร้อม src',ck:(d,c)=>/<img\s+[^>]*src\s*=/i.test(c)},{lb:'มี attribute alt',ck:(d,c)=>/<img\s+[^>]*alt\s*=/i.test(c)}]},
+{title:'สร้างลิงก์เปิดแท็บใหม่',desc:'สร้างลิงก์ที่มี target="_blank" และรูปภาพในหน้าเดียว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <a> พร้อม target="_blank"',ck:(d,c)=>/<a\s+[^>]*target\s*=\s*["']_blank["']/i.test(c)},{lb:'มี <img>',ck:d=>!!d.querySelector('img')}]}
+]},
+{id:5,title:'ลิสต์รายการ',icon:'fa-solid fa-list',
+desc:'เรียนรู้ ul, ol และ li',
+pts:['<code class="cf" style="color:#7ee787;">&lt;ul&gt;</code> ลิสต์ไม่มีลำดับ (สัญลักษณ์)','<code class="cf" style="color:#7ee787;">&lt;ol&gt;</code> ลิสต์มีลำดับ (ตัวเลข)','<code class="cf" style="color:#7ee787;">&lt;li&gt;</code> แต่ละรายการ','สามารถซ้อนลิสต์ได้'],
+code:'<ul>\n  <li>แอปเปิล</li>\n  <li>กล้วย</li>\n  <li>ส้ม</li>\n</ul>\n<ol>\n  <li>ต้มน้ำ</li>\n  <li>ใส่บะหมี่</li>\n  <li>เสิร์ฟ</li>\n</ol>',
+prac:{title:'สร้างลิสต์รายการ',desc:'สร้าง ul หรือ ol ที่มี li อย่างน้อย 3 ตัว',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <ul> หรือ <ol>',ck:d=>!!(d.querySelector('ul')||d.querySelector('ol'))},{lb:'มี <li> อย่างน้อย 3 ตัว',ck:d=>d.querySelectorAll('li').length>=3}],xp:20,gh:'ul=สัญลักษณ์, ol=ตัวเลข แต่ละรายการใช้ <li>'},
+tests:[
+{title:'สร้างลิสต์ไม่มีลำดับ',desc:'สร้าง ul ที่มี li อย่างน้อย 3 รายการ',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <ul>',ck:d=>!!d.querySelector('ul')},{lb:'มี <li> อย่างน้อย 3',ck:d=>d.querySelectorAll('ul li').length>=3}]},
+{title:'สร้างลิสต์มีลำดับ',desc:'สร้าง ol ที่มี li อย่างน้อย 4 รายการ',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <ol>',ck:d=>!!d.querySelector('ol')},{lb:'มี <li> อย่างน้อย 4',ck:d=>d.querySelectorAll('ol li').length>=4}]},
+{title:'สร้างลิสต์ซ้อน',desc:'สร้าง ul ที่มี li ซ้อน ul อยู่ข้างในอีกชั้น',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี ul ชั้นนอก',ck:d=>!!d.querySelector('ul')},{lb:'มี ul ชั้นใน (ซ้อนกัน)',ck:d=>{const inner=d.querySelector('ul ul');return !!inner;}}]}
+]},
+{id:6,title:'ตาราง',icon:'fa-solid fa-table',
+desc:'เรียนรู้การสร้างตาราง',
+pts:['<code class="cf" style="color:#7ee787;">&lt;table&gt;</code> สร้างตาราง','<code class="cf" style="color:#7ee787;">&lt;tr&gt;</code> สร้างแถว','<code class="cf" style="color:#7ee787;">&lt;th&gt;</code> หัวตาราง, <code class="cf" style="color:#7ee787;">&lt;td&gt;</code> เซลล์ข้อมูล','<code class="cf" style="color:#ffa657;">colspan</code> รวมคอลัมน์'],
+code:'<table border="1" cellpadding="8" style="border-collapse:collapse;text-align:center;">\n  <tr><th>ชื่อ</th><th>อายุ</th></tr>\n  <tr><td>สมชาย</td><td>25</td></tr>\n  <tr><td>สมหญิง</td><td>30</td></tr>\n</table>',
+prac:{title:'สร้างตาราง',desc:'สร้างตารางที่มี th และ td',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ฝึกหัด</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <tr>',ck:d=>!!d.querySelector('tr')},{lb:'มี <th>',ck:d=>!!d.querySelector('th')},{lb:'มี <td>',ck:d=>!!d.querySelector('td')}],xp:30,gh:'โครง: table > tr > th/td'},
+tests:[
+{title:'สร้างตารางพื้นฐาน',desc:'สร้างตารางที่มี th และ td',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <th>',ck:d=>!!d.querySelector('th')},{lb:'มี <td>',ck:d=>!!d.querySelector('td')}]},
+{title:'สร้างตารางหลายแถว',desc:'สร้างตารางที่มี tr อย่างน้อย 3 แถว (รวมหัวตาราง)',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี <tr> อย่างน้อย 3',ck:d=>d.querySelectorAll('tr').length>=3}]},
+{title:'สร้างตาราง colspan',desc:'สร้างตารางที่ใช้ colspan รวมคอลัมน์',
+start:'<!DOCTYPE html>\n<html>\n  <head><title>ทดสอบ</title></head>\n  <body>\n    \n  </body>\n</html>',
+cks:[{lb:'มี <table>',ck:d=>!!d.querySelector('table')},{lb:'มี colspan',ck:(d,c)=>/colspan\s*=\s*["']?\d+/i.test(c)}]}
+]}
+];
 
-    <script>
-    // ============================================================
-    // ข้อมูลบทเรียนและคำถาม
-    // ============================================================
-    const LESSONS = [
-        {
-            id: 1,
-            title: 'โครงสร้างพื้นฐาน HTML',
-            icon: 'fa-solid fa-house-chimney',
-            desc: 'เรียนรู้โครงสร้างหลักของเอกสาร HTML ทุกหน้าเว็บต้องมี',
-            points: [
-                'ทุกเอกสาร HTML เริ่มต้นด้วย <code class="code-font text-green-400">&lt;!DOCTYPE html&gt;</code>',
-                'แท็ก <code class="code-font text-green-400">&lt;html&gt;</code> เป็นภาชนะหลัก (root) ครอบทุกอย่าง',
-                '<code class="code-font text-green-400">&lt;head&gt;</code> ใส่ข้อมูลเมตา เช่น ชื่อหน้าเว็บใน <code class="code-font text-green-400">&lt;title&gt;</code>',
-                '<code class="code-font text-green-400">&lt;body&gt;</code> ใส่เนื้อหาที่แสดงผลบนหน้าจอทั้งหมด'
-            ],
-            code: `<!DOCTYPE html>\n<html>\n  <head>\n    <title>หน้าเว็บแรกของฉัน</title>\n  </head>\n  <body>\n    <h1>สวัสดีชาวโลก!</h1>\n    <p>นี่คือเว็บไซต์แรกของฉัน</p>\n  </body>\n</html>`,
-            quizzes: [
-                {
-                    q: 'แท็กไหนเป็นรากศาล (root) ของเอกสาร HTML ทั้งหมด?',
-                    opts: ['&lt;head&gt;', '&lt;html&gt;', '&lt;body&gt;', '&lt;title&gt;'],
-                    ans: 1, diff: 'easy'
-                },
-                {
-                    q: 'แท็ก &lt;title&gt; ควรอยู่ภายใต้แท็กใด?',
-                    opts: ['&lt;body&gt;', '&lt;html&gt;', '&lt;head&gt;', '&lt;p&gt;'],
-                    ans: 2, diff: 'easy'
-                },
-                {
-                    q: 'เนื้อหาที่แสดงผลบนหน้าเว็บเบราว์เซอร์จะอยู่ในแท็กใด?',
-                    opts: ['&lt;head&gt;', '&lt;title&gt;', '&lt;html&gt;', '&lt;body&gt;'],
-                    ans: 3, diff: 'easy'
-                }
-            ]
-        },
-        {
-            id: 2,
-            title: 'หัวข้อและย่อหน้า',
-            icon: 'fa-solid fa-heading',
-            desc: 'เรียนรู้การสร้างหัวข้อและย่อหน้าข้อความ',
-            points: [
-                'แท็ก <code class="code-font text-green-400">&lt;h1&gt;</code> ถึง <code class="code-font text-green-400">&lt;h6&gt;</code> ใช้สร้างหัวข้อ โดย h1 ใหญ่ที่สุด',
-                '<code class="code-font text-green-400">&lt;p&gt;</code> ใช้สร้างย่อหน้าข้อความ',
-                '<code class="code-font text-green-400">&lt;br&gt;</code> ขึ้นบรรทัดใหม่ (ไม่มีแท็กปิด)',
-                '<code class="code-font text-green-400">&lt;hr&gt;</code> สร้างเส้นแบ่ง (ไม่มีแท็กปิด)'
-            ],
-            code: `<h1>หัวข้อเล็กที่สุด h1</h1>\n<h2>หัวข้อ h2</h2>\n<h3>หัวข้อ h3</h3>\n<p>นี่คือย่อหน้าแรกของข้อความ\n  สามารถเขียนหลายบรรทัดได้</p>\n<hr>\n<p>นี่คือย่อหน้าที่สอง</p>`,
-            quizzes: [
-                {
-                    q: 'แท็กสำหรับสร้างหัวข้อที่ใหญ่ที่สุดคืออะไร?',
-                    opts: ['&lt;h6&gt;', '&lt;h1&gt;', '&lt;p&gt;', '&lt;head&gt;'],
-                    ans: 1, diff: 'easy'
-                },
-                {
-                    q: 'แท็กสำหรับสร้างย่อหน้าข้อความคืออะไร?',
-                    opts: ['&lt;br&gt;', '&lt;hr&gt;', '&lt;p&gt;', '&lt;div&gt;'],
-                    ans: 2, diff: 'easy'
-                },
-                {
-                    q: 'ข้อใดถูกต้องเกี่ยวกับแท็กหัวข้อ?',
-                    opts: [
-                        '&lt;h1&gt; มีขนาดเล็กที่สุด',
-                        '&lt;h6&gt; มีขนาดใหญ่ที่สุด',
-                        '&lt;h1&gt; มีขนาดใหญ่ที่สุด',
-                        'หัวข้อทุกตัวมีขนาดเท่ากัน'
-                    ],
-                    ans: 2, diff: 'medium'
-                }
-            ]
-        },
-        {
-            id: 3,
-            title: 'จัดรูปแบบข้อความ',
-            icon: 'fa-solid fa-font',
-            desc: 'เรียนรู้แท็กจัดรูปแบบข้อความให้โดดเด่น',
-            points: [
-                '<code class="code-font text-green-400">&lt;strong&gt;</code> ทำข้อความเป็น <strong>ตัวหนา</strong> (มีนัยสำคัญ)',
-                '<code class="code-font text-green-400">&lt;em&gt;</code> ทำข้อความเป็น <em>ตัวเอียง</em> (เน้นย้ำ)',
-                '<code class="code-font text-green-400">&lt;u&gt;</code> ทำข้อความ <u>ขีดเส้นใต้</u>',
-                '<code class="code-font text-green-400">&lt;mark&gt;</code> ทำข้อความ <mark style="background:#e3b341;color:#0d1117;padding:0 4px;border-radius:3px;">ไฮไลท์</mark>'
-            ],
-            code: `<p>ข้อความ <strong>ตัวหนา</strong> ด้วย strong</p>\n<p>ข้อความ <em>ตัวเอียง</em> ด้วย em</p>\n<p>ข้อความ <u>ขีดเส้นใต้</u> ด้วย u</p>\n<p>ข้อความ <mark>ไฮไลท์</mark> ด้วย mark</p>\n<p><small>ข้อความเล็ก</small> ด้วย small</p>`,
-            quizzes: [
-                {
-                    q: 'แท็กสำหรับทำข้อความเป็นตัวหนาคืออะไร?',
-                    opts: ['&lt;em&gt;', '&lt;b&gt;', '&lt;strong&gt;', '&lt;bold&gt;'],
-                    ans: 2, diff: 'easy'
-                },
-                {
-                    q: 'แท็กสำหรับทำข้อความเอียงเพื่อเน้นย้ำคืออะไร?',
-                    opts: ['&lt;i&gt;', '&lt;italic&gt;', '&lt;em&gt;', '&lt;slant&gt;'],
-                    ans: 2, diff: 'easy'
-                },
-                {
-                    q: 'แท็ก &lt;mark&gt; ใช้ทำอะไร?',
-                    opts: [
-                        'ขีดทับข้อความ',
-                        'ไฮไลท์ข้อความ',
-                        'ทำข้อความเล็กลง',
-                        'ลบข้อความ'
-                    ],
-                    ans: 1, diff: 'medium'
-                }
-            ]
-        },
-        {
-            id: 4,
-            title: 'ลิงก์และรูปภาพ',
-            icon: 'fa-solid fa-link',
-            desc: 'เรียนรู้การสร้างลิงก์เชื่อมโยงและแสดงรูปภาพ',
-            points: [
-                '<code class="code-font text-green-400">&lt;a href="URL"&gt;</code> สร้างลิงก์ไปยัง URL ที่กำหนด',
-                '<code class="code-font text-green-400">&lt;img src="URL" alt="คำอธิบาย"&gt;</code> แสดงรูปภาพ',
-                'attribute <code class="code-font text-yellow-400">alt</code> สำคัญมากสำหรับการเข้าถึง (accessibility)',
-                'เพิ่ม <code class="code-font text-yellow-400">target="_blank"</code> เพื่อเปิดลิงก์ในแท็บใหม่'
-            ],
-            code: `<a href="https://example.com">\n  คลิกที่นี่เพื่อไปเว็บไซต์\n</a>\n<br><br>\n<img src="https://picsum.photos/seed/htmlquest/300/150" alt="รูปตัวอย่าง">\n<br><br>\n<a href="https://example.com" target="_blank">\n  เปิดในแท็บใหม่\n</a>`,
-            quizzes: [
-                {
-                    q: 'แท็กสำหรับสร้างลิงก์ไปยังเว็บอื่นคืออะไร?',
-                    opts: ['&lt;link&gt;', '&lt;href&gt;', '&lt;a&gt;', '&lt;url&gt;'],
-                    ans: 2, diff: 'easy'
-                },
-                {
-                    q: 'ในแท็ก &lt;img&gt; attribute ไหนใช้ระบุที่อยู่ของรูปภาพ?',
-                    opts: ['href', 'link', 'src', 'alt'],
-                    ans: 2, diff: 'medium'
-                },
-                {
-                    q: 'ถ้าต้องการให้ลิงก์เปิดในแท็บใหม่ ต้องเพิ่ม attribute อะไร?',
-                    opts: [
-                        'new="tab"',
-                        'target="_blank"',
-                        'open="new"',
-                        'window="blank"'
-                    ],
-                    ans: 1, diff: 'hard'
-                }
-            ]
-        },
-        {
-            id: 5,
-            title: 'ลิสต์รายการ',
-            icon: 'fa-solid fa-list',
-            desc: 'เรียนรู้การสร้างรายการแบบมีลำดับและไม่มีลำดับ',
-            points: [
-                '<code class="code-font text-green-400">&lt;ul&gt;</code> สร้างลิสต์ไม่มีลำดับ (Unordered List) แสดงเป็นสัญลักษณ์',
-                '<code class="code-font text-green-400">&lt;ol&gt;</code> สร้างลิสต์มีลำดับ (Ordered List) แสดงเป็นตัวเลข',
-                '<code class="code-font text-green-400">&lt;li&gt;</code> กำหนดแต่ละรายการในลิสต์',
-                'สามารถซ้อนลิสต์เข้าไปในลิสต์ได้ (Nested List)'
-            ],
-            code: `<h3>ลิสต์ไม่มีลำดับ (ul)</h3>\n<ul>\n  <li>แอปเปิล</li>\n  <li>กล้วย</li>\n  <li>ส้ม</li>\n</ul>\n\n<h3>ลิสต์มีลำดับ (ol)</h3>\n<ol>\n  <li>ต้มน้ำ</li>\n  <li>ใส่บะหมี่</li>\n  <li>เสิร์ฟ</li>\n</ol>`,
-            quizzes: [
-                {
-                    q: 'แท็กสำหรับสร้างลิสต์แบบไม่มีลำดับ (สัญลักษณ์) คืออะไร?',
-                    opts: ['&lt;ol&gt;', '&lt;list&gt;', '&lt;ul&gt;', '&lt;dl&gt;'],
-                    ans: 2, diff: 'easy'
-                },
-                {
-                    q: '&lt;ol&gt; และ &lt;ul&gt; ต่างกันอย่างไร?',
-                    opts: [
-                        'ไม่ต่างกันเลย',
-                        'ol แสดงตัวเลข, ul แสดงสัญลักษณ์',
-                        'ol แสดงสัญลักษณ์, ul แสดงตัวเลข',
-                        'ol ใช้กับรูปภาพ, ul ใช้กับข้อความ'
-                    ],
-                    ans: 1, diff: 'medium'
-                },
-                {
-                    q: 'แท็กใดใช้กำหนดแต่ละรายการในลิสต์?',
-                    opts: ['&lt;item&gt;', '&lt;li&gt;', '&lt;list&gt;', '&lt;entry&gt;'],
-                    ans: 1, diff: 'medium'
-                }
-            ]
-        },
-        {
-            id: 6,
-            title: 'ตาราง',
-            icon: 'fa-solid fa-table',
-            desc: 'เรียนรู้การสร้างตารางเพื่อแสดงข้อมูลเป็นแถวและคอลัมน์',
-            points: [
-                '<code class="code-font text-green-400">&lt;table&gt;</code> สร้างตาราง',
-                '<code class="code-font text-green-400">&lt;tr&gt;</code> สร้างแถว (table row)',
-                '<code class="code-font text-green-400">&lt;th&gt;</code> สร้างหัวตาราง (ตัวหนา) และ <code class="code-font text-green-400">&lt;td&gt;</code> สร้างเซลล์ข้อมูล',
-                '<code class="code-font text-yellow-400">colspan</code> รวมคอลัมน์, <code class="code-font text-yellow-400">rowspan</code> รวมแถว'
-            ],
-            code: `<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;text-align:center;">\n  <tr>\n    <th>ชื่อ</th>\n    <th>อายุ</th>\n    <th>เมือง</th>\n  </tr>\n  <tr>\n    <td>สมชาย</td>\n    <td>25</td>\n    <td>กรุงเทพ</td>\n  </tr>\n  <tr>\n    <td>สมหญิง</td>\n    <td>30</td>\n    <td>เชียงใหม่</td>\n  </tr>\n</table>`,
-            quizzes: [
-                {
-                    q: 'แท็กสำหรับสร้างตารางคืออะไร?',
-                    opts: ['&lt;grid&gt;', '&lt;tab&gt;', '&lt;table&gt;', '&lt;matrix&gt;'],
-                    ans: 2, diff: 'medium'
-                },
-                {
-                    q: '&lt;th&gt; และ &lt;td&gt; ต่างกันอย่างไร?',
-                    opts: [
-                        'ไม่ต่างกัน',
-                        'th คือหัวตาราง (ตัวหนา) td คือเซลล์ข้อมูล',
-                        'th คือเซลล์ข้อมูล td คือหัวตาราง',
-                        'th ใช้แถว td ใช้คอลัมน์'
-                    ],
-                    ans: 1, diff: 'hard'
-                },
-                {
-                    q: 'ถ้าต้องการรวมเซลล์ 2 คอลัมน์เข้าด้วยกัน ต้องใช้ attribute อะไร?',
-                    opts: [
-                        'rowspan="2"',
-                        'merge="2"',
-                        'colspan="2"',
-                        'combine="2"'
-                    ],
-                    ans: 2, diff: 'hard'
-                }
-            ]
-        }
-    ];
+const LVLS=[{m:0,n:'เด็กใหม่',i:'fa-solid fa-seedling'},{m:70,n:'ผู้ฝึกหัด',i:'fa-solid fa-user-graduate'},{m:170,n:'นักเขียนโค้ด',i:'fa-solid fa-code'},{m:300,n:'โปรแกรมเมอร์',i:'fa-solid fa-laptop-code'},{m:450,n:'มาสเตอร์ HTML',i:'fa-solid fa-crown'}];
 
-    // ระดับเลเวล
-    const LEVELS = [
-        { min: 0, name: 'เด็กใหม่', icon: 'fa-solid fa-seedling' },
-        { min: 50, name: 'ผู้ฝึกหัด', icon: 'fa-solid fa-user-graduate' },
-        { min: 120, name: 'นักเขียนโค้ด', icon: 'fa-solid fa-code' },
-        { min: 220, name: 'โปรแกรมเมอร์', icon: 'fa-solid fa-laptop-code' },
-        { min: 320, name: 'มาสเตอร์ HTML', icon: 'fa-solid fa-crown' }
-    ];
+/* ================================================================
+   สถานะเกม
+   ================================================================ */
+const S={screen:'auth',user:null,curL:0,curQ:0,xp:0,coins:0,streak:0,maxStreak:0,
+lScores:{},pDone:{},tDone:{},answered:false,prevLvl:0,
+authTab:'login',authErr:'',
+tSession:{results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0},
+pSubmitted:false,pAllPass:false};
 
-    // คะแนนตามความยาก
-    const DIFF_SCORES = { easy: 10, medium: 20, hard: 30 };
-    const DIFF_COINS = { easy: 1, medium: 2, hard: 3 };
-    const DIFF_LABELS = { easy: 'ง่าย', medium: 'ปานกลาง', hard: 'ยาก' };
+/* ================================================================
+   ระบบเสียง
+   ================================================================ */
+const AX={c:null,
+init(){if(!this.c)this.c=new(window.AudioContext||window.webkitAudioContext)();},
+p(t){try{this.init();const o=this.c.createOscillator(),g=this.c.createGain();o.connect(g);g.connect(this.c.destination);g.gain.value=.06;const n=this.c.currentTime;
+if(t==='ok'){o.frequency.setValueAtTime(523,n);o.frequency.setValueAtTime(659,n+.1);o.frequency.setValueAtTime(784,n+.2);g.gain.exponentialRampToValueAtTime(.001,n+.4);o.start(n);o.stop(n+.4);}
+else if(t==='no'){o.type='sawtooth';o.frequency.setValueAtTime(300,n);o.frequency.exponentialRampToValueAtTime(150,n+.3);g.gain.exponentialRampToValueAtTime(.001,n+.3);o.start(n);o.stop(n+.3);}
+else if(t==='lv'){o.frequency.setValueAtTime(523,n);o.frequency.setValueAtTime(659,n+.12);o.frequency.setValueAtTime(784,n+.24);o.frequency.setValueAtTime(1047,n+.36);g.gain.exponentialRampToValueAtTime(.001,n+.6);o.start(n);o.stop(n+.6);}
+else if(t==='co'){o.type='triangle';o.frequency.setValueAtTime(1200,n);o.frequency.setValueAtTime(1600,n+.06);g.gain.exponentialRampToValueAtTime(.001,n+.15);o.start(n);o.stop(n+.15);}
+else if(t==='cl'){o.type='sine';o.frequency.setValueAtTime(800,n);g.gain.value=.03;g.gain.exponentialRampToValueAtTime(.001,n+.07);o.start(n);o.stop(n+.07);}
+else if(t==='win'){o.frequency.setValueAtTime(523,n);o.frequency.setValueAtTime(659,n+.1);o.frequency.setValueAtTime(784,n+.2);o.frequency.setValueAtTime(1047,n+.3);o.frequency.setValueAtTime(1319,n+.4);g.gain.exponentialRampToValueAtTime(.001,n+.7);o.start(n);o.stop(n+.7);}
+}catch(e){}}};
 
-    // ============================================================
-    // สถานะเกม
-    // ============================================================
-    const state = {
-        screen: 'start',
-        currentLesson: 0,
-        currentQ: 0,
-        xp: 0,
-        coins: 0,
-        streak: 0,
-        maxStreak: 0,
-        lessonScores: {},
-        quizSession: { score: 0, total: 0, answers: [] },
-        answered: false,
-        prevLevel: 0
-    };
+/* ================================================================
+   พื้นหลัง Canvas
+   ================================================================ */
+const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');let bgS=[];
+function initBg(){bgC.width=innerWidth;bgC.height=innerHeight;bgS=[];
+const sy=['<','>','/','=','"','}','{',';','#','</>','<div>','<p>','<h1>'];
+const cn=Math.floor((bgC.width*bgC.height)/30000);
+for(let i=0;i<cn;i++)bgS.push({x:Math.random()*bgC.width,y:Math.random()*bgC.height,s:sy[Math.floor(Math.random()*sy.length)],sz:10+Math.random()*13,sp:.1+Math.random()*.25,op:.03+Math.random()*.06,dr:(Math.random()-.5)*.2});}
+function aBg(){bgX.clearRect(0,0,bgC.width,bgC.height);bgS.forEach(s=>{s.y-=s.sp;s.x+=s.dr;if(s.y<-30){s.y=bgC.height+30;s.x=Math.random()*bgC.width;}if(s.x<-30)s.x=bgC.width+30;if(s.x>bgC.width+30)s.x=-30;bgX.font=`${s.sz}px "Fira Code",monospace`;bgX.fillStyle=`rgba(0,255,136,${s.op})`;bgX.fillText(s.s,s.x,s.y);});requestAnimationFrame(aBg);}
+addEventListener('resize',()=>{bgC.width=innerWidth;bgC.height=innerHeight;});
 
-    // ============================================================
-    // ระบบเสียง
-    // ============================================================
-    const Audio = {
-        ctx: null,
-        init() {
-            if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-        },
-        play(type) {
-            try {
-                this.init();
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                gain.gain.value = 0.08;
-                const now = this.ctx.currentTime;
+/* ================================================================
+   ฟังก์ชันช่วยเหลือ
+   ================================================================ */
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function hlC(c){let h=esc(c);h=h.replace(/(&lt;!--[\s\S]*?--&gt;)/g,'<span class="cmt">$1</span>');h=h.replace(/(&lt;!DOCTYPE\s+html&gt;)/gi,'<span class="doctype">$1</span>');h=h.replace(/(&lt;\/?)([\w-]+)/g,'$1<span class="tag">$2</span>');h=h.replace(/([\w-]+)(=)(&quot;)(.*?)(&quot;)/g,'<span class="attr">$1</span>$2<span class="val">$3$4$5</span>');return h;}
+function gLv(xp){let l=LVLS[0];for(const v of LVLS)if(xp>=v.m)l=v;return l;}
+function gLi(xp){let i=0;for(let j=0;j<LVLS.length;j++)if(xp>=LVLS[j].m)i=j;return i;}
+function gNx(xp){const i=gLi(xp);return i>=LVLS.length-1?LVLS[i].m:LVLS[i+1].m;}
+function gCx(xp){return LVLS[gLi(xp)].m;}
+function gSt(id){return S.lScores[id]?'done':(id===1||S.lScores[id-1]?'cur':'locked');}
+function allDone(){return L.every(l=>S.lScores[l.id]);}
+function gBody(c){const m=c.match(/<body[^>]*>([\s\S]*?)<\/body>/i);return m?m[1]:c;}
+function toast(m,t='s'){const c=document.getElementById('tc');const d=document.createElement('div');d.className=`sb sb-${t}`;const ic={s:'fa-circle-check',e:'fa-circle-xmark',i:'fa-circle-info'};d.innerHTML=`<i class="fa-solid ${ic[t]||ic.i}"></i><span>${m}</span>`;c.appendChild(d);setTimeout(()=>d.classList.add('lv'),2500);setTimeout(()=>d.remove(),2900);}
+function conf(n=40){const cs=['#00ff88','#e3b341','#ff6b6b','#79c0ff','#ffa657','#d2a8ff'];for(let i=0;i<n;i++){const p=document.createElement('div');p.className='confetti';p.style.left=Math.random()*100+'vw';p.style.background=cs[Math.floor(Math.random()*cs.length)];p.style.width=(6+Math.random()*8)+'px';p.style.height=(6+Math.random()*8)+'px';p.style.borderRadius=Math.random()>.5?'50%':'2px';p.style.animationDuration=(2+Math.random()*3)+'s';p.style.animationDelay=Math.random()*1.2+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),5500);}}
 
-                if (type === 'correct') {
-                    osc.frequency.setValueAtTime(523, now);
-                    osc.frequency.setValueAtTime(659, now + 0.1);
-                    osc.frequency.setValueAtTime(784, now + 0.2);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-                    osc.start(now); osc.stop(now + 0.4);
-                } else if (type === 'wrong') {
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(300, now);
-                    osc.frequency.exponentialRampToValueAtTime(150, now + 0.3);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-                    osc.start(now); osc.stop(now + 0.3);
-                } else if (type === 'levelup') {
-                    osc.frequency.setValueAtTime(523, now);
-                    osc.frequency.setValueAtTime(659, now + 0.12);
-                    osc.frequency.setValueAtTime(784, now + 0.24);
-                    osc.frequency.setValueAtTime(1047, now + 0.36);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-                    osc.start(now); osc.stop(now + 0.6);
-                } else if (type === 'coin') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(1200, now);
-                    osc.frequency.setValueAtTime(1600, now + 0.06);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-                    osc.start(now); osc.stop(now + 0.15);
-                } else if (type === 'click') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(800, now);
-                    gain.gain.value = 0.04;
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-                    osc.start(now); osc.stop(now + 0.08);
-                }
-            } catch (e) { /* เงียบถ้าไม่รองรับ */ }
-        }
-    };
+/* ================================================================
+   ระบบ Auth (localStorage)
+   ================================================================ */
+function getUsers(){try{return JSON.parse(localStorage.getItem('hq_users'))||[];}catch(e){return[];}}
+function saveUsers(u){localStorage.setItem('hq_users',JSON.stringify(u));}
+function getUser(name){return getUsers().find(u=>u.username===name);}
+function regUser(name,pw,role){
+    if(getUser(name))return'ชื่อผู้ใช้นี้มีอยู่แล้ว';
+    if(name.length<2)return'ชื่อผู้ใช้ต้องมีอย่างน้อย 2 ตัวอักษร';
+    if(pw.length<3)return'รหัสผ่านต้องมีอย่างน้อย 3 ตัวอักษร';
+    const users=getUsers();users.push({username:name,password:pw,role,xp:0,coins:0,lScores:{},pDone:{},tDone:{},maxStreak:0});saveUsers(users);return'ok';
+}
+function loginUser(name,pw){
+    const u=getUser(name);if(!u)return'ไม่พบชื่อผู้ใช้นี้';
+    if(u.password!==pw)return'รหัสผ่านไม่ถูกต้อง';return u;
+}
+function saveCurUser(){
+    if(!S.user)return;const users=getUsers();
+    const i=users.findIndex(u=>u.username===S.user.username);
+    if(i>=0){users[i]={...users[i],xp:S.xp,coins:S.coins,lScores:S.lScores,pDone:S.pDone,tDone:S.tDone,maxStreak:S.maxStreak};saveUsers(users);}
+}
+function loadUserData(u){S.xp=u.xp||0;S.coins=u.coins||0;S.lScores=u.lScores||{};S.pDone=u.pDone||{};S.tDone=u.tDone||{};S.maxStreak=u.maxStreak||0;S.prevLvl=gLi(S.xp);}
 
-    // ============================================================
-    // พื้นหลัง Canvas - สัญลักษณ์ลอย
-    // ============================================================
-    const bgCanvas = document.getElementById('bgCanvas');
-    const bgCtx = bgCanvas.getContext('2d');
-    let bgSymbols = [];
+/* ================================================================
+   เรนเดอร์
+   ================================================================ */
+const app=document.getElementById('app');
+function R(){switch(S.screen){
+    case 'auth':rAuth();break;case 'admin':rAdmin();break;case 'map':rMap();break;
+    case 'lesson':rLesson();break;case 'practice':rPractice();break;
+    case 'testIntro':rTestIntro();break;case 'test':rTest();break;
+    case 'testResult':rTestResult();break;case 'complete':rComplete();break;
+}}
 
-    function initBg() {
-        bgCanvas.width = window.innerWidth;
-        bgCanvas.height = window.innerHeight;
-        bgSymbols = [];
-        const symbols = ['<', '>', '/', '=', '"', '}', '{', ';', '#', '<>', '</>', '<div>', '<p>'];
-        const count = Math.floor((bgCanvas.width * bgCanvas.height) / 25000);
-        for (let i = 0; i < count; i++) {
-            bgSymbols.push({
-                x: Math.random() * bgCanvas.width,
-                y: Math.random() * bgCanvas.height,
-                symbol: symbols[Math.floor(Math.random() * symbols.length)],
-                size: 10 + Math.random() * 14,
-                speed: 0.15 + Math.random() * 0.35,
-                opacity: 0.04 + Math.random() * 0.08,
-                drift: (Math.random() - 0.5) * 0.3
-            });
-        }
-    }
-
-    function animateBg() {
-        bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-        bgCtx.font = 'normal normal 14px "Fira Code", monospace';
-        bgSymbols.forEach(s => {
-            s.y -= s.speed;
-            s.x += s.drift;
-            if (s.y < -30) { s.y = bgCanvas.height + 30; s.x = Math.random() * bgCanvas.width; }
-            if (s.x < -30) s.x = bgCanvas.width + 30;
-            if (s.x > bgCanvas.width + 30) s.x = -30;
-            bgCtx.font = `${s.size}px "Fira Code", monospace`;
-            bgCtx.fillStyle = `rgba(0, 255, 136, ${s.opacity})`;
-            bgCtx.fillText(s.symbol, s.x, s.y);
-        });
-        requestAnimationFrame(animateBg);
-    }
-
-    window.addEventListener('resize', () => {
-        bgCanvas.width = window.innerWidth;
-        bgCanvas.height = window.innerHeight;
-    });
-
-    // ============================================================
-    // ฟังก์ชันช่วยเหลือ
-    // ============================================================
-    function escapeHtml(str) {
-        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-    function highlightCode(code) {
-        let html = escapeHtml(code);
-        // คอมเมนต์
-        html = html.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="cmt">$1</span>');
-        // DOCTYPE
-        html = html.replace(/(&lt;!DOCTYPE\s+html&gt;)/gi, '<span class="doctype">$1</span>');
-        // แท็กเปิดและปิด
-        html = html.replace(/(&lt;\/?)([\w-]+)/g, '$1<span class="tag">$2</span>');
-        // attribute="value"
-        html = html.replace(/([\w-]+)(=)(&quot;)(.*?)(&quot;)/g, '<span class="attr">$1</span>$2<span class="val">$3$4$5</span>');
-        return html;
-    }
-
-    function getLevel(xp) {
-        let level = LEVELS[0];
-        for (const l of LEVELS) {
-            if (xp >= l.min) level = l;
-        }
-        return level;
-    }
-
-    function getLevelIndex(xp) {
-        let idx = 0;
-        for (let i = 0; i < LEVELS.length; i++) {
-            if (xp >= LEVELS[i].min) idx = i;
-        }
-        return idx;
-    }
-
-    function getNextLevelXp(xp) {
-        const idx = getLevelIndex(xp);
-        if (idx >= LEVELS.length - 1) return LEVELS[idx].min;
-        return LEVELS[idx + 1].min;
-    }
-
-    function getCurrentLevelXp(xp) {
-        return LEVELS[getLevelIndex(xp)].min;
-    }
-
-    function getLessonStatus(id) {
-        return state.lessonScores[id] ? 'completed' : (id === 1 || state.lessonScores[id - 1] ? 'current' : 'locked');
-    }
-
-    function isAllCompleted() {
-        return LESSONS.every(l => state.lessonScores[l.id]);
-    }
-
-    function showToast(message, type = 'success') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
-        toast.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i><span>${message}</span>`;
-        container.appendChild(toast);
-        setTimeout(() => { toast.classList.add('leaving'); }, 2500);
-        setTimeout(() => { toast.remove(); }, 2900);
-    }
-
-    function spawnConfetti(count = 60) {
-        const colors = ['#00ff88', '#e3b341', '#ff6b6b', '#79c0ff', '#ffa657', '#d2a8ff'];
-        for (let i = 0; i < count; i++) {
-            const piece = document.createElement('div');
-            piece.className = 'confetti-piece';
-            piece.style.left = Math.random() * 100 + 'vw';
-            piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-            piece.style.width = (6 + Math.random() * 8) + 'px';
-            piece.style.height = (6 + Math.random() * 8) + 'px';
-            piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-            piece.style.animationDuration = (2 + Math.random() * 3) + 's';
-            piece.style.animationDelay = Math.random() * 1.5 + 's';
-            document.body.appendChild(piece);
-            setTimeout(() => piece.remove(), 6000);
-        }
-    }
-
-    function saveProgress() {
-        localStorage.setItem('htmlQuest', JSON.stringify({
-            xp: state.xp, coins: state.coins,
-            lessonScores: state.lessonScores, maxStreak: state.maxStreak
-        }));
-    }
-
-    function loadProgress() {
-        try {
-            const saved = localStorage.getItem('htmlQuest');
-            if (saved) {
-                const data = JSON.parse(saved);
-                state.xp = data.xp || 0;
-                state.coins = data.coins || 0;
-                state.lessonScores = data.lessonScores || {};
-                state.maxStreak = data.maxStreak || 0;
-                state.prevLevel = getLevelIndex(state.xp);
-            }
-        } catch (e) { /* เริ่มใหม่ถ้าข้อมูลเสียหาย */ }
-    }
-
-    // ============================================================
-    // ฟังก์ชันเรนเดอร์
-    // ============================================================
-    const app = document.getElementById('app');
-
-    function render() {
-        switch (state.screen) {
-            case 'start': renderStart(); break;
-            case 'map': renderMap(); break;
-            case 'lesson': renderLesson(); break;
-            case 'quiz': renderQuiz(); break;
-            case 'quizResult': renderQuizResult(); break;
-            case 'complete': renderComplete(); break;
-        }
-    }
-
-    // --- หน้าเริ่มต้น ---
-    function renderStart() {
-        app.innerHTML = `
-        <div class="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-            <div class="animate-fadeInUp">
-                <div class="text-6xl md:text-8xl font-black tracking-tight mb-4 animate-glow" style="color:var(--accent);">
-                    HTML QUEST
-                </div>
-                <p class="text-lg md:text-xl mb-2" style="color:var(--muted);">
-                    เกมเรียนรู้ HTML แบบเล่นเกม ทำแบบทดสอบ สะสมคะแนน
-                </p>
-                <p class="text-sm mb-10" style="color:var(--border);">
-                    6 บทเรียน / 18 คำถาม / 3 ระดับความยาก
-                </p>
+/* --- แถบด้านบน --- */
+function tBar(){
+    const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);
+    const pct=nx>cx?((S.xp-cx)/(nx-cx))*100:100;
+    return `<header class="sticky top-0 z-50 asd" style="background:rgba(13,17,23,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
+    <div class="max-w-4xl mx-auto px-4 py-3">
+        <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+                <button class="bs bsm" data-action="logout" title="ออกจากระบบ"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--accent);"><i class="${lv.i}"></i> Lv.${li+1} ${lv.n}</span>
+                <span class="text-xs px-2 py-1 rounded-full" style="background:var(--card2);color:var(--muted);">${S.user?S.user.username:''}</span>
             </div>
-            <div class="animate-fadeInUp stagger-2">
-                <button class="btn-primary text-lg px-12 py-4" data-action="startGame">
-                    <i class="fa-solid fa-play mr-2"></i>เริ่มเกม
-                </button>
+            <div class="flex items-center gap-4 text-sm">
+                ${S.streak>1?`<span class="flex items-center gap-1" style="color:#ff6b6b;"><i class="fa-solid fa-fire"></i> ${S.streak}x</span>`:''}
+                <span class="flex items-center gap-1 coin-i"><i class="fa-solid fa-coins"></i> ${S.coins}</span>
+                <span class="flex items-center gap-1" style="color:var(--accent);"><i class="fa-solid fa-star"></i> ${S.xp}</span>
             </div>
-            ${state.xp > 0 ? `
-            <div class="mt-8 animate-fadeInUp stagger-3 text-sm" style="color:var(--muted);">
-                <i class="fa-solid fa-rotate-right mr-1"></i> ดำเนินการต่อจากเดิม (Level ${getLevelIndex(state.xp) + 1})
-            </div>` : ''}
-            <div class="mt-16 animate-fadeIn stagger-4 flex gap-8 text-center" style="color:var(--muted);">
-                <div><i class="fa-solid fa-book-open text-2xl mb-2" style="color:var(--accent);"></i><br><span class="text-xs">เรียนรู้</span></div>
-                <div><i class="fa-solid fa-pen-to-square text-2xl mb-2" style="color:var(--gold);"></i><br><span class="text-xs">ทดสอบ</span></div>
-                <div><i class="fa-solid fa-trophy text-2xl mb-2" style="color:var(--danger);"></i><br><span class="text-xs">สะสมคะแนน</span></div>
+        </div>
+        <div class="xp-outer"><div class="xp-inner" style="width:${Math.min(pct,100)}%"></div></div>
+        <div class="flex justify-between mt-1 text-xs" style="color:var(--muted);"><span>${S.xp} XP</span><span>${nx>cx?nx+' XP':'MAX'}</span></div>
+    </div></header>`;
+}
+
+/* --- หน้า Auth --- */
+function rAuth(){
+    const isL=S.authTab==='login';
+    app.innerHTML=`<div class="min-h-screen flex items-center justify-center px-4">
+    <div class="auth-card afiu">
+        <div class="text-center mb-6">
+            <div class="text-4xl font-black agl mb-2" style="color:var(--accent);">HTML QUEST</div>
+            <p class="text-sm" style="color:var(--muted);">เข้าสู่ระบบเพื่อเริ่มเรียนรู้</p>
+        </div>
+        <div class="gc p-6">
+            <div class="flex mb-6" style="border-bottom:1px solid var(--border);">
+                <div class="tab-btn ${isL?'active':''}" data-action="authTab" data-tab="login">เข้าสู่ระบบ</div>
+                <div class="tab-btn ${!isL?'active':''}" data-action="authTab" data-tab="register">สมัครสมาชิก</div>
             </div>
-        </div>`;
-    }
-
-    // --- แถบด้านบน ---
-    function renderTopBar() {
-        const lvl = getLevel(state.xp);
-        const lvlIdx = getLevelIndex(state.xp);
-        const curXp = getCurrentLevelXp(state.xp);
-        const nextXp = getNextLevelXp(state.xp);
-        const progress = nextXp > curXp ? ((state.xp - curXp) / (nextXp - curXp)) * 100 : 100;
-
-        return `
-        <header class="sticky top-0 z-50 animate-slideDown" style="background:rgba(13,17,23,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);">
-            <div class="max-w-3xl mx-auto px-4 py-3">
-                <div class="flex items-center justify-between mb-2">
-                    <div class="flex items-center gap-3">
-                        <span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--accent);">
-                            <i class="${lvl.icon}"></i> Lv.${lvlIdx + 1} ${lvl.name}
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-4 text-sm">
-                        ${state.streak > 1 ? `<span class="flex items-center gap-1" style="color:#ff6b6b;"><i class="fa-solid fa-fire"></i> ${state.streak}x</span>` : ''}
-                        <span class="flex items-center gap-1 coin-icon"><i class="fa-solid fa-coins"></i> ${state.coins}</span>
-                        <span class="flex items-center gap-1" style="color:var(--accent);"><i class="fa-solid fa-star"></i> ${state.xp} XP</span>
-                    </div>
+            ${S.authErr?`<div class="err-b mb-4 text-sm"><i class="fa-solid fa-circle-xmark" style="color:var(--danger);"></i><span>${S.authErr}</span></div>`:''}
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">ชื่อผู้ใช้</label>
+                    <input type="text" id="authUser" class="input-field" placeholder="กรอกชื่อผู้ใช้" value="${isL?'':document.getElementById('authUser')?.value||''}">
                 </div>
-                <div class="xp-bar-outer">
-                    <div class="xp-bar-inner" style="width:${Math.min(progress, 100)}%"></div>
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">รหัสผ่าน</label>
+                    <input type="password" id="authPw" class="input-field" placeholder="กรอกรหัสผ่าน">
                 </div>
-                <div class="flex justify-between mt-1 text-xs" style="color:var(--muted);">
-                    <span>${state.xp} XP</span>
-                    <span>${nextXp > curXp ? nextXp + ' XP' : 'MAX'}</span>
+                ${!isL?`
+                <div>
+                    <label class="text-sm font-semibold mb-1 block" style="color:var(--muted);">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="authPw2" class="input-field" placeholder="กรอกรหัสผ่านอีกครั้ง">
                 </div>
-            </div>
-        </header>`;
-    }
-
-    // --- หน้าแผนที่ ---
-    function renderMap() {
-        let nodesHtml = '';
-        LESSONS.forEach((lesson, i) => {
-            const status = getLessonStatus(lesson.id);
-            const score = state.lessonScores[lesson.id];
-            const isCompleted = status === 'completed';
-            const isCurrent = status === 'current';
-            const isLocked = status === 'locked';
-
-            if (i > 0) {
-                const connDone = getLessonStatus(LESSONS[i - 1].id) === 'completed';
-                nodesHtml += `<div class="map-connector ${connDone ? 'done' : 'pending'}"></div>`;
-            }
-
-            nodesHtml += `
-            <div class="map-node ${status} animate-fadeInUp stagger-${Math.min(i + 1, 6)}" data-action="${isLocked ? '' : 'selectLesson'}" data-id="${lesson.id}">
-                <div class="game-card p-4 flex items-center gap-4 max-w-md mx-auto" style="${isCurrent ? 'border-color:var(--accent);box-shadow:0 0 20px rgba(0,255,136,0.1);' : ''}">
-                    <div class="node-circle flex-shrink-0">
-                        ${isCompleted ? '<i class="fa-solid fa-check" style="color:var(--bg);"></i>' :
-                          isLocked ? '<i class="fa-solid fa-lock" style="color:var(--muted);"></i>' :
-                          `<i class="${lesson.icon}" style="color:var(--accent);"></i>`}
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="text-xs font-semibold" style="color:var(--muted);">บทที่ ${lesson.id}</span>
-                            ${isCompleted && score ? `<span class="text-xs" style="color:var(--accent);">${score.score}/${score.total}</span>` : ''}
+                <div>
+                    <label class="text-sm font-semibold mb-2 block" style="color:var(--muted);">บทบาท</label>
+                    <div class="flex gap-3">
+                        <div class="role-opt ${S._role!=='admin'?'sel':''}" data-action="setRole" data-role="student">
+                            <i class="fa-solid fa-user-graduate text-lg mb-1" style="color:var(--accent);"></i>
+                            <div class="text-sm font-semibold">ผู้เรียน</div>
                         </div>
-                        <div class="font-semibold text-sm md:text-base truncate">${lesson.title}</div>
-                        ${isCurrent ? '<div class="text-xs mt-1" style="color:var(--accent);"><i class="fa-solid fa-arrow-right mr-1"></i>เลือกเพื่อเริ่มเรียน</div>' : ''}
-                        ${isCompleted ? '<div class="text-xs mt-1" style="color:var(--muted);"><i class="fa-solid fa-circle-check mr-1"></i>เรียนรู้แล้ว</div>' : ''}
-                    </div>
-                    ${!isLocked ? '<i class="fa-solid fa-chevron-right" style="color:var(--muted);"></i>' : ''}
-                </div>
-            </div>`;
-        });
-
-        app.innerHTML = `
-        ${renderTopBar()}
-        <main class="max-w-3xl mx-auto px-4 py-8">
-            <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">แผนที่การเรียนรู้</h1>
-            <p class="text-center mb-10" style="color:var(--muted);">เลือกบทเรียนเพื่อเริ่มเรียนรู้และทดสอบ</p>
-            <div class="flex flex-col items-center gap-0">
-                ${nodesHtml}
-            </div>
-            ${state.xp > 0 ? `
-            <div class="mt-10 text-center">
-                <button class="btn-secondary text-sm" data-action="resetProgress">
-                    <i class="fa-solid fa-rotate-left mr-2"></i>รีเซ็ตความคืบหน้า
-                </button>
-            </div>` : ''}
-        </main>`;
-    }
-
-    // --- หน้าบทเรียน ---
-    function renderLesson() {
-        const lesson = LESSONS[state.currentLesson];
-        const previewHtml = lesson.code.replace(/\n/g, ' ');
-
-        app.innerHTML = `
-        ${renderTopBar()}
-        <main class="max-w-3xl mx-auto px-4 py-8">
-            <button class="btn-secondary text-sm mb-6" data-action="backToMap">
-                <i class="fa-solid fa-arrow-left mr-2"></i>กลับแผนที่
-            </button>
-
-            <div class="animate-fadeInUp">
-                <div class="flex items-center gap-3 mb-2">
-                    <span class="text-sm font-semibold px-3 py-1 rounded-full" style="background:rgba(0,255,136,0.1);color:var(--accent);">บทที่ ${lesson.id}</span>
-                </div>
-                <h1 class="text-2xl md:text-3xl font-bold mb-2">${lesson.title}</h1>
-                <p class="mb-6" style="color:var(--muted);">${lesson.desc}</p>
-            </div>
-
-            <!-- จุดสำคัญ -->
-            <div class="game-card p-6 mb-6 animate-fadeInUp stagger-1">
-                <h2 class="font-bold text-lg mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i> สิ่งที่ต้องรู้
-                </h2>
-                <ul class="space-y-3">
-                    ${lesson.points.map(p => `
-                        <li class="flex items-start gap-3 text-sm leading-relaxed">
-                            <i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:0.7rem;"></i>
-                            <span>${p}</span>
-                        </li>
-                    `).join('')}
-                </ul>
-            </div>
-
-            <!-- โค้ดตัวอย่าง -->
-            <div class="animate-fadeInUp stagger-2 mb-3">
-                <div class="flex items-center gap-2 mb-2">
-                    <i class="fa-solid fa-code" style="color:var(--accent);"></i>
-                    <span class="font-semibold text-sm">โค้ดตัวอย่าง</span>
-                </div>
-                <div class="code-block">${highlightCode(lesson.code)}</div>
-            </div>
-
-            <!-- พรีวิว -->
-            <div class="animate-fadeInUp stagger-3 mb-8">
-                <div class="flex items-center gap-2 mb-2">
-                    <i class="fa-solid fa-eye" style="color:var(--gold);"></i>
-                    <span class="font-semibold text-sm">ผลลัพธ์บนเบราว์เซอร์</span>
-                </div>
-                <div class="preview-frame">
-                    <div class="preview-bar">
-                        <div class="preview-dot" style="background:#ff5f57;"></div>
-                        <div class="preview-dot" style="background:#febc2e;"></div>
-                        <div class="preview-dot" style="background:#28c840;"></div>
-                        <span class="ml-3 text-xs" style="color:var(--muted);">preview</span>
-                    </div>
-                    <iframe srcdoc="${escapeHtml(lesson.code)}" sandbox="allow-scripts" title="ตัวอย่างผลลัพธ์"></iframe>
-                </div>
-            </div>
-
-            <div class="text-center animate-fadeInUp stagger-4">
-                <button class="btn-primary text-lg" data-action="startQuiz">
-                    <i class="fa-solid fa-pen-to-square mr-2"></i>เริ่มทดสอบ (${lesson.quizzes.length} คำถาม)
-                </button>
-            </div>
-        </main>`;
-    }
-
-    // --- หน้าคำถาม ---
-    function renderQuiz() {
-        const lesson = LESSONS[state.currentLesson];
-        const quiz = lesson.quizzes[state.currentQ];
-        const total = lesson.quizzes.length;
-        const letters = ['A', 'B', 'C', 'D'];
-
-        app.innerHTML = `
-        ${renderTopBar()}
-        <main class="max-w-3xl mx-auto px-4 py-8">
-            <!-- แถบความคืบหน้าของคำถาม -->
-            <div class="flex items-center gap-3 mb-8 animate-slideDown">
-                <span class="text-sm font-semibold" style="color:var(--accent);">คำถาม ${state.currentQ + 1}/${total}</span>
-                <div class="flex-1 h-2 rounded-full" style="background:var(--border);">
-                    <div class="h-full rounded-full transition-all duration-500" style="background:var(--accent);width:${((state.currentQ) / total) * 100}%;"></div>
-                </div>
-                <span class="diff-badge diff-${quiz.diff}">${DIFF_LABELS[quiz.diff]}</span>
-            </div>
-
-            <!-- คำถาม -->
-            <div class="game-card p-6 md:p-8 mb-6 animate-fadeInUp">
-                <h2 class="text-lg md:text-xl font-bold leading-relaxed">${quiz.q}</h2>
-            </div>
-
-            <!-- ตัวเลือก -->
-            <div class="space-y-3" id="options-container">
-                ${quiz.opts.map((opt, i) => `
-                    <div class="quiz-option animate-fadeInUp stagger-${i + 1}" data-action="answer" data-idx="${i}">
-                        <span class="option-letter">${letters[i]}</span>
-                        <span class="flex-1">${opt}</span>
-                    </div>
-                `).join('')}
-            </div>
-
-            <!-- ผลลัพธ์หลังตอบ -->
-            <div id="answer-feedback" class="mt-6" style="display:none;"></div>
-
-            <!-- ปุ่มถัดไป -->
-            <div id="next-btn-container" class="mt-6 text-center" style="display:none;"></div>
-        </main>`;
-    }
-
-    // --- หน้าผลลัพธ์คำถาม ---
-    function renderQuizResult() {
-        const lesson = LESSONS[state.currentLesson];
-        const s = state.quizSession;
-        const pct = s.total > 0 ? Math.round((s.score / s.total) * 100) : 0;
-        const passed = pct >= 60;
-
-        app.innerHTML = `
-        ${renderTopBar()}
-        <main class="max-w-3xl mx-auto px-4 py-8 text-center">
-            <div class="animate-fadeInUp">
-                <div class="text-6xl mb-4">${passed ? '<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>' : '<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div>
-                <h1 class="text-2xl md:text-3xl font-bold mb-2">${passed ? 'ยอดเยี่ยม!' : 'ลองอีกครั้ง!'}</h1>
-                <p class="mb-8" style="color:var(--muted);">${lesson.title}</p>
-            </div>
-
-            <div class="game-card p-8 mb-6 animate-fadeInUp stagger-1" style="animation:scoreCount 0.5s ease;">
-                <div class="text-5xl font-black mb-2" style="color:${passed ? 'var(--accent)' : 'var(--danger)'};">${pct}%</div>
-                <div class="text-lg mb-6" style="color:var(--muted);">${s.score} / ${s.total} ข้อ</div>
-
-                <!-- รายละเอียดแต่ละข้อ -->
-                <div class="space-y-2 text-left mb-6">
-                    ${s.answers.map((a, i) => {
-                        const quiz = lesson.quizzes[i];
-                        return `
-                        <div class="flex items-center gap-3 p-3 rounded-lg text-sm" style="background:${a.correct ? 'rgba(0,255,136,0.08)' : 'rgba(255,107,107,0.08)'};">
-                            <i class="fa-solid ${a.correct ? 'fa-circle-check' : 'fa-circle-xmark'}" style="color:${a.correct ? 'var(--accent)' : 'var(--danger)'};"></i>
-                            <span class="flex-1 truncate">คำถาม ${i + 1}: ${quiz.q}</span>
-                            <span class="diff-badge diff-${quiz.diff} text-xs">+${a.correct ? (DIFF_SCORES[quiz.diff] + (a.streakBonus || 0)) : 0}</span>
-                        </div>`;
-                    }).join('')}
-                </div>
-
-                <!-- สถิติ -->
-                <div class="grid grid-cols-3 gap-4 text-center">
-                    <div class="p-3 rounded-lg" style="background:var(--card2);">
-                        <div class="text-xl font-bold" style="color:var(--accent);">+${s.xpEarned}</div>
-                        <div class="text-xs" style="color:var(--muted);">XP</div>
-                    </div>
-                    <div class="p-3 rounded-lg" style="background:var(--card2);">
-                        <div class="text-xl font-bold coin-icon">+${s.coinsEarned}</div>
-                        <div class="text-xs" style="color:var(--muted);">เหรียญ</div>
-                    </div>
-                    <div class="p-3 rounded-lg" style="background:var(--card2);">
-                        <div class="text-xl font-bold" style="color:#ff6b6b;">${s.maxStreakInSession}x</div>
-                        <div class="text-xs" style="color:var(--muted);">Streak</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-3 justify-center animate-fadeInUp stagger-2">
-                ${!passed ? `<button class="btn-secondary" data-action="retryQuiz"><i class="fa-solid fa-rotate-right mr-2"></i>ลองอีกครั้ง</button>` : ''}
-                <button class="btn-primary" data-action="backToMap">
-                    <i class="fa-solid fa-map mr-2"></i>${isAllCompleted() ? 'ดูผลลัพธ์สุดท้าย' : 'กลับแผนที่'}
-                </button>
-            </div>
-        </main>`;
-
-        if (passed) spawnConfetti(40);
-    }
-
-    // --- หน้าจบเกม ---
-    function renderComplete() {
-        const totalQ = LESSONS.reduce((s, l) => s + l.quizzes.length, 0);
-        const totalCorrect = Object.values(state.lessonScores).reduce((s, v) => s + v.score, 0);
-        const pct = Math.round((totalCorrect / totalQ) * 100);
-        const lvlIdx = getLevelIndex(state.xp);
-
-        app.innerHTML = `
-        ${renderTopBar()}
-        <main class="max-w-3xl mx-auto px-4 py-8 text-center">
-            <div class="animate-fadeInUp">
-                <div class="text-7xl mb-4 animate-float"><i class="fa-solid fa-crown" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,0.5));"></i></div>
-                <h1 class="text-3xl md:text-4xl font-black mb-2 animate-glow" style="color:var(--accent);">สำเร็จการเรียนรู้!</h1>
-                <p class="text-lg mb-10" style="color:var(--muted);">คุณได้เรียนรู้ HTML พื้นฐานครบทุกบทแล้ว</p>
-            </div>
-
-            <div class="game-card p-8 mb-8 animate-fadeInUp stagger-1" style="animation:scoreCount 0.6s ease;">
-                <div class="text-6xl font-black mb-2" style="color:var(--accent);">${pct}%</div>
-                <p class="mb-6" style="color:var(--muted);">คะแนนรวมทุกบท</p>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="p-4 rounded-xl" style="background:var(--card2);">
-                        <i class="fa-solid fa-star text-xl mb-2" style="color:var(--accent);"></i>
-                        <div class="text-2xl font-bold">${state.xp}</div>
-                        <div class="text-xs" style="color:var(--muted);">XP ทั้งหมด</div>
-                    </div>
-                    <div class="p-4 rounded-xl" style="background:var(--card2);">
-                        <i class="fa-solid fa-coins text-xl mb-2 coin-icon"></i>
-                        <div class="text-2xl font-bold">${state.coins}</div>
-                        <div class="text-xs" style="color:var(--muted);">เหรียญทั้งหมด</div>
-                    </div>
-                    <div class="p-4 rounded-xl" style="background:var(--card2);">
-                        <i class="fa-solid ${LEVELS[lvlIdx].icon} text-xl mb-2" style="color:var(--gold);"></i>
-                        <div class="text-2xl font-bold">Lv.${lvlIdx + 1}</div>
-                        <div class="text-xs" style="color:var(--muted);">${LEVELS[lvlIdx].name}</div>
-                    </div>
-                    <div class="p-4 rounded-xl" style="background:var(--card2);">
-                        <i class="fa-solid fa-fire text-xl mb-2" style="color:#ff6b6b;"></i>
-                        <div class="text-2xl font-bold">${state.maxStreak}x</div>
-                        <div class="text-xs" style="color:var(--muted);">Streak สูงสุด</div>
-                    </div>
-                </div>
-
-                <!-- สรุปแต่ละบท -->
-                <div class="space-y-2 text-left">
-                    ${LESSONS.map(l => {
-                        const sc = state.lessonScores[l.id];
-                        const lp = sc ? Math.round((sc.score / sc.total) * 100) : 0;
-                        return `
-                        <div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--card2);">
-                            <i class="${l.icon}" style="color:var(--accent);width:20px;text-align:center;"></i>
-                            <span class="flex-1 text-sm">${l.title}</span>
-                            <span class="text-sm font-bold" style="color:${lp >= 60 ? 'var(--accent)' : 'var(--danger)'};">${sc ? sc.score + '/' + sc.total : '-'}</span>
-                        </div>`;
-                    }).join('')}
-                </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-3 justify-center animate-fadeInUp stagger-2">
-                <button class="btn-secondary" data-action="backToMap"><i class="fa-solid fa-map mr-2"></i>ดูแผนที่</button>
-                <button class="btn-primary" data-action="resetProgress"><i class="fa-solid fa-rotate-left mr-2"></i>เล่นใหม่ทั้งหมด</button>
-            </div>
-        </main>`;
-
-        spawnConfetti(100);
-    }
-
-    // ============================================================
-    // จัดการ Event
-    // ============================================================
-    app.addEventListener('click', (e) => {
-        const btn = e.target.closest('[data-action]');
-        if (!btn) return;
-        const action = btn.dataset.action;
-        Audio.play('click');
-
-        switch (action) {
-            case 'startGame':
-                state.screen = 'map';
-                render();
-                break;
-
-            case 'backToMap':
-                state.screen = isAllCompleted() ? 'complete' : 'map';
-                render();
-                break;
-
-            case 'selectLesson': {
-                const id = parseInt(btn.dataset.id);
-                if (getLessonStatus(id) === 'locked') return;
-                state.currentLesson = id - 1;
-                state.screen = 'lesson';
-                render();
-                break;
-            }
-
-            case 'startQuiz':
-                state.currentQ = 0;
-                state.streak = 0;
-                state.quizSession = { score: 0, total: LESSONS[state.currentLesson].quizzes.length, answers: [], xpEarned: 0, coinsEarned: 0, maxStreakInSession: 0 };
-                state.answered = false;
-                state.screen = 'quiz';
-                render();
-                break;
-
-            case 'answer': {
-                if (state.answered) return;
-                state.answered = true;
-                const idx = parseInt(btn.dataset.idx);
-                const lesson = LESSONS[state.currentLesson];
-                const quiz = lesson.quizzes[state.currentQ];
-                const isCorrect = idx === quiz.ans;
-
-                // ไฮไลท์ตัวเลือก
-                const options = document.querySelectorAll('.quiz-option');
-                options.forEach((opt, i) => {
-                    opt.classList.add('disabled');
-                    if (i === quiz.ans) opt.classList.add('correct');
-                    if (i === idx && !isCorrect) opt.classList.add('wrong');
-                });
-
-                // คำนวณคะแนน
-                let xpGain = 0;
-                let coinGain = 0;
-                let streakBonus = 0;
-
-                if (isCorrect) {
-                    state.streak++;
-                    if (state.streak > state.maxStreak) state.maxStreak = state.streak;
-                    streakBonus = Math.max(0, (state.streak - 1)) * 5;
-                    xpGain = DIFF_SCORES[quiz.diff] + streakBonus;
-                    coinGain = DIFF_COINS[quiz.diff];
-                    state.xp += xpGain;
-                    state.coins += coinGain;
-                    state.quizSession.score++;
-                    state.quizSession.xpEarned += xpGain;
-                    state.quizSession.coinsEarned += coinGain;
-                    Audio.play('correct');
-                    if (coinGain > 0) setTimeout(() => Audio.play('coin'), 200);
-                    showToast(`+${xpGain} XP${streakBonus > 0 ? ' (Streak +' + streakBonus + ')' : ''}  +${coinGain} เหรียญ`, 'success');
-                } else {
-                    state.streak = 0;
-                    Audio.play('wrong');
-                    showToast('ตอบผิด! ดูคำอธิบายด้านล่าง', 'error');
-                }
-
-                if (state.streak > state.quizSession.maxStreakInSession) {
-                    state.quizSession.maxStreakInSession = state.streak;
-                }
-
-                state.quizSession.answers.push({ correct: isCorrect, streakBonus });
-
-                // อัปเดตแถบ XP แบบ real-time
-                updateTopBar();
-
-                // ตรวจ Level Up
-                const newLvl = getLevelIndex(state.xp);
-                if (newLvl > state.prevLevel) {
-                    state.prevLevel = newLvl;
-                    setTimeout(() => showLevelUp(newLvl), 800);
-                }
-
-                // แสดง feedback
-                const feedback = document.getElementById('answer-feedback');
-                feedback.style.display = 'block';
-                feedback.innerHTML = `
-                    <div class="game-card p-4 animate-fadeInUp" style="border-color:${isCorrect ? 'var(--accent)' : 'var(--danger)'};">
-                        <div class="flex items-center gap-2 mb-2">
-                            <i class="fa-solid ${isCorrect ? 'fa-circle-check' : 'fa-circle-xmark'}" style="color:${isCorrect ? 'var(--accent)' : 'var(--danger)'};"></i>
-                            <span class="font-bold">${isCorrect ? 'ถูกต้อง!' : 'ไม่ถูกต้อง'}</span>
+                        <div class="role-opt ${S._role==='admin'?'sel':''}" data-action="setRole" data-role="admin">
+                            <i class="fa-solid fa-user-shield text-lg mb-1" style="color:var(--gold);"></i>
+                            <div class="text-sm font-semibold">ผู้ดูแล</div>
                         </div>
-                        ${!isCorrect ? `<p class="text-sm" style="color:var(--muted);">คำตอบที่ถูกต้องคือ <strong style="color:var(--accent);">${quiz.opts[quiz.ans]}</strong></p>` : ''}
-                    </div>`;
+                    </div>
+                </div>`:''}
+                <button class="bp w-full" data-action="${isL?'doLogin':'doRegister'}">${isL?'<i class="fa-solid fa-right-to-bracket"></i> เข้าสู่ระบบ':'<i class="fa-solid fa-user-plus"></i> สมัครสมาชิก'}</button>
+            </div>
+        </div>
+    </div></div>`;
+    S.authErr='';
+}
 
-                // ปุ่มถัดไป
-                const nextContainer = document.getElementById('next-btn-container');
-                nextContainer.style.display = 'block';
-                const isLast = state.currentQ >= lesson.quizzes.length - 1;
-                nextContainer.innerHTML = `
-                    <button class="btn-primary" data-action="nextQuestion">
-                        ${isLast ? '<i class="fa-solid fa-flag-checkered mr-2"></i>ดูผลลัพธ์' : '<i class="fa-solid fa-arrow-right mr-2"></i>คำถามถัดไป'}
-                    </button>`;
-                break;
-            }
+/* --- หน้า Admin --- */
+function rAdmin(){
+    const users=getUsers().filter(u=>u.role==='student');
+    const totalChecks=L.reduce((s,l)=>s+l.tests.reduce((s2,t)=>s2+t.cks.length,0),0);
+    app.innerHTML=`${tBar()}<main class="max-w-5xl mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold mb-2"><i class="fa-solid fa-user-shield mr-2" style="color:var(--gold);"></i>แดชบอร์ดผู้ดูแล</h1>
+        <p class="mb-8" style="color:var(--muted);">ภาพรวมผู้เรียนทั้งหมด</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 afiu">
+            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--accent);">${users.length}</div><div class="text-xs mt-1" style="color:var(--muted);">ผู้เรียนทั้งหมด</div></div>
+            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:var(--gold);">${users.length?Math.round(users.reduce((s,u)=>s+gLi(u.xp),0)/users.length)+1:0}</div><div class="text-xs mt-1" style="color:var(--muted);">เลเวลเฉลี่ย</div></div>
+            <div class="gc p-5 text-center"><div class="text-3xl font-black" style="color:#79c0ff;">${users.filter(u=>allDoneU(u)).length}</div><div class="text-xs mt-1" style="color:var(--muted);">เรียนครบทุกบท</div></div>
+            <div class="gc p-5 text-center"><div class="text-3xl font-black coin-i">${users.reduce((s,u)=>s+u.coins,0)}</div><div class="text-xs mt-1" style="color:var(--muted);">เหรียญรวม</div></div>
+        </div>
+        <div class="gc overflow-hidden afiu s1">
+            <div class="p-4" style="border-bottom:1px solid var(--border);"><h2 class="font-bold">รายชื่อผู้เรียน</h2></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead><tr style="background:var(--card2);">
+                        <th class="text-left p-3 font-semibold">ชื่อผู้ใช้</th>
+                        <th class="text-center p-3 font-semibold">เลเวล</th>
+                        <th class="text-center p-3 font-semibold">XP</th>
+                        <th class="text-center p-3 font-semibold">เหรียญ</th>
+                        <th class="text-center p-3 font-semibold">บทที่เรียน</th>
+                        <th class="text-center p-3 font-semibold">ฝึกพิมพ์</th>
+                        <th class="text-center p-3 font-semibold">ทดสอบ</th>
+                    </tr></thead>
+                    <tbody>${users.length===0?'<tr><td colspan="7" class="p-6 text-center" style="color:var(--muted);">ยังไม่มีผู้เรียน</td></tr>':users.map(u=>{
+                        const li=gLi(u.xp);const ld=L.filter(l=>u.lScores[l.id]).length;const pd=L.filter(l=>u.pDone[l.id]).length;const td=L.filter(l=>u.tDone[l.id]).length;
+                        return `<tr style="border-top:1px solid var(--border);">
+                            <td class="p-3 font-semibold">${esc(u.username)}</td>
+                            <td class="p-3 text-center"><span style="color:var(--accent);">Lv.${li+1}</span></td>
+                            <td class="p-3 text-center">${u.xp}</td>
+                            <td class="p-3 text-center coin-i">${u.coins}</td>
+                            <td class="p-3 text-center">${ld}/${L.length}</td>
+                            <td class="p-3 text-center">${pd}/${L.length}</td>
+                            <td class="p-3 text-center">${td}/${L.length}</td>
+                        </tr>`;}).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>`;
+}
+function allDoneU(u){return L.every(l=>u.lScores[l.id]);}
 
-            case 'nextQuestion': {
-                const lesson = LESSONS[state.currentLesson];
-                if (state.currentQ < lesson.quizzes.length - 1) {
-                    state.currentQ++;
-                    state.answered = false;
-                    state.screen = 'quiz';
-                    render();
-                } else {
-                    // บันทึกคะแนนบทเรียน (เฉพาะถ้าผ่าน)
-                    const s = state.quizSession;
-                    const pct = (s.score / s.total) * 100;
-                    if (pct >= 60) {
-                        const existing = state.lessonScores[lesson.id];
-                        // เก็บคะแนนที่ดีที่สุด
-                        if (!existing || s.score > existing.score) {
-                            state.lessonScores[lesson.id] = { score: s.score, total: s.total };
-                        }
-                    }
-                    saveProgress();
-                    state.screen = 'quizResult';
-                    render();
-                }
-                break;
-            }
-
-            case 'retryQuiz':
-                state.currentQ = 0;
-                state.streak = 0;
-                state.quizSession = { score: 0, total: LESSONS[state.currentLesson].quizzes.length, answers: [], xpEarned: 0, coinsEarned: 0, maxStreakInSession: 0 };
-                state.answered = false;
-                state.screen = 'quiz';
-                render();
-                break;
-
-            case 'resetProgress':
-                state.xp = 0;
-                state.coins = 0;
-                state.streak = 0;
-                state.maxStreak = 0;
-                state.lessonScores = {};
-                state.prevLevel = 0;
-                localStorage.removeItem('htmlQuest');
-                showToast('รีเซ็ตความคืบหน้าเรียบร้อย', 'info');
-                state.screen = 'start';
-                render();
-                break;
-        }
+/* --- หน้าแผนที่ --- */
+function rMap(){
+    let nodes='';
+    L.forEach((l,i)=>{
+        const st=gSt(l.id),sc=S.lScores[l.id],pd=S.pDone[l.id],td=S.tDone[l.id];
+        if(i>0){const cd=gSt(L[i-1].id)==='done';nodes+=`<div class="mc ${cd?'d':'p'}"></div>`;}
+        nodes+=`<div class="mn ${st} afiu s${Math.min(i+1,5)}" data-action="${st==='locked'?'':'selL'}" data-id="${l.id}">
+            <div class="gc p-4 flex items-center gap-4 max-w-md mx-auto" style="${st==='cur'?'border-color:var(--accent);box-shadow:0 0 20px rgba(0,255,136,.1);':''}">
+                <div class="nc flex-shrink-0">${st==='done'?'<i class="fa-solid fa-check" style="color:var(--bg);"></i>':st==='locked'?'<i class="fa-solid fa-lock" style="color:var(--muted);"></i>':`<i class="${l.icon}" style="color:var(--accent);"></i>`}</div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 mb-1 flex-wrap">
+                        <span class="text-xs font-semibold" style="color:var(--muted);">บทที่ ${l.id}</span>
+                        ${sc?`<span class="text-xs" style="color:var(--accent);">ทดสอบ ${sc.score}/${sc.total}</span>`:''}
+                        ${pd?'<span class="text-xs" style="color:var(--gold);"><i class="fa-solid fa-keyboard"></i></span>':''}
+                        ${td?'<span class="text-xs" style="color:#79c0ff;"><i class="fa-solid fa-pen-to-square"></i></span>':''}
+                    </div>
+                    <div class="font-semibold text-sm md:text-base truncate">${l.title}</div>
+                    ${st==='cur'?'<div class="text-xs mt-1" style="color:var(--accent);"><i class="fa-solid fa-arrow-right mr-1"></i>เลือกเพื่อเริ่มเรียน</div>':''}
+                    ${st==='done'?'<div class="text-xs mt-1" style="color:var(--muted);"><i class="fa-solid fa-circle-check mr-1"></i>เสร็จแล้ว</div>':''}
+                </div>
+                ${st!=='locked'?'<i class="fa-solid fa-chevron-right" style="color:var(--muted);"></i>':''}
+            </div></div>`;
     });
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
+        <h1 class="text-2xl md:text-3xl font-bold mb-2 text-center">แผนที่การเรียนรู้</h1>
+        <p class="text-center mb-10" style="color:var(--muted);">เรียนรู้ → ฝึกพิมพ์ → ทดสอบเขียนโค้ด</p>
+        <div class="flex flex-col items-center">${nodes}</div>
+    </main>`;
+}
 
-    // อัปเดตแถบด้านบนแบบ real-time โดยไม่ต้อง re-render ทั้งหน้า
-    function updateTopBar() {
-        const lvl = getLevel(state.xp);
-        const lvlIdx = getLevelIndex(state.xp);
-        const curXp = getCurrentLevelXp(state.xp);
-        const nextXp = getNextLevelXp(state.xp);
-        const progress = nextXp > curXp ? ((state.xp - curXp) / (nextXp - curXp)) * 100 : 100;
+/* --- หน้าบทเรียน --- */
+function rLesson(){
+    const l=L[S.curL];
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
+        <button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับ</button>
+        <div class="afiu">
+            <span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(0,255,136,.1);color:var(--accent);">บทที่ ${l.id}</span>
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">${l.title}</h1>
+            <p class="mb-6" style="color:var(--muted);">${l.desc}</p>
+        </div>
+        <div class="gc p-6 mb-6 afiu s1">
+            <h2 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i> สิ่งที่ต้องรู้</h2>
+            <ul class="space-y-3">${l.pts.map(p=>`<li class="flex items-start gap-3 text-sm leading-relaxed"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.7rem;"></i><span>${p}</span></li>`).join('')}</ul>
+        </div>
+        <div class="afiu s2 mb-3">
+            <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดตัวอย่าง</span></div>
+            <div class="code-block">${hlC(l.code)}</div>
+        </div>
+        <div class="afiu s3 mb-8">
+            <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">ผลลัพธ์</span></div>
+            <div class="pf"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe srcdoc="${esc(l.code)}" sandbox="allow-scripts" title="ตัวอย่าง"></iframe></div>
+        </div>
+        <div class="text-center afiu s4">
+            <button class="bp text-lg" data-action="goPrac"><i class="fa-solid fa-keyboard mr-2"></i>ลองพิมพ์โค้ด</button>
+        </div></main>`;
+}
 
-        const header = document.querySelector('header');
-        if (!header) return;
+/* --- หน้าฝึกพิมพ์ (มีเคล็ดลับ + feedback) --- */
+function rPractice(){
+    const l=L[S.curL],ch=l.prac;S.pSubmitted=false;S.pAllPass=false;
+    app.innerHTML=`${tBar()}<main class="max-w-4xl mx-auto px-4 py-8">
+        <button class="bs bsm mb-4" data-action="toLesson"><i class="fa-solid fa-arrow-left mr-2"></i>กลับเนื้อหา</button>
+        <div class="afiu mb-6">
+            <span class="text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2" style="background:rgba(227,179,65,.12);color:var(--gold);"><i class="fa-solid fa-keyboard mr-1"></i>แบบฝึกพิมพ์</span>
+            <h1 class="text-xl md:text-2xl font-bold mb-1">${ch.title}</h1>
+            <p style="color:var(--muted);">${ch.desc}</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 afiu s1">
+            <div>
+                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">โค้ดของคุณ</span></div>
+                <div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(ch.start)}</textarea></div>
+            </div>
+            <div>
+                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิวแบบเรียลไทม์</span></div>
+                <div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">live</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div>
+            </div>
+        </div>
+        <div class="gc p-5 mb-6 afiu s2">
+            <h3 class="font-semibold text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-list-check" style="color:var(--accent);"></i> รายการตรวจสอบ</h3>
+            <div class="space-y-2" id="cList">${ch.cks.map((c,i)=>`<div class="ci pend" id="ck-${i}"><span style="width:20px;text-align:center;flex-shrink:0;"><i class="fa-solid fa-circle" style="font-size:.6rem;"></i></span><span>${c.lb}</span></div><div class="ch" id="ht-${i}"><i class="fa-solid fa-lightbulb mr-1" style="color:var(--gold);"></i>${c.ht}</div>`).join('')}</div>
+        </div>
+        <div id="pResult" style="display:none;" class="mb-6"></div>
+        <div class="flex flex-wrap gap-3 justify-center afiu s3">
+            <button class="bs bsm" data-action="pHint"><i class="fa-solid fa-lightbulb mr-2" style="color:var(--gold);"></i>เคล็ดลับ</button>
+            <button class="bs bsm" data-action="pReset"><i class="fa-solid fa-rotate-left mr-2"></i>โค้ดเริ่มต้น</button>
+            <button class="bp bsm" data-action="pCheck" id="pChkBtn"><i class="fa-solid fa-circle-check mr-2"></i>ตรวจสอบ</button>
+        </div>
+        <div class="text-center mt-4 afiu s4"><button class="bs bsm" data-action="skipTest"><i class="fa-solid fa-forward mr-2"></i>ข้ามไปทดสอบ</button></div>
+    </main>`;
+    initEd();
+}
 
-        // อัปเดตตัวเลข
-        const xpSpan = header.querySelector('[style*="color:var(--accent)"]');
-        if (xpSpan) xpSpan.innerHTML = `<i class="fa-solid fa-star"></i> ${state.xp} XP`;
-        const coinSpan = header.querySelector('.coin-icon');
-        if (coinSpan) coinSpan.innerHTML = `<i class="fa-solid fa-coins"></i> ${state.coins}`;
-        const lvlSpan = header.querySelector('span.flex.items-center.gap-2');
-        if (lvlSpan) lvlSpan.innerHTML = `<i class="${lvl.icon}"></i> Lv.${lvlIdx + 1} ${lvl.name}`;
+/* --- หน้าแนะนำทดสอบ --- */
+function rTestIntro(){
+    const l=L[S.curL];
+    const totalCk=l.tests.reduce((s,t)=>s+t.cks.length,0);
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8 text-center">
+        <button class="bs bsm mb-6" data-action="toMap"><i class="fa-solid fa-arrow-left mr-2"></i>กลับแผนที่</button>
+        <div class="afiu">
+            <div class="text-5xl mb-4"><i class="fa-solid fa-pen-to-square" style="color:#79c0ff;"></i></div>
+            <h1 class="text-2xl font-bold mb-2">แบบทดสอบ: ${l.title}</h1>
+            <p class="mb-8" style="color:var(--muted);">ทดสอบความเข้าใจด้วยการเขียนโค้ดจริง</p>
+        </div>
+        <div class="gc p-6 mb-8 text-left afiu s1">
+            <h3 class="font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-info-circle" style="color:#79c0ff;"></i> กฎการทดสอบ</h3>
+            <ul class="space-y-3 text-sm" style="color:var(--muted);">
+                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>มี ${l.tests.length} ข้อ ต้องเขียนโค้ด HTML เองทั้งหมด</li>
+                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ระหว่างทดสอบ <strong style="color:var(--text);">จะไม่แสดงผลถูก/ผิด</strong> ของแต่ละข้อ</li>
+                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>สามารถดูพรีวิวผลลัพธ์ของโค้ดได้ตลอดเวลา</li>
+                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผลคะแนนจะสรุปให้ทั้งหมด <strong style="color:var(--text);">หลังทำเสร็จทุกข้อ</strong></li>
+                <li class="flex items-start gap-3"><i class="fa-solid fa-chevron-right mt-1 flex-shrink-0" style="color:var(--accent);font-size:.65rem;"></i>ผ่านเกณฑ์ 60% ของเงื่อนไขทั้งหมดจะถือว่าสำเร็จบทนี้</li>
+            </ul>
+        </div>
+        <div class="afiu s2"><button class="bp text-lg" data-action="startTest"><i class="fa-solid fa-play mr-2"></i>เริ่มทดสอบ (${l.tests.length} ข้อ)</button></div>
+    </main>`;
+}
 
-        // อัปเดตแถบ XP
-        const bar = header.querySelector('.xp-bar-inner');
-        if (bar) bar.style.width = Math.min(progress, 100) + '%';
+/* --- หน้าทดสอบ (เขียนโค้ด ไม่แสดงผล) --- */
+function rTest(){
+    const l=L[S.curL],t=l.tests[S.curQ];
+    const total=l.tests.length;
+    app.innerHTML=`${tBar()}<main class="max-w-4xl mx-auto px-4 py-8">
+        <div class="flex items-center gap-3 mb-4 asd">
+            <span class="text-sm font-semibold" style="color:var(--accent);">ข้อที่ ${S.curQ+1}/${total}</span>
+            <div class="flex-1 h-2 rounded-full" style="background:var(--border);"><div class="h-full rounded-full transition-all duration-500" style="background:var(--accent);width:${(S.curQ/total)*100}%;"></div></div>
+        </div>
+        <div class="gc p-5 mb-4 afiu">
+            <h2 class="text-lg font-bold mb-1">${t.title}</h2>
+            <p class="text-sm" style="color:var(--muted);">${t.desc}</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6 afiu s1">
+            <div>
+                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-code" style="color:var(--accent);"></i><span class="font-semibold text-sm">เขียนโค้ดที่นี่</span></div>
+                <div class="ew" id="eWrap"><div class="ln" id="eLn">1</div><textarea class="ce" id="eCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${esc(t.start)}</textarea></div>
+            </div>
+            <div>
+                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-eye" style="color:var(--gold);"></i><span class="font-semibold text-sm">พรีวิว</span></div>
+                <div class="pf" style="height:calc(240px + 32px);"><div class="pb"><div class="pd" style="background:#ff5f57;"></div><div class="pd" style="background:#febc2e;"></div><div class="pd" style="background:#28c840;"></div><span class="ml-3 text-xs" style="color:var(--muted);">preview</span></div><iframe id="pFrame" style="width:100%;height:calc(100% - 33px);border:none;" sandbox="allow-scripts" title="พรีวิว"></iframe></div>
+            </div>
+        </div>
+        <div class="text-center afiu s2">
+            <button class="bp" data-action="submitTestQ"><i class="fa-solid fa-paper-plane mr-2"></i>${S.curQ<total-1?'ส่งคำตอบนี้':'ส่งคำตอบสุดท้าย'}</button>
+        </div>
+    </main>`;
+    initEd();
+}
 
-        // อัปเดตตัวเลขใต้แถบ
-        const barTexts = header.querySelectorAll('.text-xs');
-        if (barTexts.length >= 2) {
-            barTexts[0].textContent = state.xp + ' XP';
-            barTexts[1].textContent = nextXp > curXp ? nextXp + ' XP' : 'MAX';
-        }
+/* --- หน้าผลลัพธ์ทดสอบ (สรุปท้ายสุด) --- */
+function rTestResult(){
+    const l=L[S.curL],ts=S.tSession;
+    const totalCk=ts.totalChecks,passedCk=ts.passedChecks;
+    const pct=totalCk>0?Math.round((passedCk/totalCk)*100):0;
+    const passed=pct>=60;
 
-        // Streak
-        let streakEl = header.querySelector('[style*="color:#ff6b6b"]');
-        if (state.streak > 1 && !streakEl) {
-            const statsDiv = header.querySelector('.flex.items-center.gap-4');
-            if (statsDiv) {
-                const span = document.createElement('span');
-                span.className = 'flex items-center gap-1';
-                span.style.color = '#ff6b6b';
-                span.innerHTML = `<i class="fa-solid fa-fire"></i> ${state.streak}x`;
-                statsDiv.insertBefore(span, statsDiv.firstChild);
-            }
-        } else if (streakEl) {
-            if (state.streak > 1) {
-                streakEl.innerHTML = `<i class="fa-solid fa-fire"></i> ${state.streak}x`;
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8">
+        <div class="afiu text-center">
+            <div class="text-6xl mb-4">${passed?'<i class="fa-solid fa-trophy" style="color:var(--gold);"></i>':'<i class="fa-solid fa-rotate-right" style="color:var(--muted);"></i>'}</div>
+            <h1 class="text-2xl font-bold mb-2">${passed?'สำเร็จ!':'ยังไม่ผ่านเกณฑ์'}</h1>
+            <p class="mb-8" style="color:var(--muted);">${l.title} — ผลลัพธ์แบบทดสอบ</p>
+        </div>
+        <div class="gc p-8 mb-6 afiu s1" style="animation:sc .5s ease;">
+            <div class="text-5xl font-black mb-2" style="color:${passed?'var(--accent)':'var(--danger)'};">${pct}%</div>
+            <div class="text-lg mb-1" style="color:var(--muted);">${passedCk} / ${totalCk} เงื่อนไขผ่าน</div>
+            <div class="text-sm mb-6" style="color:var(--muted);">เกณฑ์ผ่าน: 60%</div>
+
+            <!-- รายละเอียดแต่ละข้อ -->
+            <div class="space-y-4 mb-6 text-left">
+                ${ts.results.map((r,qi)=>{
+                    const t=l.tests[qi];
+                    const qPassed=r.passed===r.total;
+                    return `<div class="p-4 rounded-xl" style="background:var(--card2);">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid ${qPassed?'fa-circle-check':'fa-circle-xmark'}" style="color:${qPassed?'var(--accent)':'var(--danger)'};"></i>
+                                <span class="font-semibold text-sm">ข้อที่ ${qi+1}: ${t.title}</span>
+                            </div>
+                            <span class="text-sm font-bold" style="color:${qPassed?'var(--accent)':'var(--danger)'};">${r.passed}/${r.total}</span>
+                        </div>
+                        <div class="space-y-1 ml-7">
+                            ${r.details.map(d=>`<div class="flex items-center gap-2 text-xs">
+                                <i class="fa-solid ${d.ok?'fa-check':'fa-xmark'}" style="color:${d.ok?'var(--accent)':'var(--danger)'};width:14px;text-align:center;"></i>
+                                <span style="color:${d.ok?'var(--muted)':'var(--danger)'};">${d.label}</span>
+                            </div>`).join('')}
+                        </div>
+                    </div>`;}).join('')}
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold" style="color:var(--accent);">+${ts.xpEarned}</div><div class="text-xs" style="color:var(--muted);">XP</div></div>
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><div class="text-xl font-bold coin-i">+${ts.coinsEarned}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div>
+            </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center afiu s2">
+            ${!passed?`<button class="bs" data-action="retryTest"><i class="fa-solid fa-rotate-right mr-2"></i>ลองทดสอบอีกครั้ง</button>`:''}
+            <button class="bp" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>${allDone()?'ดูผลสุดท้าย':'กลับแผนที่'}</button>
+        </div>
+    </main>`;
+    if(passed)conf(40);
+}
+
+/* --- หน้าจบเกม --- */
+function rComplete(){
+    const li=gLi(S.xp);
+    app.innerHTML=`${tBar()}<main class="max-w-3xl mx-auto px-4 py-8 text-center">
+        <div class="afiu"><div class="text-7xl mb-4 afl"><i class="fa-solid fa-crown" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,.5));"></i></div>
+        <h1 class="text-3xl font-black mb-2 agl" style="color:var(--accent);">สำเร็จการเรียนรู้!</h1>
+        <p class="text-lg mb-10" style="color:var(--muted);">เรียน HTML ครบทุกบทแล้ว</p></div>
+        <div class="gc p-8 mb-8 afiu s1" style="animation:sc .6s ease;">
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-star text-xl mb-2" style="color:var(--accent);"></i><div class="text-2xl font-bold">${S.xp}</div><div class="text-xs" style="color:var(--muted);">XP</div></div>
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid fa-coins text-xl mb-2 coin-i"></i><div class="text-2xl font-bold">${S.coins}</div><div class="text-xs" style="color:var(--muted);">เหรียญ</div></div>
+                <div class="p-4 rounded-xl" style="background:var(--card2);"><i class="fa-solid ${LVLS[li].i} text-xl mb-2" style="color:var(--gold);"></i><div class="text-2xl font-bold">Lv.${li+1}</div><div class="text-xs" style="color:var(--muted);">${LVLS[li].n}</div></div>
+            </div>
+            <div class="space-y-2 text-left">${L.map(l=>{const sc=S.lScores[l.id];return `<div class="flex items-center gap-3 p-3 rounded-lg" style="background:var(--card2);"><i class="${l.icon}" style="color:var(--accent);width:20px;text-align:center;"></i><span class="flex-1 text-sm text-left">${l.title}</span><span class="text-sm font-bold" style="color:sc?'var(--accent)':'var(--danger)';">${sc?sc.score+'/'+sc.total:'-'}</span></div>`;}).join('')}</div>
+        </div>
+        <div class="flex gap-3 justify-center afiu s2"><button class="bs" data-action="toMap"><i class="fa-solid fa-map mr-2"></i>ดูแผนที่</button></div>
+    </main>`;
+    conf(80);
+}
+
+/* ================================================================
+   ระบบเอดิเตอร์
+   ================================================================ */
+let eTimer=null;
+function initEd(){
+    const ed=document.getElementById('eCode'),ln=document.getElementById('eLn'),pf=document.getElementById('pFrame');
+    if(!ed)return;
+    ed.addEventListener('keydown',e=>{
+        if(e.key==='Tab'){e.preventDefault();const s=ed.selectionStart,en=ed.selectionEnd;ed.value=ed.value.substring(0,s)+'  '+ed.value.substring(en);ed.selectionStart=ed.selectionEnd=s+2;onEdIn();}
+        if(e.key==='Enter'){e.preventDefault();const s=ed.selectionStart;const ls=ed.value.lastIndexOf('\n',s-1)+1;const indent=ed.value.substring(ls,s).match(/^\s*/)[0];const nl='\n'+indent;ed.value=ed.value.substring(0,s)+nl+ed.value.substring(ed.selectionEnd);ed.selectionStart=ed.selectionEnd=s+nl.length;onEdIn();}
+    });
+    ed.addEventListener('input',()=>{onEdIn();clearTimeout(eTimer);eTimer=setTimeout(updCk,300);});
+    ed.addEventListener('scroll',()=>{if(ln)ln.scrollTop=ed.scrollTop;});
+    upLn();upPf();
+    setTimeout(updCk,100);
+}
+function onEdIn(){upLn();upPf();}
+function upLn(){const ed=document.getElementById('eCode'),ln=document.getElementById('eLn');if(!ed||!ln)return;ln.innerHTML=Array.from({length:ed.value.split('\n').length},(_,i)=>i+1).join('<br>');}
+function upPf(){const ed=document.getElementById('eCode'),pf=document.getElementById('pFrame');if(ed&&pf)pf.srcdoc=ed.value;}
+function updCk(){
+    const ed=document.getElementById('eCode');if(!ed||S.screen!=='practice')return;
+    const c=ed.value,body=gBody(c),tmp=document.createElement('div');tmp.innerHTML=body;
+    const cks=L[S.curL].prac.cks;let allOk=true;
+    cks.forEach((ck,i)=>{
+        const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(!el)return;
+        const ok=ck.ck(tmp,c);if(!ok)allOk=false;
+        el.className=`ci ${ok?'pass':'pend'}`;
+        el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle'}" style="font-size:${ok?'.85rem':'.6rem'};"></i>`;
+        if(ht&&!S.pSubmitted)ht.style.display='none';
+    });
+    const w=document.getElementById('eWrap');if(w){w.classList.toggle('ok',allOk&&!S.pSubmitted);w.classList.remove('err');}
+    S.pAllPass=allOk;
+}
+function submitPrac(){
+    const ed=document.getElementById('eCode');if(!ed)return;
+    const c=ed.value,body=gBody(c),tmp=document.createElement('div');tmp.innerHTML=body;
+    const cks=L[S.curL].prac.cks;let pc=0;
+    cks.forEach((ck,i)=>{
+        const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);
+        const ok=ck.ck(tmp,c);if(ok)pc++;
+        el.className=`ci ${ok?'pass':'fail'}`;
+        el.querySelector('span:first-child').innerHTML=`<i class="fa-solid ${ok?'fa-circle-check':'fa-circle-xmark'}" style="font-size:.85rem;"></i>`;
+        if(ht&&!ok)ht.style.display='block';if(ht&&ok)ht.style.display='none';
+    });
+    const w=document.getElementById('eWrap'),allOk=pc===cks.length;
+    const rd=document.getElementById('pResult');rd.style.display='block';
+    if(allOk){
+        w.classList.add('ok');w.classList.remove('err');AX.p('win');
+        let xg=0;if(!S.pDone[L[S.curL].id]){S.pDone[L[S.curL].id]=true;xg=L[S.curL].prac.xp;S.xp+=xg;AX.p('co');chkLv();saveCurUser();upTb();}
+        rd.innerHTML=`<div class="suc-b"><i class="fa-solid fa-circle-check text-2xl" style="color:var(--accent);"></i><div><div class="font-bold" style="color:var(--accent);">ผ่านทุกข้อ!</div><div class="text-sm" style="color:var(--muted);">${xg>0?`+${xg} XP`:'ได้รับ XP แล้ว'}</div></div></div><div class="text-center mt-4"><button class="bp" data-action="goTestIntro"><i class="fa-solid fa-pen-to-square mr-2"></i>ไปทดสอบ</button></div>`;
+        if(xg>0){conf(25);toast(`+${xg} XP จากการฝึกพิมพ์!`,'s');}
+        const btn=document.getElementById('pChkBtn');if(btn)btn.style.display='none';
+    } else {
+        w.classList.add('err');w.classList.remove('ok');AX.p('no');
+        rd.innerHTML=`<div class="err-b"><i class="fa-solid fa-circle-xmark text-2xl" style="color:var(--danger);"></i><div><div class="font-bold" style="color:var(--danger);">ยังไม่ครบ (${pc}/${cks.length})</div><div class="text-sm" style="color:var(--muted);">ดูเคล็ดลับแล้วแก้ไข</div></div></div>`;
+        toast(`ผ่าน ${pc}/${cks.length}`,'e');
+    }
+    S.pSubmitted=true;
+}
+
+/* ================================================================
+   อัปเดตแถบด้านบน Real-time
+   ================================================================ */
+function upTb(){
+    const lv=gLv(S.xp),li=gLi(S.xp),cx=gCx(S.xp),nx=gNx(S.xp);
+    const pct=nx>cx?((S.xp-cx)/(nx-cx))*100:100;
+    const h=document.querySelector('header');if(!h)return;
+    const bar=h.querySelector('.xp-inner');if(bar)bar.style.width=Math.min(pct,100)+'%';
+    const sp=h.querySelectorAll('.text-xs');if(sp.length>=2){sp[0].textContent=S.xp+' XP';sp[1].textContent=nx>cx?nx+' XP':'MAX';}
+    h.querySelectorAll('span').forEach(s=>{if(s.innerHTML.includes('fa-star'))s.innerHTML=`<i class="fa-solid fa-star"></i> ${S.xp}`;if(s.innerHTML.includes('fa-coins'))s.innerHTML=`<i class="fa-solid fa-coins"></i> ${S.coins}`;});
+    const ls=h.querySelector('span.flex.items-center.gap-2.text-sm');if(ls)ls.innerHTML=`<i class="${lv.i}"></i> Lv.${li+1} ${lv.n}`;
+    let se=h.querySelector('[style*="color:#ff6b6b"]');
+    if(S.streak>1&&!se){const sd=h.querySelector('.flex.items-center.gap-4');if(sd){const sp=document.createElement('span');sp.className='flex items-center gap-1';sp.style.color='#ff6b6b';sp.innerHTML=`<i class="fa-solid fa-fire"></i> ${S.streak}x`;sd.insertBefore(sp,sd.firstChild);}}
+    else if(se){if(S.streak>1)se.innerHTML=`<i class="fa-solid fa-fire"></i> ${S.streak}x`;else se.remove();}
+}
+function chkLv(){const n=gLi(S.xp);if(n>S.prevLvl){S.prevLvl=n;setTimeout(()=>showLv(n),600);}}
+function showLv(li){
+    const lv=LVLS[li];AX.p('lv');const ov=document.getElementById('oc');
+    ov.innerHTML=`<div class="lu-ov" id="lvOv"><div class="lu-c"><div class="text-5xl mb-4 afl"><i class="${lv.i}" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,.6));"></i></div><div class="text-sm font-semibold mb-2" style="color:var(--gold);">LEVEL UP!</div><div class="text-3xl font-black mb-2" style="color:var(--accent);">Level ${li+1}</div><div class="text-xl font-semibold mb-6">${lv.n}</div><div class="text-sm" style="color:var(--muted);">คลิกเพื่อดำเนินการต่อ</div></div></div>`;
+    conf(45);document.getElementById('lvOv').addEventListener('click',()=>{ov.innerHTML='';});
+}
+
+/* ================================================================
+   จัดการ Event
+   ================================================================ */
+app.addEventListener('click',e=>{
+    const b=e.target.closest('[data-action]');if(!b)return;
+    const a=b.dataset.action;AX.p('cl');
+    const cl=()=>L[S.curL];
+
+    switch(a){
+    case 'authTab':S.authTab=b.dataset.tab;S.authErr='';R();break;
+    case 'setRole':S._role=b.dataset.role;R();break;
+    case 'doLogin':{
+        const u=document.getElementById('authUser').value.trim();
+        const p=document.getElementById('authPw').value;
+        const r=loginUser(u,p);
+        if(r==='ok'){}else if(typeof r==='string'){S.authErr=r;R();}
+        else{S.user={username:r.username,role:r.role};loadUserData(r);S.screen=r.role==='admin'?'admin':'map';R();}
+        break;}
+    case 'doRegister':{
+        const u=document.getElementById('authUser').value.trim();
+        const p=document.getElementById('authPw').value;
+        const p2=document.getElementById('authPw2').value;
+        if(p!==p2){S.authErr='รหัสผ่านไม่ตรงกัน';R();break;}
+        const r=regUser(u,p,S._role||'student');
+        if(r==='ok'){S.authErr='';S.authTab='login';toast('สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ','s');R();}
+        else{S.authErr=r;R();}
+        break;}
+    case 'logout':saveCurUser();S.user=null;S.screen='auth';S._role='student';R();break;
+    case 'toMap':S.screen=allDone()?'complete':'map';R();break;
+    case 'toLesson':S.screen='lesson';R();break;
+    case 'selL':{const id=parseInt(b.dataset.id);if(gSt(id)==='locked')return;S.curL=id-1;S.screen='lesson';R();break;}
+    case 'goPrac':S.screen='practice';R();break;
+    case 'skipTest':case 'goTestIntro':S.screen='testIntro';R();break;
+    case 'pHint':{
+        const ch=cl().prac;const rd=document.getElementById('pResult');rd.style.display='block';
+        rd.innerHTML=`<div class="gc p-4 afi" style="border-color:rgba(227,179,65,.3);"><div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-lightbulb" style="color:var(--gold);"></i><span class="font-semibold text-sm" style="color:var(--gold);">เคล็ดลับ</span></div><p class="text-sm" style="color:var(--muted);">${ch.gh}</p></div>`;
+        ch.cks.forEach((c,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(el&&!el.classList.contains('pass')&&ht)ht.style.display='block';});
+        break;}
+    case 'pReset':{
+        const ed=document.getElementById('eCode');if(ed){ed.value=cl().prac.start;onEdIn();clearTimeout(eTimer);eTimer=setTimeout(updCk,200);}
+        cl().prac.cks.forEach((_,i)=>{const el=document.getElementById(`ck-${i}`),ht=document.getElementById(`ht-${i}`);if(el){el.className='ci pend';el.querySelector('span:first-child').innerHTML='<i class="fa-solid fa-circle" style="font-size:.6rem;"></i>';}if(ht)ht.style.display='none';});
+        const w=document.getElementById('eWrap');if(w)w.classList.remove('ok','err');
+        const rd=document.getElementById('pResult');if(rd)rd.style.display='none';
+        const cb=document.getElementById('pChkBtn');if(cb)cb.style.display='';
+        S.pSubmitted=false;S.pAllPass=false;break;}
+    case 'pCheck':submitPrac();break;
+    case 'startTest':
+        S.curQ=0;S.streak=0;
+        S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};
+        S.screen='test';R();break;
+    case 'submitTestQ':{
+        const ed=document.getElementById('eCode');if(!ed)break;
+        const code=ed.value,body=gBody(code),tmp=document.createElement('div');tmp.innerHTML=body;
+        const t=cl().tests[S.curQ];
+        let passed=0;const details=[];
+        t.cks.forEach(ck=>{const ok=ck.ck(tmp,code);if(ok)passed++;details.push({label:ck.lb,ok});});
+        S.tSession.results.push({passed,total:t.cks.length,details});
+        S.tSession.totalChecks+=t.cks.length;
+        S.tSession.passedChecks+=passed;
+
+        if(S.curQ<cl().tests.length-1){
+            S.curQ++;S.screen='test';R();
+        } else {
+            // คำนวณคะแนนรวม
+            const ts=S.tSession;
+            const pct=ts.totalChecks>0?(ts.passedChecks/ts.totalChecks)*100:0;
+            const passedOverall=pct>=60;
+            let xg=0,cg=0;
+            if(passedOverall){
+                xg=ts.passedChecks*5;cg=ts.passedChecks;
+                if(!S.tDone[cl().id]){
+                    S.tDone[cl().id]=true;S.xp+=xg;S.coins+=cg;AX.p('co');
+                    S.streak++;if(S.streak>S.maxStreak)S.maxStreak=S.streak;
+                    chkLv();
+                    // บันทึกคะแนนบท
+                    const ex=S.lScores[cl().id];
+                    if(!ex||ts.passedChecks>ex.score)S.lScores[cl().id]={score:ts.passedChecks,total:ts.totalChecks};
+                }
+                ts.xpEarned=xg;ts.coinsEarned=cg;
             } else {
-                streakEl.remove();
+                S.streak=0;
             }
+            saveCurUser();upTb();S.screen='testResult';R();
         }
+        break;}
+    case 'retryTest':
+        S.curQ=0;S.tSession={results:[],totalChecks:0,passedChecks:0,xpEarned:0,coinsEarned:0};
+        S.screen='test';R();break;
     }
+});
 
-    // แสดง Level Up
-    function showLevelUp(lvlIdx) {
-        const lvl = LEVELS[lvlIdx];
-        Audio.play('levelup');
-        const overlay = document.getElementById('overlay-container');
-        overlay.innerHTML = `
-        <div class="levelup-overlay" data-action="closeLevelUp">
-            <div class="levelup-card">
-                <div class="text-5xl mb-4 animate-float"><i class="${lvl.icon}" style="color:var(--gold);filter:drop-shadow(0 0 20px rgba(227,179,65,0.6));"></i></div>
-                <div class="text-sm font-semibold mb-2" style="color:var(--gold);">LEVEL UP!</div>
-                <div class="text-3xl font-black mb-2" style="color:var(--accent);">Level ${lvlIdx + 1}</div>
-                <div class="text-xl font-semibold mb-6">${lvl.name}</div>
-                <div class="text-sm" style="color:var(--muted);">คลิกเพื่อดำเนินการต่อ</div>
-            </div>
-        </div>`;
-
-        // คอนเฟตตี้เพิ่มเติม
-        spawnConfetti(50);
-
-        // ปิดเมื่อคลิก
-        overlay.querySelector('.levelup-overlay').addEventListener('click', () => {
-            overlay.innerHTML = '';
-        });
+// กด Enter ในฟอร์ม Auth
+app.addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&S.screen==='auth'){
+        const pw2=document.getElementById('authPw2');
+        if(pw2)document.querySelector('[data-action="doRegister"]')?.click();
+        else document.querySelector('[data-action="doLogin"]')?.click();
     }
+});
 
-    // ============================================================
-    // เริ่มต้น
-    // ============================================================
-    loadProgress();
-    state.prevLevel = getLevelIndex(state.xp);
-    initBg();
-    animateBg();
-    render();
-    </script>
+/* ================================================================
+   เริ่มต้น
+   ================================================================ */
+S._role='student';
+initBg();aBg();R();
+</script>
 </body>
 </html>
